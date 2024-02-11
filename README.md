@@ -1,24 +1,10 @@
-# matrix-basic-vue3
+# 环境
 
-## Project setup
-```
-yarn install
-```
+`node 18.16.0`
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+`npm  9.6.7`
 
-### Compiles and minifies for production
-```
-yarn build
-```
+# 框架
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Vue3
+Element plus
