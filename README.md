@@ -8,11 +8,23 @@
 
 `Vue3`
 
-`Element plus`
+`Ant Design Vue 4` 
 
-## 框架初识化
-1、使用vue3笔记初始化，vue3项目
+## 框架初始化
+### 1、安装vue3
 
-2、按照Element plus官网安装
+使用vue3笔记初始化，vue3项目
 
-3、安装前后端交互接口工具 `npm install axios` 可能需要开启vpn
+### 2、安装Element plus
+
+按照Element plus官网安装，以及引入
+
+如果遇到问题：
+
+warning Replace `'element-plus'` with `"element-plus";`
+
+执行：`npm run lint --fix` 后重启
+
+### 3、安装`axios`
+
+前后端交互接口工具 `npm install axios` 可能需要开启vpn
