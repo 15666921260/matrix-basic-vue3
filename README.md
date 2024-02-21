@@ -1,14 +1,16 @@
-# 环境
+# 项目初始化
+
+## 环境
 
 `node 18.16.0`
 
 `npm  9.6.7`
 
-# 框架
+## 框架
 
 `Vue3`
 
-`Ant Design Vue 4` 
+`element-plus` 
 
 ## 框架初始化
 ### 1、安装vue3
@@ -28,3 +30,9 @@ warning Replace `'element-plus'` with `"element-plus";`
 ### 3、安装`axios`
 
 前后端交互接口工具 `npm install axios` 可能需要开启vpn
+
+### 1、`vite`构建项目
+
+执行下面之前可能需要执行 `npm config set strict-ssl false`
+
+`npm init vite`
