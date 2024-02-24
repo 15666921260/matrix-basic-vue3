@@ -1,3 +1,9 @@
+# 小技巧
+
+## 路径报错
+
+尝试重启webstrom
+
 # 项目初始化
 
 ## 环境
@@ -16,7 +22,7 @@
 
 ###### `pnpm`包管理工具
 
- 注意使用`pnpm install`的命令
+注意使用`pnpm install`的命令
 
 ###### `vite` 工具链
 
@@ -428,9 +434,9 @@ module.exports = {
 
 ```json
 {
-"scripts": {
+  "scripts": {
     "commitlint": "commitlint --config commitlint.config.cjs -e -V"
-  },
+  }
 }
 ```
 
@@ -451,7 +457,7 @@ module.exports = {
 
 ###### 配置husky
 
-`npx husky add .husky/commit-msg` 
+`npx husky add .husky/commit-msg`
 
 在生成的commit-msg文件中添加下面的命令
 
@@ -479,14 +485,352 @@ pnpm commitlint
 
 ### 项目集成
 
+#### 组件库`element-plus`
+
+##### 安装`element-plus`
+
+`pnpm install element-plus`
+
+配置`main.ts`
+
+```ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import ElementPlus from 'element-plus'  // 此处
+import 'element-plus/dist/index.css'	// 此处
+
+createApp(App)
+	// 此处
+    .use(ElementPlus).mount('#app')
+```
+
+##### 安装`element-plus`图标
+
+`pnpm i @element-plus/icons-vue`
+
+**入口文件`main.ts`全局安装element-plus,element-plus默认支持语言英语设置为中文**
+
+```ts
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css'
+//@ts-ignore忽略当前文件ts类型的检测否则有红色提示(打包会失败)
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+
+app.use(ElementPlus, {
+    locale: zhCn
+})
+```
+
+##### Element Plus全局组件类型声明
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    // ...
+    "types": ["element-plus/global"]
+  }
+}
+```
+
+配置完毕可以测试element-plus组件与图标的使用.
+
+#### `src`别名的配置(好东西)
+
+在开发项目的时候文件与文件关系可能很复杂，因此我们需要给src文件夹配置一个别名！！！
+
+```ts
+// vite.config.ts
+import {defineConfig} from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
+export default defineConfig({
+    plugins: [vue()],
+    resolve: {
+        alias: {
+            "@": path.resolve("./src") // 相对路径别名配置，使用 @ 代替 src
+        }
+    }
+})
+```
+
+##### TypeScript 编译配置
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
+    "paths": { //路径映射，相对于baseUrl
+      "@/*": ["src/*"] 
+    }
+  }
+}
+```
+
+然后可能需要重启一下webstorm
+
+#### 环境变量(重要)
+
+##### 简介
+
+**项目开发过程中，至少会经历开发环境、测试环境和生产环境(即正式环境)三个阶段。不同阶段请求的状态(如接口地址等)不尽相同，若手动切换接口地址是相当繁琐且易出错的。于是环境变量配置的需求就应运而生，我们只需做简单的配置，把环境状态切换的工作交给代码。**
+
+开发环境（development）
+顾名思义，开发使用的环境，每位开发人员在自己的dev分支上干活，开发到一定程度，同事会合并代码，进行联调。
+
+测试环境（testing）
+测试同事干活的环境啦，一般会由测试同事自己来部署，然后在此环境进行测试
+
+生产环境（production）
+生产环境是指正式提供对外服务的，一般会关掉错误报告，打开错误日志。(正式提供给客户使用的环境。)
+
+注意:一般情况下，一个环境对应一台服务器,也有的公司开发与测试环境是一台服务器！！！
+
+项目根目录分别添加 开发、生产和测试环境的文件!
+
+##### 创建文件
+
+```
+.env.development
+.env.production
+.env.test
+```
+
+##### 各个文件内容
+
+`.env.development`
+
+```
+# 变量必须以 VITE_ 为前缀才能暴露给外部读取
+NODE_ENV = 'development'
+VITE_APP_TITLE = 'matrix-software'
+VITE_APP_BASE_API = '/liu'
+VITE_SERVE = 'http://127.0.0.1:9090'
+```
+
+`.env.production`
+
+```
+# 变量必须以 VITE_ 为前缀才能暴露给外部读取
+NODE_ENV = 'production'
+VITE_APP_TITLE = 'matrix-software'
+VITE_APP_BASE_API = 'http://127.0.0.1:9090/liu'
+```
+
+`.env.test`
+
+```
+# 变量必须以 VITE_ 为前缀才能暴露给外部读取
+NODE_ENV = 'test'
+VITE_APP_TITLE = 'matrix-software'
+VITE_APP_BASE_API = 'http://127.0.0.1:9090/liu'
+```
+
+##### 配置运行命令 `package.json`
+
+注意 `--mode` 后的内容
+
+```json
+ "scripts": {
+    "dev": "vite --open",
+    "build:test": "vue-tsc && vite build --mode test",
+    "build:pro": "vue-tsc && vite build --mode production",
+    "preview": "vite preview"
+  },
+```
+
+<font color="gree">通过`import.meta.env`获取环境变量</font>
+
+```ts
+const  a = import.meta.env;
+console.log(a)
+```
+
+#### SVG图标配置(不错)
+
+在开发项目的时候经常会用到`svg`矢量图,而且我们使用SVG以后，页面上加载的不再是图片资源,
+
+这对页面性能来说是个很大的提升，而且我们SVG文件比`img`要小的很多，放在项目中几乎不占用资源。
+
+##### 安装SVG依赖插件
+
+`pnpm install vite-plugin-svg-icons -D`
+
+##### 在`vite.config.ts`中配置插件
+
+```ts
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'path'
+export default () => {
+  return {
+    plugins: [
+      createSvgIconsPlugin({
+        // Specify the icon folder to be cached(svg适量图标存放目录)
+        iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+        // Specify symbolId format
+        symbolId: 'icon-[dir]-[name]',
+      }),
+    ],
+  }
+}
+```
+
+##### `main.ts`入口文件导入
+
+```ts
+import 'virtual:svg-icons-register'
+```
+
+##### 测试
+
+直接复制阿里矢量图标库中的`svg`码，在`src/assets/icons`目录下新建文件 `.svg`  将`svg`码复制进改文件
+
+```vue
+<template>
+  <div>
+    <h1>svg测试</h1>
+    <svg style='width: 30px;height: 30px'>
+      <!-- 必须以#icon-开头，后边是是命名的svg文件名 -->
+      <use xlink:href='#icon-monitor' fill='blue'></use>
+    </svg>
+  </div>
+</template>
+```
+
+##### `svg`封装为组件(可以)
+
+在src/components目录下创建一个SvgIcon组件:代表如下
+
+```vue
+<template>
+  <div>
+    <svg :style="{ width: width, height: height }">
+      <use :xlink:href="prefix + name" :fill="color"></use>
+    </svg>
+  </div>
+</template>
+<script setup lang='ts'>
+defineProps({
+  //xlink:href属性值的前缀
+  prefix: {
+    type: String,
+    default: '#icon-'
+  },
+  //svg矢量图的名字
+  name: String,
+  //svg图标的颜色
+  color: {
+    type: String,
+    default: ""
+  },
+  //svg宽度
+  width: {
+    type: String,
+    default: '16px'
+  },
+  //svg高度
+  height: {
+    type: String,
+    default: '16px'
+  }
+})
+</script>
+<style scoped></style>
+```
+
+测试
+
+```vue
+<template>
+  <div>
+    <h1>svg测试</h1>
+    <svg-icon name='home' color='red'></svg-icon>
+  </div>
+</template>
+
+<script setup lang="ts">
+import SvgIcon from '@/components/SvgIcon/index.vue';
+</script>
+
+<style scoped></style>
+```
+
+##### `svg`封装为全局组件(可以)
+
+`main.ts`中
+
+```ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+//@ts-ignore忽略当前文件ts类型的检测否则有红色提示(打包会失败)
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import 'virtual:svg-icons-register'
+import SvgIcon from '@/components/SvgIcon/index.vue' // 此处
+
+createApp(App)
+  .use(ElementPlus, {
+    locale: zhCn
+  })
+  // SvgIcon 注册为全局组件 此处
+  .component('SvgIcon',SvgIcon)
+  .mount('#app')
+```
+
+测试
+
+```vue
+<template>
+  <div>
+    <h1>svg测试</h1>
+    <svg-icon name='home' color='red'></svg-icon>
+  </div>
+</template>
+<!-- 此时不需要引入 -->
+<script setup lang="ts"></script>
+<style scoped></style>
+```
+
+#### 将所有组件变成全局组件(可以)
+
+在`src`文件夹目录下创建一个`index.ts`文件：用于注册components文件夹内部全部全局组件！！！
+
+```ts
+// 想成为全局组件的在此引入
+import SvgIcon from './SvgIcon/index.vue';
+import type { App, Component } from 'vue';
+// 想成为全局组件的添加到此
+const components: { [name: string]: Component } = { SvgIcon };
+// 对外暴露插件对象
+export default {
+  // 务必叫 install 方法
+  install(app: App) {
+    Object.keys(components).forEach((key: string) => {
+      app.component(key, components[key]);
+    })
+  }
+}
+```
+
+在入口文件引入src/index.ts文件,通过app.use方法安装自定义插件
+
+```
+import gloablComponent from './components/index';
+app.use(gloablComponent);
+```
+
+#### 集成sass
+
+是世界上最成熟、最稳定、最强大的专业级CSS扩展语言！Sass完全兼容所有版本的CSS。
+
+
+
+
+
 #### 路由`vue-router`
 
 开发环境
 
 `npm install vue-router@4 -S`
-
-#### 组件库`element-plus`
-
-```
-npm install element-plus --save
-```

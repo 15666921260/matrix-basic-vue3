@@ -4,8 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --open",
+    "dev": "vite --open --mode development",
     "build": "vue-tsc && vite build",
+    "build:test": "vue-tsc && vite build --mode test",
+    "build:pro": "vue-tsc && vite build --mode production",
     "preview": "vite preview",
     "lint": "eslint src",
     "fix": "eslint src --fix",
@@ -16,6 +18,7 @@
     "commitlint": "commitlint --config commitlint.config.cjs -e -V"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "element-plus": "^2.5.6",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0"
@@ -51,6 +54,7 @@
     "stylelint-scss": "^6.1.0",
     "typescript": "^5.2.2",
     "vite": "^5.1.4",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^1.8.27"
   }
 }
