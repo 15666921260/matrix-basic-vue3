@@ -496,12 +496,13 @@ pnpm commitlint
 ```ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import ElementPlus from 'element-plus'  // 此处
-import 'element-plus/dist/index.css'	// 此处
+import ElementPlus from 'element-plus' // 此处
+import 'element-plus/dist/index.css' // 此处
 
 createApp(App)
-	// 此处
-    .use(ElementPlus).mount('#app')
+  // 此处
+  .use(ElementPlus)
+  .mount('#app')
 ```
 
 ##### 安装`element-plus`图标
@@ -511,13 +512,13 @@ createApp(App)
 **入口文件`main.ts`全局安装element-plus,element-plus默认支持语言英语设置为中文**
 
 ```ts
-import ElementPlus from 'element-plus';
+import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 //@ts-ignore忽略当前文件ts类型的检测否则有红色提示(打包会失败)
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 app.use(ElementPlus, {
-    locale: zhCn
+  locale: zhCn,
 })
 ```
 
@@ -541,16 +542,16 @@ app.use(ElementPlus, {
 
 ```ts
 // vite.config.ts
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 export default defineConfig({
-    plugins: [vue()],
-    resolve: {
-        alias: {
-            "@": path.resolve("./src") // 相对路径别名配置，使用 @ 代替 src
-        }
-    }
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': path.resolve('./src'), // 相对路径别名配置，使用 @ 代替 src
+    },
+  },
 })
 ```
 
@@ -561,8 +562,9 @@ export default defineConfig({
 {
   "compilerOptions": {
     "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
-    "paths": { //路径映射，相对于baseUrl
-      "@/*": ["src/*"] 
+    "paths": {
+      //路径映射，相对于baseUrl
+      "@/*": ["src/*"]
     }
   }
 }
@@ -643,7 +645,7 @@ VITE_APP_BASE_API = 'http://127.0.0.1:9090/liu'
 <font color="gree">通过`import.meta.env`获取环境变量</font>
 
 ```ts
-const  a = import.meta.env;
+const a = import.meta.env
 console.log(a)
 ```
 
@@ -684,15 +686,15 @@ import 'virtual:svg-icons-register'
 
 ##### 测试
 
-直接复制阿里矢量图标库中的`svg`码，在`src/assets/icons`目录下新建文件 `.svg`  将`svg`码复制进改文件
+直接复制阿里矢量图标库中的`svg`码，在`src/assets/icons`目录下新建文件 `.svg` 将`svg`码复制进改文件
 
 ```vue
 <template>
   <div>
     <h1>svg测试</h1>
-    <svg style='width: 30px;height: 30px'>
+    <svg style="width: 30px;height: 30px">
       <!-- 必须以#icon-开头，后边是是命名的svg文件名 -->
-      <use xlink:href='#icon-monitor' fill='blue'></use>
+      <use xlink:href="#icon-monitor" fill="blue"></use>
     </svg>
   </div>
 </template>
@@ -710,30 +712,30 @@ import 'virtual:svg-icons-register'
     </svg>
   </div>
 </template>
-<script setup lang='ts'>
+<script setup lang="ts">
 defineProps({
   //xlink:href属性值的前缀
   prefix: {
     type: String,
-    default: '#icon-'
+    default: '#icon-',
   },
   //svg矢量图的名字
   name: String,
   //svg图标的颜色
   color: {
     type: String,
-    default: ""
+    default: '',
   },
   //svg宽度
   width: {
     type: String,
-    default: '16px'
+    default: '16px',
   },
   //svg高度
   height: {
     type: String,
-    default: '16px'
-  }
+    default: '16px',
+  },
 })
 </script>
 <style scoped></style>
@@ -745,12 +747,12 @@ defineProps({
 <template>
   <div>
     <h1>svg测试</h1>
-    <svg-icon name='home' color='red'></svg-icon>
+    <svg-icon name="home" color="red"></svg-icon>
   </div>
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/SvgIcon/index.vue';
+import SvgIcon from '@/components/SvgIcon/index.vue'
 </script>
 
 <style scoped></style>
@@ -772,10 +774,10 @@ import SvgIcon from '@/components/SvgIcon/index.vue' // 此处
 
 createApp(App)
   .use(ElementPlus, {
-    locale: zhCn
+    locale: zhCn,
   })
   // SvgIcon 注册为全局组件 此处
-  .component('SvgIcon',SvgIcon)
+  .component('SvgIcon', SvgIcon)
   .mount('#app')
 ```
 
@@ -785,7 +787,7 @@ createApp(App)
 <template>
   <div>
     <h1>svg测试</h1>
-    <svg-icon name='home' color='red'></svg-icon>
+    <svg-icon name="home" color="red"></svg-icon>
   </div>
 </template>
 <!-- 此时不需要引入 -->
@@ -799,18 +801,18 @@ createApp(App)
 
 ```ts
 // 想成为全局组件的在此引入
-import SvgIcon from './SvgIcon/index.vue';
-import type { App, Component } from 'vue';
+import SvgIcon from './SvgIcon/index.vue'
+import type { App, Component } from 'vue'
 // 想成为全局组件的添加到此
-const components: { [name: string]: Component } = { SvgIcon };
+const components: { [name: string]: Component } = { SvgIcon }
 // 对外暴露插件对象
 export default {
   // 务必叫 install 方法
   install(app: App) {
     Object.keys(components).forEach((key: string) => {
-      app.component(key, components[key]);
+      app.component(key, components[key])
     })
-  }
+  },
 }
 ```
 
@@ -824,10 +826,6 @@ app.use(gloablComponent);
 #### 集成sass
 
 是世界上最成熟、最稳定、最强大的专业级CSS扩展语言！Sass完全兼容所有版本的CSS。
-
-
-
-
 
 #### 路由`vue-router`
 
