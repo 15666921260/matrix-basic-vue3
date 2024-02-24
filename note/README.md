@@ -10,13 +10,13 @@
 
 ###### `Vue3`
 
-###### `element-plus` 
+###### `element-plus`
 
 ###### `ts`
 
 ###### `pnpm`包管理工具
 
-​	注意使用`pnpm install`的命令
+​ 注意使用`pnpm install`的命令
 
 ###### `vite` 工具链
 
@@ -28,13 +28,13 @@
 
 #### 安装`pnpm`
 
-`npm i -g pnpm` 
+`npm i -g pnpm`
 
 #### `vite`构建项目
 
 执行下面之前可能需要执行 `npm config set strict-ssl false`
 
-`npm init vite`  或者 `pnpm create vite`
+`npm init vite` 或者 `pnpm create vite`
 
 ![](image/1-vite构建截图.png)
 
@@ -62,43 +62,38 @@
 
 ```js
 module.exports = {
-   //运行环境
-    "env": { 
-        "browser": true,//浏览器端
-        "es2021": true,//es2021
-    },
-    //规则继承
-    "extends": [ 
-       //全部规则默认是关闭的,这个配置项开启推荐规则,推荐规则参照文档
-       //比如:函数不能重名、对象不能出现重复key
-        "eslint:recommended",
-        //vue3语法规则
-        "plugin:vue/vue3-essential",
-        //ts语法规则
-        "plugin:@typescript-eslint/recommended"
-    ],
-    //要为特定类型的文件指定处理器
-    "overrides": [
-    ],
-    //指定解析器:解析器
-    //Esprima 默认解析器
-    //Babel-ESLint babel解析器
-    //@typescript-eslint/parser ts解析器  (现在放入到parserOptions中了)
-    "parser": "@typescript-eslint/parser",
-    //指定解析器选项
-    "parserOptions": {
-        "ecmaVersion": "latest",//校验ECMA最新版本
-        "sourceType": "module"//设置为"script"（默认），或者"module"代码在ECMAScript模块中
-    },
-    //ESLint支持使用第三方插件。在使用插件之前，您必须使用npm安装它
-    //该eslint-plugin-前缀可以从插件名称被省略
-    "plugins": [
-        "vue",
-        "@typescript-eslint"
-    ],
-    //eslint规则
-    "rules": {
-    }
+  //运行环境
+  env: {
+    browser: true, //浏览器端
+    es2021: true, //es2021
+  },
+  //规则继承
+  extends: [
+    //全部规则默认是关闭的,这个配置项开启推荐规则,推荐规则参照文档
+    //比如:函数不能重名、对象不能出现重复key
+    'eslint:recommended',
+    //vue3语法规则
+    'plugin:vue/vue3-essential',
+    //ts语法规则
+    'plugin:@typescript-eslint/recommended',
+  ],
+  //要为特定类型的文件指定处理器
+  overrides: [],
+  //指定解析器:解析器
+  //Esprima 默认解析器
+  //Babel-ESLint babel解析器
+  //@typescript-eslint/parser ts解析器  (现在放入到parserOptions中了)
+  parser: '@typescript-eslint/parser',
+  //指定解析器选项
+  parserOptions: {
+    ecmaVersion: 'latest', //校验ECMA最新版本
+    sourceType: 'module', //设置为"script"（默认），或者"module"代码在ECMAScript模块中
+  },
+  //ESLint支持使用第三方插件。在使用插件之前，您必须使用npm安装它
+  //该eslint-plugin-前缀可以从插件名称被省略
+  plugins: ['vue', '@typescript-eslint'],
+  //eslint规则
+  rules: {},
 }
 ```
 
@@ -225,7 +220,7 @@ pnpm install -D eslint-plugin-prettier prettier eslint-config-prettier
 
 ###### `.prettierrc.json`添加规则
 
- `"singleQuote": true` 字符串必须都是单引号
+`"singleQuote": true` 字符串必须都是单引号
 `"semi": false` 语句后边不需要加分号
 `"tabWidth": 2` 缩进是两个空格
 
@@ -369,7 +364,7 @@ pnpm install -D husky
 
 ###### 配置
 
-执行 `npx husky-init` 
+执行 `npx husky-init`
 
 会在根目录下生成个一个.husky目录，在这个目录下面会有一个pre-commit文件，这个文件里面的命令在我们执行commit的时候就会执行
 
@@ -454,4 +449,3 @@ module.exports = {
 ```
 npm install element-plus --save
 ```
-

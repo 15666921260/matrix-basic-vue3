@@ -10,11 +10,12 @@
 
 `Vue3`
 
-`element-plus` 
+`element-plus`
 
 `ts`
 
 ## 框架初始化
+
 ### 1、`vite`构建项目
 
 执行下面之前可能需要执行 `npm config set strict-ssl false`
@@ -38,4 +39,3 @@ npm install element-plus --save
 ```
  npm install unplugin-vue-components -D
 ```
-
