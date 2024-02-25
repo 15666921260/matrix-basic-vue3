@@ -882,11 +882,11 @@ $color: red;
 ```vue
 <template>
   <div>
-    <h1 class='h1'>svg测试</h1>
+    <h1 class="h1">svg测试</h1>
   </div>
 </template>
 <script setup lang="ts"></script>
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .h1 {
   color: $color;
 }
@@ -910,7 +910,7 @@ import { UserConfigExport, ConfigEnv } from 'vite'
 import { viteMockServe } from 'vite-plugin-mock'
 import vue from '@vitejs/plugin-vue'
 // 注意方式改为了箭头函数
-export default ({ command })=> {
+export default ({ command }) => {
   return {
     plugins: [
       vue(),
@@ -932,72 +932,72 @@ export default ({ command })=> {
 ```ts
 //用户信息数据
 function createUserList() {
-    return [
-        {
-            userId: 1,
-            avatar:
-                'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-            username: 'admin',
-            password: '111111',
-            desc: '平台管理员',
-            roles: ['平台管理员'],
-            buttons: ['cuser.detail'],
-            routes: ['home'],
-            token: 'Admin Token',
-        },
-        {
-            userId: 2,
-            avatar:
-                'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-            username: 'system',
-            password: '111111',
-            desc: '系统管理员',
-            roles: ['系统管理员'],
-            buttons: ['cuser.detail', 'cuser.user'],
-            routes: ['home'],
-            token: 'System Token',
-        },
-    ]
+  return [
+    {
+      userId: 1,
+      avatar:
+        'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+      username: 'admin',
+      password: '111111',
+      desc: '平台管理员',
+      roles: ['平台管理员'],
+      buttons: ['cuser.detail'],
+      routes: ['home'],
+      token: 'Admin Token',
+    },
+    {
+      userId: 2,
+      avatar:
+        'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+      username: 'system',
+      password: '111111',
+      desc: '系统管理员',
+      roles: ['系统管理员'],
+      buttons: ['cuser.detail', 'cuser.user'],
+      routes: ['home'],
+      token: 'System Token',
+    },
+  ]
 }
 
 export default [
-    // 用户登录接口
-    {
-        url: '/api/user/login',//请求地址
-        method: 'post',//请求方式
-        response: ({ body }) => {
-            //获取请求体携带过来的用户名与密码
-            const { username, password } = body;
-            //调用获取用户信息函数,用于判断是否有此用户
-            const checkUser = createUserList().find(
-                (item) => item.username === username && item.password === password,
-            )
-            //没有用户返回失败信息
-            if (!checkUser) {
-                return { code: 201, data: { message: '账号或者密码不正确' } }
-            }
-            //如果有返回成功信息
-            const { token } = checkUser
-            return { code: 200, data: { token } }
-        },
+  // 用户登录接口
+  {
+    url: '/api/user/login', //请求地址
+    method: 'post', //请求方式
+    response: ({ body }) => {
+      //获取请求体携带过来的用户名与密码
+      const { username, password } = body
+      //调用获取用户信息函数,用于判断是否有此用户
+      const checkUser = createUserList().find(
+        (item) => item.username === username && item.password === password,
+      )
+      //没有用户返回失败信息
+      if (!checkUser) {
+        return { code: 201, data: { message: '账号或者密码不正确' } }
+      }
+      //如果有返回成功信息
+      const { token } = checkUser
+      return { code: 200, data: { token } }
     },
-    // 获取用户信息
-    {
-        url: '/api/user/info',
-        method: 'get',
-        response: (request) => {
-            //获取请求头携带token
-            const token = request.headers.token;
-            //查看用户信息是否包含有次token用户
-            const checkUser = createUserList().find((item) => item.token === token)
-            //没有返回失败的信息
-            if (!checkUser) {
-                return { code: 201, data: { message: '获取用户信息失败' } }
-            }
-            //如果有返回成功信息
-            return { code: 200, data: {checkUser} }
-        },
+  },
+  // 获取用户信息
+  {
+    url: '/api/user/info',
+    method: 'get',
+    response: (request) => {
+      //获取请求头携带token
+      const token = request.headers.token
+      //查看用户信息是否包含有次token用户
+      const checkUser = createUserList().find((item) => item.token === token)
+      //没有返回失败的信息
+      if (!checkUser) {
+        return { code: 201, data: { message: '获取用户信息失败' } }
+      }
+      //如果有返回成功信息
+      return { code: 200, data: { checkUser } }
     },
+  },
 ]
 ```
 
@@ -1027,8 +1027,8 @@ axios({
   method: 'post',
   data: {
     username: 'admin',
-    password: '111111'
-  }
+    password: '111111',
+  },
 })
 
 createApp(App)
@@ -1046,58 +1046,58 @@ createApp(App)
 
 目的:
 
-1:使用请求拦截器，可以在请求拦截器中处理一些业务(开始进度条、*请求头携带公共参数* )
+1:使用请求拦截器，可以在请求拦截器中处理一些业务(开始进度条、_请求头携带公共参数_ )
 2:使用响应拦截器，可以在响应拦截器中处理一些业务(进度条结束、简化服务器返回的数据、处理http网络错误)
 
 创建`src/utils`目录， 创建`request.ts`文件：
 
 ```ts
 // 进行axios的二次封装, 使用请求和响应拦截器
-import axios from 'axios';
-import {ElMessage} from 'element-plus';
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
 // 一、利用axios对象的create方法创建axios的实例(配置其他配置: 基础路径、超时时间)
 let request = axios.create({
   /**
    * 基础路径　要让import.meta.env不报错 tsconfig.json中修改两项：
-   * "module": "es2020",　
+   * "module": "es2020",
    * "moduleResolution": "Node",
    */
   baseURL: import.meta.env.VITE_APP_BASE_API,
   // 超时时间 10s
-  timeout: 10000
-});
+  timeout: 10000,
+})
 // 二、request添加请求与响应拦截器
-request.interceptors.request.use((config)=>{
+request.interceptors.request.use((config) => {
   // config配置对象，headers属性请求头，经常给服务器端携带公共参数
   // 返回配置对象
-  return config;
+  return config
 })
 request.interceptors.response.use(
   // 成功的回调
   (response) => {
     // 简化数据
-    return response.data;
+    return response.data
   },
   // 失败的回调
   (error) => {
     // 处理http网络错误
     // 顶一个变量:存储网络错误的信息
-    let message = '';
+    let message = ''
     // http 状态码
     let status = error.response.status
     switch (status) {
       case 401:
         message = 'token过期'
-        break;
+        break
       case 403:
         message = '无权访问'
-        break;
+        break
       case 404:
         message = '请求地址错误'
-        break;
+        break
       case 500:
         message = '服务器出现问题'
-        break;
+        break
       default:
         message = '网络出现问题'
     }
@@ -1105,13 +1105,13 @@ request.interceptors.response.use(
     ElMessage({
       type: 'error',
       message,
-    });
+    })
     // 终结Promise量
     return Promise.reject(error)
-  }
+  },
 )
 // 对外暴露request
-export default request;
+export default request
 ```
 
 测试app.vue
@@ -1121,28 +1121,28 @@ export default request;
 ```vue
 <template>
   <div>
-    <h1 class='h1'>测试axios封装</h1>
+    <h1 class="h1">测试axios封装</h1>
   </div>
 </template>
 
 <script setup lang="ts">
 import request from '@/utils/request.ts'
-import {onMounted} from 'vue'
+import { onMounted } from 'vue'
 
-onMounted(()=>{
+onMounted(() => {
   request({
     url: '/user/login',
     method: 'POST',
     data: {
       username: 'admin',
-      password: '111111'
-    }
-  }).then(res => {
+      password: '111111',
+    },
+  }).then((res) => {
     console.log(res)
   })
 })
 </script>
-<style scoped lang='scss'></style>
+<style scoped lang="scss"></style>
 ```
 
 #### api接口统一管理(重要)
@@ -1155,40 +1155,40 @@ onMounted(()=>{
 
 ```ts
 // 登录接口携带参数类型
-export interface loginFrom{
-  username: string,
+export interface loginFrom {
+  username: string
   password: string
 }
 
-interface dataType{
+interface dataType {
   token: string
 }
 
 // 登录接口返回的数据类型
-export interface loginResponseData{
-  code: number,
+export interface loginResponseData {
+  code: number
   data: dataType
 }
 
-interface userInfo{
-  userId: number,
-  avatar: string,
-  username: string,
-  password: string,
-  desc: string,
-  roles: Array<string>,
-  button: Array<string>,
-  routes: Array<string>,
+interface userInfo {
+  userId: number
+  avatar: string
+  username: string
+  password: string
+  desc: string
+  roles: Array<string>
+  button: Array<string>
+  routes: Array<string>
   token: string
 }
 
-interface user{
+interface user {
   checkUser: userInfo
 }
 
 // 定义服务器返回用户信息相关的数据类型
-export interface userResponseData{
-  code: number,
+export interface userResponseData {
+  code: number
   data: user
 }
 ```
@@ -1197,16 +1197,22 @@ export interface userResponseData{
 
 ```ts
 // 统一管理用户相关的接口
-import request from '@/utils/request.ts';
-import { loginFrom, loginResponseData, userResponseData } from '@/api/user/type.ts'
+import request from '@/utils/request.ts'
+import {
+  loginFrom,
+  loginResponseData,
+  userResponseData,
+} from '@/api/user/type.ts'
 
-enum API{
+enum API {
   LOGIN_URL = '/user/login',
-  USER_INFO_URL = '/user/info'
+  USER_INFO_URL = '/user/info',
 }
 // 对外暴露请求函数
-export const reqLogin = (data: loginFrom) => request.post<any, loginResponseData>(API.LOGIN_URL,data);
-export const reqUserInfo = () => request.get<userResponseData>(API.USER_INFO_URL)
+export const reqLogin = (data: loginFrom) =>
+  request.post<any, loginResponseData>(API.LOGIN_URL, data)
+export const reqUserInfo = () =>
+  request.get<userResponseData>(API.USER_INFO_URL)
 ```
 
 测试
@@ -1214,20 +1220,20 @@ export const reqUserInfo = () => request.get<userResponseData>(API.USER_INFO_URL
 ```vue
 <template>
   <div>
-    <h1 class='h1'>app根组件</h1>
+    <h1 class="h1">app根组件</h1>
   </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted} from 'vue'
-import {reqLogin} from '@/api/user'
+import { onMounted } from 'vue'
+import { reqLogin } from '@/api/user'
 
-onMounted(()=> {
-  reqLogin({username: 'admin', password: '111111'})
+onMounted(() => {
+  reqLogin({ username: 'admin', password: '111111' })
 })
 </script>
 
-<style scoped lang='scss'></style>
+<style scoped lang="scss"></style>
 ```
 
 成功运行
