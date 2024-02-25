@@ -818,14 +818,419 @@ export default {
 
 在入口文件引入src/index.ts文件,通过app.use方法安装自定义插件
 
-```
-import gloablComponent from './components/index';
-app.use(gloablComponent);
+```ts
+import gloablComponent from './components/index'
+app.use(gloablComponent)
 ```
 
 #### 集成sass
 
 是世界上最成熟、最稳定、最强大的专业级CSS扩展语言！Sass完全兼容所有版本的CSS。
+
+我们目前在组件内部已经可以使用`scss`样式,因为在配置`styleLint`工具的时候，项目当中已经安装过`sass sass-loader`,因此我们再组件内可以使用`scss`语法！！！需要加上`lang="scss"`
+
+```vue
+<style scoped lang="scss"></style>
+```
+
+##### 项目添加全局样式(可用于设置主题)
+
+在`src/styles`目录下创建一个`index.scss`文件，当然项目中需要用到**清除默认样式**，因此在`index.scss`引入`reset.scss` (需要在styles目录下创建`reset.scss` 文件并将在`npm`官网中复制的`reset.scss`的代码复制进里面)
+
+![](image/3-集成全局样式-清楚默认样式.png)
+
+```scss
+@import './reset.scss';
+```
+
+`main.ts`文件引入
+
+```ts
+import '@/styles/index.scss'
+```
+
+但是你会发现在`src/styles/index.scss`全局样式文件中**没有办法使用$变量**.因此需要给项目中引入全局变量$.
+
+在`styles/variable.scss`创建一个`variable.scss`文件！
+
+在`vite.config.ts`文件配置如下:
+
+```ts
+export default defineConfig((config) => {
+	css: {
+      preprocessorOptions: {
+        scss: {
+          javascriptEnabled: true,
+          additionalData: '@import "./src/styles/variable.scss";',
+        },
+      },
+    },
+	}
+}
+```
+
+##### 测试
+
+`variable.scss`中
+
+```scss
+$color: red;
+```
+
+`app.vue`中
+
+```vue
+<template>
+  <div>
+    <h1 class='h1'>svg测试</h1>
+  </div>
+</template>
+<script setup lang="ts"></script>
+<style scoped lang='scss'>
+.h1 {
+  color: $color;
+}
+</style>
+```
+
+#### mock数据
+
+使用mock，制造模拟数据，模拟后端。
+
+https://www.npmjs.com/package/vite-plugin-mock
+
+##### 安装配置
+
+`pnpm install -D vite-plugin-mock mockjs`
+
+在 vite.config.js 配置文件启用插件。
+
+```js
+import { UserConfigExport, ConfigEnv } from 'vite'
+import { viteMockServe } from 'vite-plugin-mock'
+import vue from '@vitejs/plugin-vue'
+// 注意方式改为了箭头函数
+export default ({ command })=> {
+  return {
+    plugins: [
+      vue(),
+      viteMockServe({
+        // localEnabled: command === 'serve', // 开发阶段可以使用mock接口localEnabled可能爆红但不影响运行
+        // 换回2.9.8版本不爆红但是，启动有黄色警报
+        enable: true, // 3.0.0以上版本用这个即可(github上的新解释)
+        // https://github.com/vbenjs/vite-plugin-mock/blob/main/README.zh_CN.md
+      }),
+    ],
+  }
+}
+```
+
+在根目录创建mock文件夹:去创建我们需要mock数据与接口！！！
+
+在mock文件夹内部创建一个user.ts文件
+
+```ts
+//用户信息数据
+function createUserList() {
+    return [
+        {
+            userId: 1,
+            avatar:
+                'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+            username: 'admin',
+            password: '111111',
+            desc: '平台管理员',
+            roles: ['平台管理员'],
+            buttons: ['cuser.detail'],
+            routes: ['home'],
+            token: 'Admin Token',
+        },
+        {
+            userId: 2,
+            avatar:
+                'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+            username: 'system',
+            password: '111111',
+            desc: '系统管理员',
+            roles: ['系统管理员'],
+            buttons: ['cuser.detail', 'cuser.user'],
+            routes: ['home'],
+            token: 'System Token',
+        },
+    ]
+}
+
+export default [
+    // 用户登录接口
+    {
+        url: '/api/user/login',//请求地址
+        method: 'post',//请求方式
+        response: ({ body }) => {
+            //获取请求体携带过来的用户名与密码
+            const { username, password } = body;
+            //调用获取用户信息函数,用于判断是否有此用户
+            const checkUser = createUserList().find(
+                (item) => item.username === username && item.password === password,
+            )
+            //没有用户返回失败信息
+            if (!checkUser) {
+                return { code: 201, data: { message: '账号或者密码不正确' } }
+            }
+            //如果有返回成功信息
+            const { token } = checkUser
+            return { code: 200, data: { token } }
+        },
+    },
+    // 获取用户信息
+    {
+        url: '/api/user/info',
+        method: 'get',
+        response: (request) => {
+            //获取请求头携带token
+            const token = request.headers.token;
+            //查看用户信息是否包含有次token用户
+            const checkUser = createUserList().find((item) => item.token === token)
+            //没有返回失败的信息
+            if (!checkUser) {
+                return { code: 201, data: { message: '获取用户信息失败' } }
+            }
+            //如果有返回成功信息
+            return { code: 200, data: {checkUser} }
+        },
+    },
+]
+```
+
+##### 测试
+
+安装axios
+
+`pnpm install axios`
+
+测试接口main.ts中
+
+```ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+//@ts-ignore忽略当前文件ts类型的检测否则有红色提示(打包会失败)
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import 'virtual:svg-icons-register'
+import gloablComponent from '@/components/index'
+import '@/styles/index.scss'
+
+// 测试mock接口能否使用
+import axios from 'axios'
+axios({
+  url: '/api/user/login',
+  method: 'post',
+  data: {
+    username: 'admin',
+    password: '111111'
+  }
+})
+
+createApp(App)
+  .use(ElementPlus, {
+    locale: zhCn,
+  })
+  // SvgIcon 注册为全局组件
+  .use(gloablComponent)
+  .mount('#app')
+```
+
+直接刷新主页发现登录成功**可行**！！
+
+#### axios二次封装(重要)
+
+目的:
+
+1:使用请求拦截器，可以在请求拦截器中处理一些业务(开始进度条、*请求头携带公共参数* )
+2:使用响应拦截器，可以在响应拦截器中处理一些业务(进度条结束、简化服务器返回的数据、处理http网络错误)
+
+创建`src/utils`目录， 创建`request.ts`文件：
+
+```ts
+// 进行axios的二次封装, 使用请求和响应拦截器
+import axios from 'axios';
+import {ElMessage} from 'element-plus';
+// 一、利用axios对象的create方法创建axios的实例(配置其他配置: 基础路径、超时时间)
+let request = axios.create({
+  /**
+   * 基础路径　要让import.meta.env不报错 tsconfig.json中修改两项：
+   * "module": "es2020",　
+   * "moduleResolution": "Node",
+   */
+  baseURL: import.meta.env.VITE_APP_BASE_API,
+  // 超时时间 10s
+  timeout: 10000
+});
+// 二、request添加请求与响应拦截器
+request.interceptors.request.use((config)=>{
+  // config配置对象，headers属性请求头，经常给服务器端携带公共参数
+  // 返回配置对象
+  return config;
+})
+request.interceptors.response.use(
+  // 成功的回调
+  (response) => {
+    // 简化数据
+    return response.data;
+  },
+  // 失败的回调
+  (error) => {
+    // 处理http网络错误
+    // 顶一个变量:存储网络错误的信息
+    let message = '';
+    // http 状态码
+    let status = error.response.status
+    switch (status) {
+      case 401:
+        message = 'token过期'
+        break;
+      case 403:
+        message = '无权访问'
+        break;
+      case 404:
+        message = '请求地址错误'
+        break;
+      case 500:
+        message = '服务器出现问题'
+        break;
+      default:
+        message = '网络出现问题'
+    }
+    // 提示的错误信息
+    ElMessage({
+      type: 'error',
+      message,
+    });
+    // 终结Promise量
+    return Promise.reject(error)
+  }
+)
+// 对外暴露request
+export default request;
+```
+
+测试app.vue
+
+刷新首页即可
+
+```vue
+<template>
+  <div>
+    <h1 class='h1'>测试axios封装</h1>
+  </div>
+</template>
+
+<script setup lang="ts">
+import request from '@/utils/request.ts'
+import {onMounted} from 'vue'
+
+onMounted(()=>{
+  request({
+    url: '/user/login',
+    method: 'POST',
+    data: {
+      username: 'admin',
+      password: '111111'
+    }
+  }).then(res => {
+    console.log(res)
+  })
+})
+</script>
+<style scoped lang='scss'></style>
+```
+
+#### api接口统一管理(重要)
+
+在开发项目的时候,接口可能很多需要统一管理。在src目录下去创建api文件夹去统一管理项目的接口；
+
+示例
+
+`type.ts`类型
+
+```ts
+// 登录接口携带参数类型
+export interface loginFrom{
+  username: string,
+  password: string
+}
+
+interface dataType{
+  token: string
+}
+
+// 登录接口返回的数据类型
+export interface loginResponseData{
+  code: number,
+  data: dataType
+}
+
+interface userInfo{
+  userId: number,
+  avatar: string,
+  username: string,
+  password: string,
+  desc: string,
+  roles: Array<string>,
+  button: Array<string>,
+  routes: Array<string>,
+  token: string
+}
+
+interface user{
+  checkUser: userInfo
+}
+
+// 定义服务器返回用户信息相关的数据类型
+export interface userResponseData{
+  code: number,
+  data: user
+}
+```
+
+`index.ts`中
+
+```ts
+// 统一管理用户相关的接口
+import request from '@/utils/request.ts';
+import { loginFrom, loginResponseData, userResponseData } from '@/api/user/type.ts'
+
+enum API{
+  LOGIN_URL = '/user/login',
+  USER_INFO_URL = '/user/info'
+}
+// 对外暴露请求函数
+export const reqLogin = (data: loginFrom) => request.post<any, loginResponseData>(API.LOGIN_URL,data);
+export const reqUserInfo = () => request.get<userResponseData>(API.USER_INFO_URL)
+```
+
+测试
+
+```vue
+<template>
+  <div>
+    <h1 class='h1'>app根组件</h1>
+  </div>
+</template>
+
+<script setup lang="ts">
+import {onMounted} from 'vue'
+import {reqLogin} from '@/api/user'
+
+onMounted(()=> {
+  reqLogin({username: 'admin', password: '111111'})
+})
+</script>
+
+<style scoped lang='scss'></style>
+```
+
+成功运行
 
 #### 路由`vue-router`
 

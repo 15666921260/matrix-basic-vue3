@@ -6,6 +6,7 @@ import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import 'virtual:svg-icons-register'
 import gloablComponent from '@/components/index'
+import '@/styles/index.scss'
 
 createApp(App)
   .use(ElementPlus, {
