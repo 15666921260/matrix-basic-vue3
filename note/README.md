@@ -1242,4 +1242,94 @@ onMounted(() => {
 
 开发环境
 
-`npm install vue-router@4 -S`
+`pnpm install vue-router`
+
+src下创建 router目录 下创建 `routes.ts` 与 `index.ts` 文件
+
+routes.ts中
+
+```ts
+// 对外暴露配置路由 常量路由
+export const constantRoute = [
+  {
+    path: '/login',
+    component: () => import('@/views/login/index.vue'),
+    name: 'login', // 命名路由 以后做权限使用
+  },
+  {
+    path: '/',
+    component: () => import('@/views/home/index.vue'),
+    name: 'layout',
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/404/index.vue'),
+    name: '404',
+  },
+  {
+    // 任意路由重定向到404
+    path: '/:pathMatch(.*)*',
+    redirect: '/404',
+    name: 'Any',
+  },
+]
+```
+
+index.ts中
+
+```ts
+// 通过vue-router插件实现模板路由配置
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { constantRoute } from '@/router/routes.ts'
+// 创建路由器
+let router = createRouter({
+  // 路由模式hash
+  history: createWebHashHistory(),
+  routes: constantRoute,
+  // 滚动行为
+  scrollBehavior() {
+    return {
+      left: 0,
+      top: 0,
+    }
+  },
+})
+
+export default router;
+```
+
+#### 安装pinia
+
+`pnpm i pinia`
+
+##### 大仓库
+
+src下创建store目录 `index.ts`
+
+```ts
+// 仓库大仓库
+import { createPinia } from 'pinia';
+// 创建大仓库
+let pinia = createPinia();
+// 对外暴露，入口文件需要安装仓库
+export default pinia;
+```
+
+`main.ts`
+
+```ts
+import pinia from '@/store'
+
+createApp(App)
+  .use(pinia)
+  .mount('#app')
+```
+
+##### 小仓库
+
+store目录下创建modules目录，下创建 `user.ts` :
+
+```
+
+```
+

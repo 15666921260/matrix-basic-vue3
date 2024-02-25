@@ -11,6 +11,7 @@ let request = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   // 超时时间 10s
   timeout: 10000,
+  headers: {},
 })
 // 二、request添加请求与响应拦截器
 request.interceptors.request.use((config) => {

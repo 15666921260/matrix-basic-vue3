@@ -7,6 +7,8 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import 'virtual:svg-icons-register'
 import gloablComponent from '@/components/index'
 import '@/styles/index.scss'
+import router from '@/router'
+import pinia from '@/store'
 
 createApp(App)
   .use(ElementPlus, {
@@ -14,4 +16,6 @@ createApp(App)
   })
   // SvgIcon 注册为全局组件
   .use(gloablComponent)
+  .use(router)
+  .use(pinia)
   .mount('#app')
