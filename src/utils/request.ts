@@ -1,6 +1,8 @@
 // 进行axios的二次封装, 使用请求和响应拦截器
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+
+const base = import.meta.env
 // 一、利用axios对象的create方法创建axios的实例(配置其他配置: 基础路径、超时时间)
 let request = axios.create({
   /**
@@ -8,10 +10,13 @@ let request = axios.create({
    * "module": "es2020",
    * "moduleResolution": "Node",
    */
-  baseURL: import.meta.env.VITE_APP_BASE_API,
+  // baseURL: base.VITE_APP_BASE_API,
+  baseURL: base.VITE_SERVE + base.VITE_APP_BASE_API,
   // 超时时间 10s
   timeout: 10000,
-  headers: {},
+  headers: {
+    AccessControlAllowOrigin: '*',
+  },
 })
 // 二、request添加请求与响应拦截器
 request.interceptors.request.use((config) => {
