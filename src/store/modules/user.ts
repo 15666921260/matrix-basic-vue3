@@ -1,6 +1,6 @@
 // 创建用户相关小仓库
-import { defineStore } from 'pinia';
-import { reqLogin } from '@/api/user';
+import { defineStore } from 'pinia'
+import { reqLogin } from '@/api/user'
 import { loginFrom, loginResponseData } from '@/api/user/type.ts'
 import { UserState } from '@/store/types/type.ts'
 import { getToken, setToken } from '@/utils/token.ts'
@@ -17,24 +17,22 @@ let useUserStore = defineStore('User', {
     // 处理用户登录的方法
     async userLogin(data: loginFrom) {
       // 登录请求
-      let result: loginResponseData = await reqLogin(data);
+      let result: loginResponseData = await reqLogin(data)
       // 成功 获取token
       if (result.code == 200) {
         // 存储token, 由于pinia|vuex存储数据其实利用的js对象
-        this.token = (result.data.token as string); // 断言，是字符串的情况下返回值
+        this.token = result.data.token as string // 断言，是字符串的情况下返回值
         // 本地存储，持久化存储一份
         setToken(result.data.token as string)
         // 保证当前async函数返回一个成功的promise
-        return 'ok';
+        return 'ok'
       } else {
         return Promise.reject(new Error(result.data.message))
       }
       // 失败 登录失败的错误信息
-    }
+    },
   },
-  getters: {
-
-  }
+  getters: {},
 })
 // 对外暴露获取小仓库的方法
-export default useUserStore;
+export default useUserStore

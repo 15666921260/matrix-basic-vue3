@@ -1295,7 +1295,7 @@ let router = createRouter({
   },
 })
 
-export default router;
+export default router
 ```
 
 #### 安装pinia
@@ -1308,11 +1308,11 @@ src下创建store目录 `index.ts`
 
 ```ts
 // 仓库大仓库
-import { createPinia } from 'pinia';
+import { createPinia } from 'pinia'
 // 创建大仓库
-let pinia = createPinia();
+let pinia = createPinia()
 // 对外暴露，入口文件需要安装仓库
-export default pinia;
+export default pinia
 ```
 
 `main.ts`
@@ -1320,9 +1320,7 @@ export default pinia;
 ```ts
 import pinia from '@/store'
 
-createApp(App)
-  .use(pinia)
-  .mount('#app')
+createApp(App).use(pinia).mount('#app')
 ```
 
 ##### 小仓库
@@ -1332,4 +1330,3 @@ store目录下创建modules目录，下创建 `user.ts` :
 ```
 
 ```
-
