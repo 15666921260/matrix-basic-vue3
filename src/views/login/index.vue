@@ -55,7 +55,7 @@ let $router = useRouter()
 // 定义变量控制按钮加载的效果
 let loading = ref(false)
 
-let loginFrom = reactive({ username: 'admin', password: '111111' })
+let loginFrom = reactive({ username: 'admin', password: '123456' })
 
 const login = async () => {
   /**
