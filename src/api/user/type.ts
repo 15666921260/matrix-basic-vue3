@@ -13,6 +13,7 @@ interface dataType {
 export interface loginResponseData {
   code: number
   data: dataType
+  message: string
 }
 
 interface userInfo {

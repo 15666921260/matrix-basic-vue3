@@ -27,7 +27,7 @@ let useUserStore = defineStore('User', {
         // 保证当前async函数返回一个成功的promise
         return 'ok'
       } else {
-        return Promise.reject(new Error(result.data.message))
+        return Promise.reject(new Error(result.message))
       }
       // 失败 登录失败的错误信息
     },
