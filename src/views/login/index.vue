@@ -4,17 +4,22 @@
       <!-- :xs当设备宽度小于768的时候右侧无 -->
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
-        <el-form class="login_from" :model='loginFrom' :rules='rules' ref='loginRef'>
+        <el-form
+          class="login_from"
+          :model="loginFrom"
+          :rules="rules"
+          ref="loginRef"
+        >
           <h1>Hello</h1>
           <h2>欢迎来到 matrix software!</h2>
-          <el-form-item prop='username'>
+          <el-form-item prop="username">
             <el-input
               placeholder="请输入用户名"
               :prefix-icon="User"
               v-model="loginFrom.username"
             ></el-input>
           </el-form-item>
-          <el-form-item prop='password'>
+          <el-form-item prop="password">
             <el-input
               placeholder="请输入密码"
               type="password"
@@ -62,7 +67,7 @@ let loginFrom = reactive({ username: 'admin', password: '123456' })
 let loginRef = ref()
 const login = async () => {
   // 此行校验表单，防止数据为校验通过但起作用
-  await loginRef.value.validate();
+  await loginRef.value.validate()
 
   /**
    * 通知仓库发登录请求
@@ -72,13 +77,13 @@ const login = async () => {
   loading.value = true // 开始加载
   try {
     // 可以书写 .then语法, 登录成功
-    await userStore.userLogin(loginFrom);
+    await userStore.userLogin(loginFrom)
     // 成功跳转首页
     $router.push('/')
     ElNotification({
       type: 'success',
       message: '登录成功！',
-      title: 'Hi' + getTimeMsg() + '好'
+      title: 'Hi' + getTimeMsg() + '好',
     })
     loading.value = false
   } catch (e) {
@@ -90,11 +95,11 @@ const login = async () => {
   }
 }
 
-const validatorPassword = (rule:any, value:any, callback:any) => {
+const validatorPassword = (rule: any, value: any, callback: any) => {
   // rule: 校验规则对象。value: 表单元素的文本内容。callback:检验通过与错误调用的函数
-  if (value.length >= 6){
-    callback();
-  }else {
+  if (value.length >= 6) {
+    callback()
+  } else {
     callback(new Error('密码长度至少是6位'))
   }
 }
@@ -109,14 +114,13 @@ const rules = {
    */
   username: [
     // {required: true, message: '用户名不能为空', trigger: 'blur'},
-    {required: true, message: '用户名长度太短', min: 6 , trigger: 'change'}
+    { required: true, message: '用户名长度太短', min: 6, trigger: 'change' },
   ],
   password: [
     // 自定义校验规则, validatorPassword函数要在上方
-    {trigger: 'change', validator: validatorPassword}
-  ]
+    { trigger: 'change', validator: validatorPassword },
+  ],
 }
-
 </script>
 
 <style scoped lang="scss">
