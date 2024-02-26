@@ -114,7 +114,7 @@ const rules = {
    */
   username: [
     // {required: true, message: '用户名不能为空', trigger: 'blur'},
-    { required: true, message: '用户名长度太短', min: 6, trigger: 'change' },
+    { required: true, message: '用户名长度太短', min: 5, trigger: 'change' },
   ],
   password: [
     // 自定义校验规则, validatorPassword函数要在上方
