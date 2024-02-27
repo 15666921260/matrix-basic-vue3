@@ -1,15 +1,15 @@
 <template>
-  <div v-if='setting.logoHidden' class='logo'>
-    <img :src='setting.logo' alt=''>
+  <div v-if="setting.logoHidden" class="logo">
+    <img :src="setting.logo" alt="" />
     <!--  矩阵软件  -->
-    <p>{{setting.title}}</p>
+    <p>{{ setting.title }}</p>
   </div>
 </template>
-<script setup lang='ts'>
+<script setup lang="ts">
 // 引入设置标题
 import setting from '@/setting.ts'
 </script>
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .logo {
   width: 100%;
   height: $base-menu-logo-height;
@@ -17,7 +17,6 @@ import setting from '@/setting.ts'
   align-items: center;
   padding: 20px;
   img {
-
     width: 40px;
     height: 40px;
   }
@@ -28,7 +27,7 @@ import setting from '@/setting.ts'
     font-family: SimHei;
     width: 180px;
     // 强制不换行
-    white-space:nowrap;
+    white-space: nowrap;
     // 防止溢出
     overflow: hidden;
     text-overflow: ellipsis;
