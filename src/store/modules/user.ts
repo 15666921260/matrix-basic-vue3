@@ -13,6 +13,9 @@ let useUserStore = defineStore('User', {
     return {
       token: getToken(), // 用户的唯一标识
       menuRoutes: constantRoute, // 存储菜单需要的路由数组
+      username: '', // 用户名
+      nickName: '', // 昵称
+      avatar: '', // 头像
     }
   },
   // 异步|逻辑的地方
@@ -24,11 +27,14 @@ let useUserStore = defineStore('User', {
       // 成功 获取token
       if (result.code == 200) {
         // 存储token, 由于pinia|vuex存储数据其实利用的js对象
-        this.token = result.data.token as string // 断言，是字符串的情况下返回值
+        this.token = result.data.token as string; // 断言，是字符串的情况下返回值
+        this.username = result.data.username;
+        this.nickName = result.data.nickName;
+        this.avatar = result.data.avatar;
         // 本地存储，持久化存储一份
-        setToken(result.data.token as string)
+        setToken(result.data.token as string);
         // 保证当前async函数返回一个成功的promise
-        return 'ok'
+        return 'ok';
       } else {
         return Promise.reject(new Error(result.message))
       }

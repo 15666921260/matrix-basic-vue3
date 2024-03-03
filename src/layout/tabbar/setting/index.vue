@@ -21,14 +21,14 @@
   </el-tooltip>
   <el-button size="small" icon="Setting" circle></el-button>
   <img
-    src="../../../../public/logo.png"
+    :src="userStore.avatar"
     alt=""
-    style="width: 24px; height: 24px; margin: 0 10px"
+    style="width: 24px; height: 24px; margin: 0 10px; border-radius: 50%"
   />
   <!-- 下拉菜单 -->
   <el-dropdown>
     <span class="el-dropdown-link">
-      admin
+      {{userStore.nickName}}
       <el-icon class="el-icon--right">
         <arrow-down />
       </el-icon>
@@ -42,8 +42,13 @@
 </template>
 <script setup lang="ts">
 // 获取layout小仓库
-import useLayoutSettingStore from '@/store/modules/setting.ts'
+import useLayoutSettingStore from '@/store/modules/setting.ts';
+// 获取user小仓库
+import useUserStore from '@/store/modules/user.ts';
+// 获取layout相关数据
 let layoutSettingStore = useLayoutSettingStore()
+// 获取用户相关数据
+let userStore = useUserStore();
 // 刷新事件发生
 const refreshEvent = () => {
   layoutSettingStore.refresh = !layoutSettingStore.refresh

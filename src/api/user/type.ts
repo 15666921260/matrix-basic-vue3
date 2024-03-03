@@ -7,6 +7,9 @@ export interface loginFrom {
 interface dataType {
   token?: string
   message?: string
+  username: string
+  nickName: string
+  avatar: string
 }
 
 // 登录接口返回的数据类型
