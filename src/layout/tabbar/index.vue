@@ -1,26 +1,26 @@
 <template>
-  <div class='tabbar'>
+  <div class="tabbar">
     <!-- 顶部左侧静态 -->
-    <div class='tabbar_left'>
+    <div class="tabbar_left">
       <Breadcrumb></Breadcrumb>
     </div>
     <!-- 顶部右侧静态 -->
-    <div class='tabbar_right'>
+    <div class="tabbar_right">
       <Setting></Setting>
     </div>
   </div>
 </template>
-<script setup lang='ts'>
+<script setup lang="ts">
 import Breadcrumb from './breadcrumb/index.vue'
 import Setting from './setting/index.vue'
 </script>
-<script lang='ts'>
+<script lang="ts">
 // 为组件命名
 export default {
-  name: "Tabbar"
+  name: 'Tabbar',
 }
 </script>
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .tabbar {
   width: 100%;
   height: 100%;

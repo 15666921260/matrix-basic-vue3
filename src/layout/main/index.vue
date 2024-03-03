@@ -9,16 +9,13 @@
     </router-view>
   </div>
 </template>
-<script setup lang='ts'>
-
-</script>
-<script lang='ts'>
+<script setup lang="ts"></script>
+<script lang="ts">
 export default {
-  name: 'Main'
+  name: 'Main',
 }
 </script>
-<style scoped lang='scss'>
-
+<style scoped lang="scss">
 .fade-enter-from {
   // 开始时透明度为0
   opacity: 0;

@@ -7,8 +7,8 @@ export const constantRoute = [
     meta: {
       title: '登录', // 菜单需要的标题
       hidden: true, // 代表路由在菜单中是否隐藏  true:隐藏 false:不隐藏
-      icon: 'ChatLineRound',     // 菜单左侧图标，支持element-plus的所有图标
-    }
+      icon: 'ChatLineRound', // 菜单左侧图标，支持element-plus的所有图标
+    },
   },
   {
     path: '/',
@@ -20,7 +20,7 @@ export const constantRoute = [
       hidden: false,
       icon: '',
     },
-    children:[
+    children: [
       {
         path: '/home',
         component: () => import('@/views/home/index.vue'),
@@ -30,8 +30,7 @@ export const constantRoute = [
           icon: 'HomeFilled',
         },
       },
-
-    ]
+    ],
   },
   {
     path: '/404',

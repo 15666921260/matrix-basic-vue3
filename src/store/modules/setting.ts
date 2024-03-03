@@ -2,12 +2,11 @@
 import { defineStore } from 'pinia'
 
 let useLayoutSettingStore = defineStore('SettingStpre', {
-  state:() =>{
+  state: () => {
     return {
       fold: false, // 用于控制菜单折叠还是收起的控制
     }
-  }
-
+  },
 })
 
-export default useLayoutSettingStore;
+export default useLayoutSettingStore

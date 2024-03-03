@@ -1,56 +1,61 @@
 <template>
   <div class="layout_container">
     <!--  左侧菜单  -->
-    <div class="layout_slider" :class='{fold: LayoutSettingStore.fold}'>
+    <div class="layout_slider" :class="{ fold: LayoutSettingStore.fold }">
       <logo></logo>
       <!--  展示菜单  -->
       <!--  滚动组件  -->
       <el-scrollbar class="scrollbar">
-<!--        <el-menu background-color="$base-menu-background" text-color="white" collapse>-->
+        <!--        <el-menu background-color="$base-menu-background" text-color="white" collapse>-->
         <!--
           default-active 使用默认激活,使其直接访问路由时可以展开相应的菜单
           collapse 根据仓库字段判断是否折叠
         -->
-        <el-menu :collapse='LayoutSettingStore.fold' :default-active='$route.path' background-color="#134857" text-color="white">
+        <el-menu
+          :collapse="LayoutSettingStore.fold"
+          :default-active="$route.path"
+          background-color="#134857"
+          text-color="white"
+        >
           <!-- 向子组件传递数据 -->
-          <Menu :menuList='userStore.menuRoutes'></Menu>
+          <Menu :menuList="userStore.menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
     </div>
     <!--  顶部导航  -->
-    <div class="layout_tabbar" :class='{fold: LayoutSettingStore.fold}'>
+    <div class="layout_tabbar" :class="{ fold: LayoutSettingStore.fold }">
       <Tabbar></Tabbar>
     </div>
     <!--  内容展示区  -->
-    <div class="layout_main" :class='{fold: LayoutSettingStore.fold}'>
+    <div class="layout_main" :class="{ fold: LayoutSettingStore.fold }">
       <Main></Main>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 // 获取路由对象
-import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router'
 // 左侧logo子组件
-import Logo from './logo/index.vue';
+import Logo from './logo/index.vue'
 // 引入菜单组件
-import Menu from './menu/index.vue';
+import Menu from './menu/index.vue'
 // 右侧内容展示区
-import Main from './main/index.vue';
+import Main from './main/index.vue'
 // 引入顶部 tabbar
-import Tabbar from './tabbar/index.vue';
+import Tabbar from './tabbar/index.vue'
 // 获取用户相关的小仓库
-import useUserStore from '@/store/modules/user.ts';
+import useUserStore from '@/store/modules/user.ts'
 // 引入layout仓库配置
-import useLayoutSettingStore from '@/store/modules/setting.ts';
-let userStore = useUserStore();
-let LayoutSettingStore = useLayoutSettingStore();
+import useLayoutSettingStore from '@/store/modules/setting.ts'
+let userStore = useUserStore()
+let LayoutSettingStore = useLayoutSettingStore()
 // 获取路由对象
-let $route = useRoute();
+let $route = useRoute()
 </script>
-<script lang='ts'>
+<script lang="ts">
 // 为组件命名
 export default {
-  name: "Layout"
+  name: 'Layout',
 }
 </script>
 <style scoped lang="scss">
@@ -117,7 +122,6 @@ export default {
       left: $base-menu-min-width;
       width: calc(100vw - $base-menu-min-width);
     }
-
   }
 }
 </style>

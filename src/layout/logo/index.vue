@@ -9,10 +9,10 @@
 // 引入设置标题
 import setting from '@/setting.ts'
 </script>
-<script lang='ts'>
+<script lang="ts">
 // 为组件起名
 export default {
-  name: "Logo"
+  name: 'Logo',
 }
 </script>
 <style scoped lang="scss">

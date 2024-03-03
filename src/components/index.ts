@@ -11,7 +11,7 @@ export default {
   install(app: App) {
     Object.keys(allGlobalComponent).forEach((key: string) => {
       app.component(key, allGlobalComponent[key])
-    });
+    })
     // 将element-plus提供的图标注册为全局组件
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
       app.component(key, component)
