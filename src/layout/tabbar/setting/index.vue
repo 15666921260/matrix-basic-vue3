@@ -35,7 +35,7 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click='logOut'>退出登录</el-dropdown-item>
+        <el-dropdown-item @click="logOut">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -78,7 +78,7 @@ const logOut = () => {
   // 2、仓库当中关于用户中的数据清空
   userStore.userLogOut()
   // 3、跳转到登录页面, query: { redirect: $route.path} 记录退出登录的路径，重新登录时直接跳转(在登录逻辑中)
-  $router.push({path: '/login', query: { redirect: $route.path}})
+  $router.push({ path: '/login', query: { redirect: $route.path } })
 }
 </script>
 <script lang="ts">

@@ -81,7 +81,7 @@ const login = async () => {
     await userStore.userLogin(loginFrom)
     // 成功跳转首页
     // 判断路径当中有没有记录query参数, 如果有则往query中的跳转
-    let redirect: any = $route.query.redirect;
+    let redirect: any = $route.query.redirect
     $router.push({ path: redirect || '/' })
     ElNotification({
       type: 'success',

@@ -9,5 +9,5 @@ export const getToken = () => {
 }
 
 export const removeToken = () => {
-  localStorage.removeItem("TOKEN")
+  localStorage.removeItem('TOKEN')
 }
