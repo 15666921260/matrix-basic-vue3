@@ -9,6 +9,7 @@
         <!--        <el-menu background-color="$base-menu-background" text-color="white" collapse>-->
         <!--
           default-active 使用默认激活,使其直接访问路由时可以展开相应的菜单
+          background-color 这里只能是这样写，如果按照自定义的方式:$base-menu-background 会有子菜单的背景颜色还是白色的问题
           collapse 根据仓库字段判断是否折叠
         -->
         <el-menu
