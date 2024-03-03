@@ -50,14 +50,15 @@ import { User, Lock } from '@element-plus/icons-vue'
 // 收集账号和密码的数据
 import { reactive, ref } from 'vue'
 import useUserStore from '@/store/modules/user.ts'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { getTimeMsg } from '@/utils/time.ts'
 
 let userStore = useUserStore()
 // 获取路由器
 let $router = useRouter()
-
+// 获取路由对象
+let $route = useRoute()
 // 定义变量控制按钮加载的效果
 let loading = ref(false)
 
@@ -79,7 +80,9 @@ const login = async () => {
     // 可以书写 .then语法, 登录成功
     await userStore.userLogin(loginFrom)
     // 成功跳转首页
-    $router.push('/')
+    // 判断路径当中有没有记录query参数, 如果有则往query中的跳转
+    let redirect: any = $route.query.redirect;
+    $router.push({ path: redirect || '/' })
     ElNotification({
       type: 'success',
       message: '登录成功！',

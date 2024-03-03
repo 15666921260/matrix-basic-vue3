@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { reqLogin } from '@/api/user'
 import { loginFrom, loginResponseData } from '@/api/user/type.ts'
 import { UserState } from '@/store/modules/types/type.ts'
-import { getToken, setToken } from '@/utils/token.ts'
+import { getToken, removeToken, setToken } from '@/utils/token.ts'
 // 引入常量路由
 import { constantRoute } from '@/router/routes.ts'
 
@@ -39,6 +39,15 @@ let useUserStore = defineStore('User', {
         return Promise.reject(new Error(result.message))
       }
       // 失败 登录失败的错误信息
+    },
+    userLogOut() {
+      // 目前没有mock接口
+      this.token = ''
+      this.username = ''
+      this.nickName = ''
+      this.avatar = ''
+      // 清除本地存储中的token
+      removeToken()
     },
   },
   getters: {},
