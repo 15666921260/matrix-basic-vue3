@@ -23,9 +23,9 @@ let request = axios.create({
 // 二、request添加请求与响应拦截器
 request.interceptors.request.use((config) => {
   // 获取用户相关的小仓库 获取仓库内部的token, 登录成功后携带给服务器
-  let userStore = useUserStore();
+  let userStore = useUserStore()
   if (userStore.token) {
-    config.headers.token = userStore.token;
+    config.headers.token = userStore.token
   }
   // config配置对象，headers属性请求头，经常给服务器端携带公共参数
   // 返回配置对象

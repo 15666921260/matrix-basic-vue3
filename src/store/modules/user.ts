@@ -27,14 +27,14 @@ let useUserStore = defineStore('User', {
       // 成功 获取token
       if (result.code == 200) {
         // 存储token, 由于pinia|vuex存储数据其实利用的js对象
-        this.token = result.data.token as string; // 断言，是字符串的情况下返回值
-        this.username = result.data.username;
-        this.nickName = result.data.nickName;
-        this.avatar = result.data.avatar;
+        this.token = result.data.token as string // 断言，是字符串的情况下返回值
+        this.username = result.data.username
+        this.nickName = result.data.nickName
+        this.avatar = result.data.avatar
         // 本地存储，持久化存储一份
-        setToken(result.data.token as string);
+        setToken(result.data.token as string)
         // 保证当前async函数返回一个成功的promise
-        return 'ok';
+        return 'ok'
       } else {
         return Promise.reject(new Error(result.message))
       }

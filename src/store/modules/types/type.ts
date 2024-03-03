@@ -6,9 +6,9 @@ export interface UserState {
   // 定义的路由类型
   menuRoutes: Array<RouteRecordRaw>
   // 用户名
-  username: string,
+  username: string
   // 昵称
-  nickName: string,
+  nickName: string
   // 头像
-  avatar: string,
+  avatar: string
 }

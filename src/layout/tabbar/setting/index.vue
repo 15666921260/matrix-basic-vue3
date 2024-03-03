@@ -28,7 +28,7 @@
   <!-- 下拉菜单 -->
   <el-dropdown>
     <span class="el-dropdown-link">
-      {{userStore.nickName}}
+      {{ userStore.nickName }}
       <el-icon class="el-icon--right">
         <arrow-down />
       </el-icon>
@@ -42,13 +42,13 @@
 </template>
 <script setup lang="ts">
 // 获取layout小仓库
-import useLayoutSettingStore from '@/store/modules/setting.ts';
+import useLayoutSettingStore from '@/store/modules/setting.ts'
 // 获取user小仓库
-import useUserStore from '@/store/modules/user.ts';
+import useUserStore from '@/store/modules/user.ts'
 // 获取layout相关数据
 let layoutSettingStore = useLayoutSettingStore()
 // 获取用户相关数据
-let userStore = useUserStore();
+let userStore = useUserStore()
 // 刷新事件发生
 const refreshEvent = () => {
   layoutSettingStore.refresh = !layoutSettingStore.refresh
