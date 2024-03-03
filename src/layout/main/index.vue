@@ -15,7 +15,7 @@ import { nextTick, ref, watch } from 'vue'
 import useLayoutSettingStore from '@/store/modules/setting.ts'
 let layoutSettingStore = useLayoutSettingStore()
 // 控制当前组件是否销毁重建
-let flag = ref()
+let flag = ref(true)
 // 监听仓库数据是否发生变化， 变化则用户点击刷新按钮
 watch(
   () => layoutSettingStore.refresh,
