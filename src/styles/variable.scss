@@ -2,7 +2,7 @@
 
 // 左侧的菜单的宽度
 $base-menu-width: 260px;
-// 左侧菜单的背景颜色
+// 左侧菜单的背景颜色 在菜单背景中如果用这个会在折叠时多个路由时导致仍显示默认白色
 $base-menu-background: #134857;
 // 顶部导航的高度
 $base-tabbar-height: 50px;
@@ -11,3 +11,5 @@ $base-tabbar-height: 50px;
 $base-menu-logo-height: 50px;
 // 左侧菜单logo文字的大小
 $base-logo-title-fontSize: 20px;
+// 左侧菜单折叠后的宽度
+$base-menu-min-width: 65px;

@@ -2,14 +2,17 @@
 import { defineStore } from 'pinia'
 import { reqLogin } from '@/api/user'
 import { loginFrom, loginResponseData } from '@/api/user/type.ts'
-import { UserState } from '@/store/types/type.ts'
+import { UserState } from '@/store/modules/types/type.ts'
 import { getToken, setToken } from '@/utils/token.ts'
+// 引入常量路由
+import { constantRoute } from '@/router/routes.ts'
 
 let useUserStore = defineStore('User', {
   // 小仓库存储数据的地方
   state: (): UserState => {
     return {
       token: getToken(), // 用户的唯一标识
+      menuRoutes: constantRoute, // 存储菜单需要的路由数组
     }
   },
   // 异步|逻辑的地方

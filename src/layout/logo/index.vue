@@ -9,13 +9,19 @@
 // 引入设置标题
 import setting from '@/setting.ts'
 </script>
+<script lang='ts'>
+// 为组件起名
+export default {
+  name: "Logo"
+}
+</script>
 <style scoped lang="scss">
 .logo {
   width: 100%;
   height: $base-menu-logo-height;
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 12px;
   img {
     width: 40px;
     height: 40px;

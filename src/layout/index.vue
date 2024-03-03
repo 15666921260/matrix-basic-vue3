@@ -1,39 +1,57 @@
 <template>
   <div class="layout_container">
     <!--  左侧菜单  -->
-    <div class="layout_slider">
+    <div class="layout_slider" :class='{fold: LayoutSettingStore.fold}'>
       <logo></logo>
       <!--  展示菜单  -->
       <!--  滚动组件  -->
       <el-scrollbar class="scrollbar">
-        <el-menu default-active="2" class="menu-vertical" text-color="white">
-          <el-menu-item index="1">
-            <span>首页</span>
-          </el-menu-item>
-          <el-menu-item index="2">
-            <span>数据大屏</span>
-          </el-menu-item>
-          <el-sub-menu index="3">
-            <template #title>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item index="3-1">用户管理</el-menu-item>
-            <el-menu-item index="3-2">角色管理</el-menu-item>
-            <el-menu-item index="3-3">菜单管理</el-menu-item>
-          </el-sub-menu>
+<!--        <el-menu background-color="$base-menu-background" text-color="white" collapse>-->
+        <!--
+          default-active 使用默认激活,使其直接访问路由时可以展开相应的菜单
+          collapse 根据仓库字段判断是否折叠
+        -->
+        <el-menu :collapse='LayoutSettingStore.fold' :default-active='$route.path' background-color="#134857" text-color="white">
+          <!-- 向子组件传递数据 -->
+          <Menu :menuList='userStore.menuRoutes'></Menu>
         </el-menu>
       </el-scrollbar>
     </div>
     <!--  顶部导航  -->
-    <div class="layout_tabbar">456</div>
+    <div class="layout_tabbar" :class='{fold: LayoutSettingStore.fold}'>
+      <Tabbar></Tabbar>
+    </div>
     <!--  内容展示区  -->
-    <div class="layout_main">
-      <p style="height: 2000px; background-color: red">我是一个段落</p>
+    <div class="layout_main" :class='{fold: LayoutSettingStore.fold}'>
+      <Main></Main>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import Logo from './logo/index.vue'
+// 获取路由对象
+import { useRoute } from 'vue-router';
+// 左侧logo子组件
+import Logo from './logo/index.vue';
+// 引入菜单组件
+import Menu from './menu/index.vue';
+// 右侧内容展示区
+import Main from './main/index.vue';
+// 引入顶部 tabbar
+import Tabbar from './tabbar/index.vue';
+// 获取用户相关的小仓库
+import useUserStore from '@/store/modules/user.ts';
+// 引入layout仓库配置
+import useLayoutSettingStore from '@/store/modules/setting.ts';
+let userStore = useUserStore();
+let LayoutSettingStore = useLayoutSettingStore();
+// 获取路由对象
+let $route = useRoute();
+</script>
+<script lang='ts'>
+// 为组件命名
+export default {
+  name: "Layout"
+}
 </script>
 <style scoped lang="scss">
 .layout_container {
@@ -45,13 +63,21 @@ import Logo from './logo/index.vue'
     height: 100vh;
     background: $base-menu-background;
 
+    // 添加过渡动画(折叠时使用)
+    transition: all 0.3s;
+
     .scrollbar {
       width: 100%;
       height: calc(100vh - $base-menu-logo-height);
 
-      .menu-vertical {
-        background-color: $base-menu-background;
+      .el-menu {
+        border-right: none;
       }
+    }
+
+    // 如果有 fold 类型则进行如下变化
+    &.fold {
+      width: $base-menu-min-width;
     }
   }
 
@@ -59,9 +85,17 @@ import Logo from './logo/index.vue'
     position: fixed;
     width: calc(100% - $base-menu-width);
     height: $base-tabbar-height;
-    background: cyan;
     top: 0;
     left: $base-menu-width;
+
+    // 添加过渡动画(折叠时使用)
+    transition: all 0.3s;
+
+    // 如果有 fold 类型则进行如下变化(计算宽度)
+    &.fold {
+      left: $base-menu-min-width;
+      width: calc(100vw - $base-menu-min-width);
+    }
   }
 
   .layout_main {
@@ -74,6 +108,16 @@ import Logo from './logo/index.vue'
     padding: 20px;
     // 添加滚动条
     overflow: auto;
+
+    // 添加过渡动画(折叠时使用)
+    transition: all 0.3s;
+
+    // 如果有 fold 类型则进行如下变化(计算宽度)
+    &.fold {
+      left: $base-menu-min-width;
+      width: calc(100vw - $base-menu-min-width);
+    }
+
   }
 }
 </style>
