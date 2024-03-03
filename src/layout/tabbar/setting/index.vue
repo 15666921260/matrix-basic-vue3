@@ -1,6 +1,11 @@
 <!-- 上方 tabbar 左侧组件 -->
 <template>
-  <el-button size="small" icon="Refresh" @click='refreshEvent' circle></el-button>
+  <el-button
+    size="small"
+    icon="Refresh"
+    @click="refreshEvent"
+    circle
+  ></el-button>
   <el-button size="small" icon="FullScreen" circle></el-button>
   <el-button size="small" icon="Setting" circle></el-button>
   <img
@@ -26,10 +31,10 @@
 <script setup lang="ts">
 // 获取layout小仓库
 import useLayoutSettingStore from '@/store/modules/setting.ts'
-let layoutSettingStore = useLayoutSettingStore();
+let layoutSettingStore = useLayoutSettingStore()
 // 刷新事件发生
 const refreshEvent = () => {
-  layoutSettingStore.refresh = !layoutSettingStore.refresh;
+  layoutSettingStore.refresh = !layoutSettingStore.refresh
 }
 </script>
 <script lang="ts">
