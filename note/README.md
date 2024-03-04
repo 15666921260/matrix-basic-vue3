@@ -1403,7 +1403,7 @@ export default useUserStore
 ### 代码
 
 ```ts
-import router from '@/router';
+import router from '@/router'
 /*
    路由鉴权，项目当中路由能不能被权限的设置(某一个路由什么条件下可以访问，什么条件下不可以访问)
    需要在main.ts中引入
@@ -1430,7 +1430,5 @@ router.beforeEach((to: any, from: any, next: any) => {
 /*
   全局后置守卫: 
  */
-router.afterEach((to: any, from: any) => {
-
-})
+router.afterEach((to: any, from: any) => {})
 ```
