@@ -18,25 +18,32 @@ import 'nprogress/nprogress.css'
 /*
    全局前置守卫: 初始化的时候被调用、每次路由切换之前被调用
  */
-router.beforeEach((
-  //@ts-ignore
-  to: any,
-  //@ts-ignore
-  from: any, next: any) => {
-  // to :你将要访问哪个路由
-  // from: 你从哪个路由而来
-  // next: 路由的放行函数
-  nprogress.start()
-  next()
-})
+router.beforeEach(
+  (
+    //@ts-ignore
+    to: any,
+    //@ts-ignore
+    from: any,
+    next: any,
+  ) => {
+    // to :你将要访问哪个路由
+    // from: 你从哪个路由而来
+    // next: 路由的放行函数
+    nprogress.start()
+    next()
+  },
+)
 
 /*
   全局后置守卫: 切换之后调用
  */
-router.afterEach((
-  //@ts-ignore
-  to: any,
-  //@ts-ignore
-  from: any) => {
-  nprogress.done()
-})
+router.afterEach(
+  (
+    //@ts-ignore
+    to: any,
+    //@ts-ignore
+    from: any,
+  ) => {
+    nprogress.done()
+  },
+)
