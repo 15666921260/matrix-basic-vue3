@@ -9,6 +9,8 @@ import gloablComponent from '@/components/index'
 import '@/styles/index.scss'
 import router from '@/router'
 import pinia from '@/store'
+// 引入路由鉴权文件
+import './permisstion.ts'
 
 createApp(App)
   .use(ElementPlus, {

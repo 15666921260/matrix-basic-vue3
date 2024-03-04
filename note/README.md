@@ -1327,6 +1327,110 @@ createApp(App).use(pinia).mount('#app')
 
 store目录下创建modules目录，下创建 `user.ts` :
 
+```ts
+// 创建用户相关小仓库
+import { defineStore } from 'pinia'
+import { reqLogin } from '@/api/user'
+import { loginFrom, loginResponseData } from '@/api/user/type.ts'
+import { UserState } from '@/store/modules/types/type.ts'
+import { getToken, removeToken, setToken } from '@/utils/token.ts'
+// 引入常量路由
+import { constantRoute } from '@/router/routes.ts'
+
+let useUserStore = defineStore('User', {
+  // 小仓库存储数据的地方
+  state: (): UserState => {
+    return {
+      token: getToken(), // 用户的唯一标识
+      menuRoutes: constantRoute, // 存储菜单需要的路由数组
+      username: '', // 用户名
+      nickName: '', // 昵称
+      avatar: '', // 头像
+    }
+  },
+  // 异步|逻辑的地方
+  actions: {
+    // 处理用户登录的方法
+    async userLogin(data: loginFrom) {
+      // 登录请求
+      let result: loginResponseData = await reqLogin(data)
+      // 成功 获取token
+      if (result.code == 200) {
+        // 存储token, 由于pinia|vuex存储数据其实利用的js对象
+        this.token = result.data.token as string // 断言，是字符串的情况下返回值
+        this.username = result.data.username
+        this.nickName = result.data.nickName
+        this.avatar = result.data.avatar
+        // 本地存储，持久化存储一份
+        setToken(result.data.token as string)
+        // 保证当前async函数返回一个成功的promise
+        return 'ok'
+      } else {
+        return Promise.reject(new Error(result.message))
+      }
+      // 失败 登录失败的错误信息
+    },
+    userLogOut() {
+      // 目前没有mock接口
+      this.token = ''
+      this.username = ''
+      this.nickName = ''
+      this.avatar = ''
+      // 清除本地存储中的token
+      removeToken()
+    },
+  },
+  getters: {},
+})
+// 对外暴露获取小仓库的方法
+export default useUserStore
 ```
 
+## 守卫
+
+### 全局守卫
+
+项目当中任意路由切换都会触发的钩子
+
+### 全局前置守卫
+
+初始化的时候被调用、每次路由切换之前被调用
+
+### 全局后置守卫
+
+切换之后调用
+
+### 代码
+
+```ts
+import router from '@/router';
+/*
+   路由鉴权，项目当中路由能不能被权限的设置(某一个路由什么条件下可以访问，什么条件下不可以访问)
+   需要在main.ts中引入
+   1、任意路由的切换，实现进度条的业务
+      需要安装 progress 插件才能有进度条功能:  pnpm i nprogress
+ */
+
+/*
+   全局守卫：
+ */
+
+/*
+   全局前置守卫:
+ */
+router.beforeEach((to: any, from: any, next: any) => {
+  // to :你将要访问哪个路由
+
+  // from: 你从哪个路由而来
+
+  // next: 路由的放行函数
+  next()
+})
+
+/*
+  全局后置守卫: 
+ */
+router.afterEach((to: any, from: any) => {
+
+})
 ```
