@@ -4,21 +4,6 @@ export interface loginFrom {
   password: string
 }
 
-interface dataType {
-  token?: string
-  message?: string
-  username: string
-  nickName: string
-  avatar: string
-}
-
-// 登录接口返回的数据类型
-export interface loginResponseData {
-  code: number
-  data: dataType
-  message: string
-}
-
 interface userInfo {
   userId: number
   avatar: string

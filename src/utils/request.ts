@@ -27,6 +27,7 @@ request.interceptors.request.use((config) => {
   if (userStore.token) {
     config.headers.token = userStore.token
   }
+  console.log('能拿到token吗？',config.headers)
   // config配置对象，headers属性请求头，经常给服务器端携带公共参数
   // 返回配置对象
   return config
