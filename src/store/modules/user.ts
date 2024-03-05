@@ -39,7 +39,7 @@ let useUserStore = defineStore('User', {
         let userInfo: UserInfo = {
           username: result.data.username,
           nickName: result.data.nickName,
-          avatar: result.data.avatar
+          avatar: result.data.avatar,
         }
         saveUserInfo(userInfo)
         // 本地存储，持久化存储一份
@@ -53,7 +53,7 @@ let useUserStore = defineStore('User', {
     },
     userLogOut() {
       // 调用后台退出接口
-      logOut().then(r => {
+      logOut().then((r) => {
         /*if (r.code == 200){
 
         }*/

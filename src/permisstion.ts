@@ -7,9 +7,9 @@ import 'nprogress/nprogress.css'
 import useUserStore from '@/store/modules/user.ts'
 import pinia from '@/store'
 import setting from '@/setting.ts'
-let userStore = useUserStore(pinia);
+let userStore = useUserStore(pinia)
 // 不显示加载的小圈圈
-nprogress.configure({ showSpinner: false})
+nprogress.configure({ showSpinner: false })
 /*
    路由鉴权，项目当中路由能不能被权限的设置(某一个路由什么条件下可以访问，什么条件下不可以访问)
    需要在main.ts中引入
@@ -42,26 +42,25 @@ router.beforeEach(
     document.title = `${setting.title} - ${to.meta.title}`
     nprogress.start()
     // 获取token, 去判断用户登录、还是未登录
-    let token = userStore.token;
+    let token = userStore.token
     // 获取用户的名字
     // let userName = userStore.username;
-    if (token){
+    if (token) {
       // 用户登录
-      if (to.path == '/login'){
-        next({path: '/'})
-      }else {
+      if (to.path == '/login') {
+        next({ path: '/' })
+      } else {
         // 登录成功返回其他路由
         next()
       }
-    }else {
+    } else {
       // 用户未登录
-      if (to.path=='/login'){
+      if (to.path == '/login') {
         next()
-      }else {
-        next({path: '/login', query:{ redirect: to.path}})
+      } else {
+        next({ path: '/login', query: { redirect: to.path } })
       }
     }
-
   },
 )
 

@@ -5,21 +5,21 @@ import { removeToken } from '@/utils/token.ts'
 const userInfoKey = 'tavValue'
 export const saveUserInfo = (userInfo: userInfo) => {
   if (userInfo != null) {
-    let userJson = JSON.stringify(userInfo);
+    let userJson = JSON.stringify(userInfo)
     localStorage.setItem(userInfoKey, encodeBase(userJson))
   }
 }
 
-export const getUserInfo = () : UserInfo => {
+export const getUserInfo = (): UserInfo => {
   let userJson = localStorage.getItem(userInfoKey)
-  if ( userJson != null) {
+  if (userJson != null) {
     return JSON.parse(decodeBase(userJson))
-  }else {
+  } else {
     return {
       avatar: '',
       username: '',
-      nickName: ''
-    };
+      nickName: '',
+    }
   }
 }
 

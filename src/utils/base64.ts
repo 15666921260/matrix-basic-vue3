@@ -1,4 +1,4 @@
-import { Base64 } from 'js-base64';
+import { Base64 } from 'js-base64'
 
 /**
  * 自定义Base64的加密方式
@@ -13,6 +13,5 @@ export const encodeBase = (str: string): string => {
  * @param str
  */
 export const decodeBase = (str: string): string => {
-
   return Base64.decode(str)
 }

@@ -1,9 +1,6 @@
 // 统一管理用户相关的接口
 import request from '@/utils/request.ts'
-import {
-  loginFrom,
-  userResponseData,
-} from '@/api/user/type.ts'
+import { loginFrom, userResponseData } from '@/api/user/type.ts'
 import { ResponseData } from '@/po/system/ResponseData.ts'
 
 enum API {
@@ -15,7 +12,6 @@ enum API {
 export const reqLogin = (data: loginFrom) =>
   request.post<any, ResponseData>(API.LOGIN_URL, data)
 // 退出登录
-export const logOut = () =>
-  request.post<any, ResponseData>(API.LOGOUT)
+export const logOut = () => request.post<any, ResponseData>(API.LOGOUT)
 export const reqUserInfo = () =>
   request.get<userResponseData>(API.USER_INFO_URL)
