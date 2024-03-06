@@ -94,6 +94,10 @@ export default {
     top: 0;
     left: $base-menu-width;
 
+    border-width:1px;
+    border-color: #bdbdbd;
+    border-bottom-style:solid;
+
     // 添加过渡动画(折叠时使用)
     transition: all 0.3s;
 
@@ -108,7 +112,6 @@ export default {
     position: absolute;
     width: calc(100% - $base-menu-width);
     height: calc(100vh - $base-tabbar-height);
-    background-color: yellowgreen;
     top: $base-tabbar-height;
     left: $base-menu-width;
     padding: 20px;

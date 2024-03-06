@@ -11,7 +11,7 @@
           ref="loginRef"
         >
           <h1>Hello</h1>
-          <h2>欢迎来到 matrix software!</h2>
+          <h2>Matrix Software</h2>
           <el-form-item prop="username">
             <el-input
               placeholder="请输入用户名"
@@ -138,23 +138,27 @@ const rules = {
   .login_from {
     // 定位
     position: relative;
-    width: 60%;
+    width: 50%;
     // vh 视孔高度的30%
-    top: 30vh;
-    background: url('@/assets/images/login_form.png') no-repeat;
+    top: 25vh;
     background-size: cover;
+    background-color: black;
+    margin-left: 25%;
     // 设置半透明
-    //opacity: 0.6;
+    opacity: 0.6;
+    // 内边距
     padding: 40px;
 
     h1 {
       color: white;
       font-size: 40px;
+      font-family: SimHei;
     }
 
     h2 {
       color: white;
       font-size: 24px;
+      font-family: SimHei;
       margin: 20px 0;
     }
 
