@@ -41,7 +41,7 @@ let useUserStore = defineStore('User', {
         this.token = result.data.token as string // 断言，是字符串的情况下返回值
         this.username = result.data.username
         this.nickName = result.data.nickName
-        if (result.data.avatar == null){
+        if (result.data.avatar == null) {
           result.data.avatar = '@/assets/images/avatar.png'
         }
         this.avatar = result.data.avatar

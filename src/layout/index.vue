@@ -94,9 +94,9 @@ export default {
     top: 0;
     left: $base-menu-width;
 
-    border-width:1px;
+    border-width: 1px;
     border-color: #bdbdbd;
-    border-bottom-style:solid;
+    border-bottom-style: solid;
 
     // 添加过渡动画(折叠时使用)
     transition: all 0.3s;
