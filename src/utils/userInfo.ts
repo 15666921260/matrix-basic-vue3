@@ -19,7 +19,7 @@ export const getUserInfo = (): UserInfo => {
       avatar: '',
       username: '',
       nickName: '',
-      token: ''
+      token: '',
     }
   }
 }
