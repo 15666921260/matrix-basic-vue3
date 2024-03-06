@@ -1,20 +1,17 @@
 // 统一管理用户相关的接口
 import request from '@/utils/request.ts'
-import { loginFrom, userResponseData } from '@/api/user/type.ts'
-import { ResponseData } from '@/po/system/ResponseData.ts'
+import { ResponseData } from '@/pojo/system/ResponseData.ts'
+import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
 
 enum API {
   LOGIN_URL = '/user/login',
-  USER_INFO_URL = '/user/info',
   LOGOUT = '/user/logOut',
   IS_LOGIN = '/user/isLogin',
 }
 // 对外暴露请求函数
-export const reqLogin = (data: loginFrom) =>
+export const reqLogin = (data: LoginFrom) =>
   request.post<any, ResponseData>(API.LOGIN_URL, data)
 // 退出登录
 export const logOut = () => request.post<any, ResponseData>(API.LOGOUT)
-export const reqUserInfo = () =>
-  request.get<userResponseData>(API.USER_INFO_URL)
 
 export const isLogin = () => request.get<any, ResponseData>(API.IS_LOGIN)

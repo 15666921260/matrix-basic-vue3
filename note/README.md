@@ -1206,13 +1206,10 @@ import {
 
 enum API {
   LOGIN_URL = '/user/login',
-  USER_INFO_URL = '/user/info',
 }
 // 对外暴露请求函数
 export const reqLogin = (data: loginFrom) =>
   request.post<any, loginResponseData>(API.LOGIN_URL, data)
-export const reqUserInfo = () =>
-  request.get<userResponseData>(API.USER_INFO_URL)
 ```
 
 测试

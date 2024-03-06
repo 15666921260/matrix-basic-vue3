@@ -1,16 +1,16 @@
 // 创建用户相关小仓库
 import { defineStore } from 'pinia'
 import { reqLogin } from '@/api/user'
-import { loginFrom } from '@/api/user/type.ts'
-import { UserState } from '@/store/modules/types/type.ts'
 import { getToken, removeToken, setToken } from '@/utils/token.ts'
-import { ResponseData } from '@/po/system/ResponseData.ts'
+import { ResponseData } from '@/pojo/system/ResponseData.ts'
 import { saveUserInfo, getUserInfo, removeUserInfo } from '@/utils/userInfo.ts'
 //@ts-ignore
 import { Md5 } from 'ts-md5/dist/md5'
 // 引入常量路由
 import { constantRoute } from '@/router/routes.ts'
-import { UserInfo } from '@/po/system/UserInfo.ts'
+import { UserInfo } from '@/pojo/system/UserInfo.ts'
+import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
+import { UserState } from '@/pojo/system/UserState.ts'
 
 let useUserStore = defineStore('User', {
   // 小仓库存储数据的地方
@@ -28,9 +28,9 @@ let useUserStore = defineStore('User', {
   // 异步|逻辑的地方
   actions: {
     // 处理用户登录的方法
-    async userLogin(data: loginFrom) {
+    async userLogin(data: LoginFrom) {
       // 加密传输封装类
-      let copyData: loginFrom = {
+      let copyData: LoginFrom = {
         username: data.username,
         password: Md5.hashStr(data.password),
       }

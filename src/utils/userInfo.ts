@@ -1,9 +1,8 @@
 import { encodeBase, decodeBase } from '@/utils/base64.ts'
-import { UserInfo } from '@/po/system/UserInfo.ts'
-import { removeToken } from '@/utils/token.ts'
+import { UserInfo } from '@/pojo/system/UserInfo.ts'
 
 const userInfoKey = 'tavValue'
-export const saveUserInfo = (userInfo: userInfo) => {
+export const saveUserInfo = (userInfo: UserInfo) => {
   if (userInfo != null) {
     let userJson = JSON.stringify(userInfo)
     localStorage.setItem(userInfoKey, encodeBase(userJson))

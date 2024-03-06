@@ -53,6 +53,7 @@ import useUserStore from '@/store/modules/user.ts'
 import { useRouter, useRoute } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { getTimeMsg } from '@/utils/time.ts'
+import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
 
 let userStore = useUserStore()
 // 获取路由器
@@ -62,7 +63,7 @@ let $route = useRoute()
 // 定义变量控制按钮加载的效果
 let loading = ref(false)
 
-let loginFrom = reactive({ username: 'admin', password: '123456' })
+let loginFrom: LoginFrom = reactive({ username: 'admin', password: '123456' })
 
 // 获取表单el组件
 let loginRef = ref()
