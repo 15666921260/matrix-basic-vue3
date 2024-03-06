@@ -6,6 +6,8 @@ import { UserState } from '@/store/modules/types/type.ts'
 import { getToken, removeToken, setToken } from '@/utils/token.ts'
 import { ResponseData } from '@/po/system/ResponseData.ts'
 import { saveUserInfo, getUserInfo, removeUserInfo } from '@/utils/userInfo.ts'
+//@ts-ignore
+import {Md5} from 'ts-md5/dist/md5';
 // 引入常量路由
 import { constantRoute } from '@/router/routes.ts'
 import { UserInfo } from '@/po/system/UserInfo.ts'
@@ -27,8 +29,12 @@ let useUserStore = defineStore('User', {
   actions: {
     // 处理用户登录的方法
     async userLogin(data: loginFrom) {
+      let copyData: loginFrom = {
+        username: data.username,
+        password: Md5.hashStr(data.password)
+      }
       // 登录请求
-      let result: ResponseData = await reqLogin(data)
+      let result: ResponseData = await reqLogin(copyData)
       // 成功 获取token
       if (result.code == 200) {
         // 存储token, 由于pinia|vuex存储数据其实利用的js对象
