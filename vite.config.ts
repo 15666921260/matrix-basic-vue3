@@ -5,9 +5,9 @@ import path from 'path'
 import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command,mode }) => {
+export default defineConfig(({ command, mode }) => {
   // 获取对应环境变量
-  let env = loadEnv(mode, process.cwd());
+  let env = loadEnv(mode, process.cwd())
   return {
     plugins: [
       vue(),
@@ -46,8 +46,8 @@ export default defineConfig(({ command,mode }) => {
           // 是否跨域
           changeOrigin: true,
           // 路径重写
-          rewrite: (path) => path.replace(/^\/matrix/, '')
-        }
+          rewrite: (path) => path.replace(/^\/matrix/, ''),
+        },
       },
     },
   }
