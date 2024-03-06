@@ -35,7 +35,7 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="logOut">退出登录</el-dropdown-item>
+        <el-dropdown-item @click="userLogOut">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -47,6 +47,7 @@ import { useRouter, useRoute } from 'vue-router'
 import useLayoutSettingStore from '@/store/modules/setting.ts'
 // 获取user小仓库
 import useUserStore from '@/store/modules/user.ts'
+import { logOut } from '@/api/user'
 // 获取layout相关数据
 let layoutSettingStore = useLayoutSettingStore()
 // 获取用户相关数据
@@ -73,12 +74,15 @@ const fullScreen = () => {
   }
 }
 // 退出登录
-const logOut = () => {
-  // 1、向服务器发出请求，调用退出登录接口
-  // 2、仓库当中关于用户中的数据清空
-  userStore.userLogOut()
-  // 3、跳转到登录页面, query: { redirect: $route.path} 记录退出登录的路径，重新登录时直接跳转(在登录逻辑中)
-  $router.push({ path: '/login', query: { redirect: $route.path } })
+const userLogOut = () => {
+  // 向后端发送退出登录的请求
+  logOut().then(() => {
+    // 1、向服务器发出请求，调用退出登录接口
+    // 2、仓库当中关于用户中的数据清空 todo 此处陷入死循环
+    userStore.userLogOut()
+    // 3、跳转到登录页面, query: { redirect: $route.path} 记录退出登录的路径，重新登录时直接跳转(在登录逻辑中)
+    $router.push({ path: '/login', query: { redirect: $route.path } })
+  })
 }
 </script>
 <script lang="ts">

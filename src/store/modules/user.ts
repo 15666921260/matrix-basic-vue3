@@ -1,6 +1,6 @@
 // 创建用户相关小仓库
 import { defineStore } from 'pinia'
-import { logOut, reqLogin } from '@/api/user'
+import { reqLogin } from '@/api/user'
 import { loginFrom } from '@/api/user/type.ts'
 import { UserState } from '@/store/modules/types/type.ts'
 import { getToken, removeToken, setToken } from '@/utils/token.ts'
@@ -52,21 +52,15 @@ let useUserStore = defineStore('User', {
       // 失败 登录失败的错误信息
     },
     userLogOut() {
-      // 调用后台退出接口
-      logOut().then((r) => {
-        /*if (r.code == 200){
-
-        }*/
-        // 目前没有mock接口
-        this.token = ''
-        this.username = ''
-        this.nickName = ''
-        this.avatar = ''
-        // 清除本地存储中的token
-        removeToken()
-        // 清除保存的用户信息
-        removeUserInfo()
-      })
+      // 目前没有mock接口
+      this.token = ''
+      this.username = ''
+      this.nickName = ''
+      this.avatar = ''
+      // 清除本地存储中的token
+      removeToken()
+      // 清除保存的用户信息
+      removeUserInfo()
     },
   },
   getters: {},

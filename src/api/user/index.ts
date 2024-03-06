@@ -7,6 +7,7 @@ enum API {
   LOGIN_URL = '/user/login',
   USER_INFO_URL = '/user/info',
   LOGOUT = '/user/logOut',
+  IS_LOGIN = '/user/isLogin',
 }
 // 对外暴露请求函数
 export const reqLogin = (data: loginFrom) =>
@@ -15,3 +16,5 @@ export const reqLogin = (data: loginFrom) =>
 export const logOut = () => request.post<any, ResponseData>(API.LOGOUT)
 export const reqUserInfo = () =>
   request.get<userResponseData>(API.USER_INFO_URL)
+
+export const isLogin = () => request.get<any, ResponseData>(API.IS_LOGIN)
