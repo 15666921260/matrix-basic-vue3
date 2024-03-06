@@ -1,6 +1,10 @@
-// 定义小仓库数据state类型
 import { RouteRecordRaw } from 'vue-router'
 
+/**
+ * 定义小仓库数据state类型
+ * @author liuweizhong
+ * @since 2024-03-07
+ */
 export interface UserState {
   token: string | null
   // 定义的路由类型

@@ -78,7 +78,7 @@ const userLogOut = () => {
   // 向后端发送退出登录的请求
   logOut().then(() => {
     // 1、向服务器发出请求，调用退出登录接口
-    // 2、仓库当中关于用户中的数据清空 todo 此处陷入死循环
+    // 2、仓库当中关于用户中的数据清空
     userStore.userLogOut()
     // 3、跳转到登录页面, query: { redirect: $route.path} 记录退出登录的路径，重新登录时直接跳转(在登录逻辑中)
     $router.push({ path: '/login', query: { redirect: $route.path } })

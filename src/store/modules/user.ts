@@ -1,7 +1,6 @@
 // 创建用户相关小仓库
 import { defineStore } from 'pinia'
 import { reqLogin } from '@/api/user'
-import { getToken, removeToken, setToken } from '@/utils/token.ts'
 import { ResponseData } from '@/pojo/system/ResponseData.ts'
 import { saveUserInfo, getUserInfo, removeUserInfo } from '@/utils/userInfo.ts'
 //@ts-ignore
@@ -18,7 +17,7 @@ let useUserStore = defineStore('User', {
     // 获取本地存储的信息
     let userInfo = getUserInfo()
     return {
-      token: getToken(), // 用户的唯一标识
+      token: userInfo.token, // 用户的唯一标识
       menuRoutes: constantRoute, // 存储菜单需要的路由数组
       username: userInfo.username, // 用户名
       nickName: userInfo.nickName, // 昵称
@@ -46,11 +45,11 @@ let useUserStore = defineStore('User', {
         let userInfo: UserInfo = {
           username: result.data.username,
           nickName: result.data.nickName,
+          token: result.data.token,
           avatar: result.data.avatar,
         }
-        saveUserInfo(userInfo)
         // 本地存储，持久化存储一份
-        setToken(result.data.token as string)
+        saveUserInfo(userInfo)
         // 保证当前async函数返回一个成功的promise
         return 'ok'
       } else {
@@ -64,8 +63,6 @@ let useUserStore = defineStore('User', {
       this.username = ''
       this.nickName = ''
       this.avatar = ''
-      // 清除本地存储中的token
-      removeToken()
       // 清除保存的用户信息
       removeUserInfo()
     },

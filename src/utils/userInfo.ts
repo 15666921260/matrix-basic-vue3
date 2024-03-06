@@ -1,3 +1,4 @@
+// 存储用户信息的工具类
 import { encodeBase, decodeBase } from '@/utils/base64.ts'
 import { UserInfo } from '@/pojo/system/UserInfo.ts'
 
@@ -18,6 +19,7 @@ export const getUserInfo = (): UserInfo => {
       avatar: '',
       username: '',
       nickName: '',
+      token: ''
     }
   }
 }

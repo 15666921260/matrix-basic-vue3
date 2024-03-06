@@ -7,6 +7,7 @@ export interface UserInfo {
   avatar: string
   username: string
   nickName: string
+  token: string
   desc?: string
   roles?: Array<string>
   button?: Array<string>
