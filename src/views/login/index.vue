@@ -63,7 +63,7 @@ let $route = useRoute()
 // 定义变量控制按钮加载的效果
 let loading = ref(false)
 
-let loginFrom: LoginFrom = reactive({ username: 'admin', password: '123456' })
+let loginFrom: LoginFrom = reactive({ username: '', password: '' })
 
 // 获取表单el组件
 let loginRef = ref()

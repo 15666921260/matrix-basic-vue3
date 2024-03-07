@@ -5,7 +5,7 @@ import path from 'path'
 import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   // 获取对应环境变量
   let env = loadEnv(mode, process.cwd())
   return {
@@ -39,6 +39,8 @@ export default defineConfig(({ command, mode }) => {
       },
     },
     server: {
+      host: '0.0.0.0',
+      port: env.VITE_PORT as unknown as number,
       proxy: {
         [env.VITE_APP_BASE_API]: {
           // 获取数据服务器地址

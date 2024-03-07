@@ -3,6 +3,9 @@
     <h1>我是主页</h1>
     <el-button type="primary" @click="testButton">接口测试按钮后端</el-button>
     <el-button type="primary" @click="routerPath">接口测试按钮跳转</el-button>
+    <el-avatar
+    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+  />
   </div>
 </template>
 
