@@ -15,8 +15,8 @@
         <el-menu
           :collapse="LayoutSettingStore.fold"
           :default-active="$route.path"
-          background-color="#134857"
-          text-color="white"
+          background-color="white"
+          text-color="black"
         >
           <!-- 向子组件传递数据 -->
           <Menu :menuList="userStore.menuRoutes"></Menu>
@@ -68,6 +68,10 @@ export default {
     width: $base-menu-width;
     height: 100vh;
     background: $base-menu-background;
+
+    border-width: 1px;
+    border-color: #bdbdbd;
+    border-right-style: solid;
 
     // 添加过渡动画(折叠时使用)
     transition: all 0.3s;
