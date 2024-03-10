@@ -14,7 +14,7 @@ let defineProps1 = defineProps(['fileId'])
 import { imagePreview } from '@/api/system/FileManage.ts'
 
 const fileId = defineProps1.fileId
-let imgSrc = ref('');
+let imgSrc = ref('')
 
 imagePreview(fileId).then((r) => {
   imgSrc.value = URL.createObjectURL(r)
