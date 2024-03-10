@@ -35,7 +35,7 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   // 成功的回调
   (response) => {
-    console.log("正确返回的response中有什么",response)
+    console.log('正确返回的response中有什么', response)
     // 简化数据
     return response.data
   },
@@ -68,8 +68,8 @@ request.interceptors.response.use(
       message,
     })
     // 无效跳转登录页
-    console.log("错误返回的response中有什么",error.response)
-    if (error.response.data.message.contains("token 无效")){
+    console.log('错误返回的response中有什么', error.response)
+    if (error.response.data.message.contains('token 无效')) {
       // 获取路由器
       let $router = useRouter()
       $router.push({ path: '/login' })

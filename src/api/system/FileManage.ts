@@ -3,11 +3,12 @@ import request from '@/utils/request.ts'
 import { ResponseData } from '@/pojo/system/ResponseData.ts'
 
 enum API {
-  IMAGE_PREVIEW = '/sysFile/imagePreview'
+  IMAGE_PREVIEW = '/sysFile/imagePreview',
 }
 
 /**
  * 图片预览
  * @param fileId
  */
-export const imagePreview = (fileId: string) => request.get<any, ResponseData>(API.IMAGE_PREVIEW)
+export const imagePreview = (fileId: string) =>
+  request.get<any, ResponseData>(API.IMAGE_PREVIEW)
