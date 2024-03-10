@@ -31,7 +31,6 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
   uploadFile,
 ) => {
-  console.log('这是什么！', uploadFile.raw!)
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
 }
 // 设置请求头

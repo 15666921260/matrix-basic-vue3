@@ -11,4 +11,4 @@ enum API {
  * @param fileId
  */
 export const imagePreview = (fileId: string) =>
-  request.get<any, ResponseData>(API.IMAGE_PREVIEW)
+  request.get<any, any>(API.IMAGE_PREVIEW + "/" + fileId, {headers: {}, responseType: 'blob'})

@@ -1,7 +1,6 @@
 // 进行axios的二次封装, 使用请求和响应拦截器
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
 // 引入用户相关的仓库
 import useUserStore from '@/store/modules/user.ts'
 
@@ -35,7 +34,6 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   // 成功的回调
   (response) => {
-    console.log('正确返回的response中有什么', response)
     // 简化数据
     return response.data
   },
@@ -67,13 +65,6 @@ request.interceptors.response.use(
       type: 'error',
       message,
     })
-    // 无效跳转登录页
-    console.log('错误返回的response中有什么', error.response)
-    if (error.response.data.message.contains('token 无效')) {
-      // 获取路由器
-      let $router = useRouter()
-      $router.push({ path: '/login' })
-    }
     // 终结Promise量
     return Promise.reject(error)
   },
