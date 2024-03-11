@@ -11,13 +11,15 @@
 import { ref } from 'vue'
 
 let defineProps1 = defineProps(['fileId'])
-import { imagePreview } from '@/api/system/FileManage.ts'
+import { connectTest, imagePreview } from '@/api/system/FileManage.ts'
 
 const fileId = defineProps1.fileId
 let imgSrc = ref('')
 
-imagePreview(fileId).then((r) => {
-  imgSrc.value = URL.createObjectURL(r)
+connectTest().then(()=>{
+  imagePreview(fileId).then((r) => {
+    imgSrc.value = URL.createObjectURL(r)
+  })
 })
 </script>
 <style scoped lang="scss"></style>

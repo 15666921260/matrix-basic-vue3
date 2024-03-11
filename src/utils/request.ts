@@ -1,6 +1,6 @@
 // 进行axios的二次封装, 使用请求和响应拦截器
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import { Action, ElMessage, ElMessageBox } from 'element-plus'
 // 引入用户相关的仓库
 import useUserStore from '@/store/modules/user.ts'
 
@@ -37,11 +37,16 @@ request.interceptors.response.use(
     console.log('进入拦截器：', response)
     // 判断token无效 todo 以一种方式实现了token的跳转登陆
     if (response.data.msg && !response.data.msg.indexOf('token 无效')) {
-      // 直接删除用户信息(达到跳转登录页的目的)
-      let userStore = useUserStore()
-      userStore.userLogOut()
-      // 随意跳转即可
-      window.location.href = '/login'
+      ElMessageBox.alert('当前登录已失效！', '注意', {
+        confirmButtonText: '重新登录',
+        callback: () => {
+          // 直接删除用户信息(达到跳转登录页的目的)
+          let userStore = useUserStore()
+          userStore.userLogOut()
+          // 随意跳转即可
+          window.location.href = '/login'
+        },
+      })
     }
     // 简化数据
     return response.data

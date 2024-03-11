@@ -4,6 +4,7 @@ import request from '@/utils/request.ts'
 enum API {
   IMAGE_PREVIEW = '/sysFile/imagePreview',
   FILE_UPLOAD = '/sysFile/upload',
+  CONNECT_TEST = '/sysFile/fileConnectTest'
 }
 
 /**
@@ -15,8 +16,13 @@ export const imagePreview = (fileId: string) =>
     headers: {},
     responseType: 'blob',
   })
-
+/**
+ * 图片上传
+ * @param param
+ */
 export const uploadFile = (param: File) =>
   request.post<any, any>(API.FILE_UPLOAD, param, {
     headers: { 'content-type': 'multipart/form-data' },
   })
+
+export const connectTest = () => request.get<any>(API.CONNECT_TEST)
