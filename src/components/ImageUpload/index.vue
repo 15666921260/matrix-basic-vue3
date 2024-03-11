@@ -19,9 +19,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import {
-  UploadProps,
-  UploadRequestHandler,
-  UploadRequestOptions,
+  UploadProps
 } from 'element-plus'
 import { uploadFile } from '@/api/system/FileManage.ts'
 
