@@ -18,9 +18,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import {
-  UploadProps
-} from 'element-plus'
+import { UploadProps } from 'element-plus'
 import { uploadFile } from '@/api/system/FileManage.ts'
 
 // 因为不是ajax发起的所以没有进入请求拦截器
