@@ -16,7 +16,7 @@ import { connectTest, imagePreview } from '@/api/system/FileManage.ts'
 const fileId = defineProps1.fileId
 let imgSrc = ref('')
 
-connectTest().then(()=>{
+connectTest().then(() => {
   imagePreview(fileId).then((r) => {
     imgSrc.value = URL.createObjectURL(r)
   })

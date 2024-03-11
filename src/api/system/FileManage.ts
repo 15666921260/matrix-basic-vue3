@@ -4,7 +4,7 @@ import request from '@/utils/request.ts'
 enum API {
   IMAGE_PREVIEW = '/sysFile/imagePreview',
   FILE_UPLOAD = '/sysFile/upload',
-  CONNECT_TEST = '/sysFile/fileConnectTest'
+  CONNECT_TEST = '/sysFile/fileConnectTest',
 }
 
 /**
