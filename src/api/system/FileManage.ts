@@ -3,7 +3,7 @@ import request from '@/utils/request.ts'
 
 enum API {
   IMAGE_PREVIEW = '/sysFile/imagePreview',
-  FILE_UPLOAD = '/sysFile/upload'
+  FILE_UPLOAD = '/sysFile/upload',
 }
 
 /**
@@ -16,6 +16,7 @@ export const imagePreview = (fileId: string) =>
     responseType: 'blob',
   })
 
-export const uploadFile = (param: File) => request.post<any, any>(API.FILE_UPLOAD, param, {
-  headers: {"content-type": "multipart/form-data"}
-})
+export const uploadFile = (param: File) =>
+  request.post<any, any>(API.FILE_UPLOAD, param, {
+    headers: { 'content-type': 'multipart/form-data' },
+  })

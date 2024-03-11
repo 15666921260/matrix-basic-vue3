@@ -2,7 +2,7 @@
 <template>
   <el-upload
     class="avatar-uploader"
-    :http-request='uploadImageFile'
+    :http-request="uploadImageFile"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
   >
@@ -18,7 +18,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { UploadProps, UploadRequestHandler, UploadRequestOptions } from 'element-plus'
+import {
+  UploadProps,
+  UploadRequestHandler,
+  UploadRequestOptions,
+} from 'element-plus'
 import { uploadFile } from '@/api/system/FileManage.ts'
 
 // 因为不是ajax发起的所以没有进入请求拦截器
@@ -31,9 +35,8 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   imageUrl.value = URL.createObjectURL(uploadLocalFile.raw!)
 }
 
-const uploadImageFile = (options:File) => {
-  uploadFile(options).then(() => {
-  })
+const uploadImageFile = (options: File) => {
+  uploadFile(options).then(() => {})
 }
 </script>
 
