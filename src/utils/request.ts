@@ -1,6 +1,6 @@
 // 进行axios的二次封装, 使用请求和响应拦截器
 import axios from 'axios'
-import { Action, ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 // 引入用户相关的仓库
 import useUserStore from '@/store/modules/user.ts'
 
@@ -34,7 +34,6 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   // 成功的回调
   (response) => {
-    console.log('进入拦截器：', response)
     // 判断token无效 todo 以一种方式实现了token的跳转登陆
     if (response.data.msg && !response.data.msg.indexOf('token 无效')) {
       ElMessageBox.alert('当前登录已失效！', '注意', {
