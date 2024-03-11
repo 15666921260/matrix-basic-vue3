@@ -1,9 +1,9 @@
 // 统一管理文件相关的接口
 import request from '@/utils/request.ts'
-import { ResponseData } from '@/pojo/system/ResponseData.ts'
 
 enum API {
   IMAGE_PREVIEW = '/sysFile/imagePreview',
+  FILE_UPLOAD = '/sysFile/upload'
 }
 
 /**
@@ -15,3 +15,7 @@ export const imagePreview = (fileId: string) =>
     headers: {},
     responseType: 'blob',
   })
+
+export const uploadFile = (param: File) => request.post<any, any>(API.FILE_UPLOAD, param, {
+  headers: {"content-type": "multipart/form-data"}
+})

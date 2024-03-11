@@ -2,10 +2,9 @@
 <template>
   <el-upload
     class="avatar-uploader"
-    :action="url"
+    :http-request='uploadImageFile'
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
-    :headers="headersObj"
   >
     <el-image
       style="width: 100px; height: 100px"
@@ -18,24 +17,23 @@
 </template>
 
 <script setup lang="ts">
-import useUserStore from '@/store/modules/user.ts'
 import { ref } from 'vue'
-import { UploadProps } from 'element-plus'
-const base = import.meta.env
-let userStore = useUserStore()
+import { UploadProps, UploadRequestHandler, UploadRequestOptions } from 'element-plus'
+import { uploadFile } from '@/api/system/FileManage.ts'
 
-const url = base.VITE_SERVE + base.VITE_APP_BASE_API + '/sysFile/upload'
+// 因为不是ajax发起的所以没有进入请求拦截器
 
 const imageUrl = ref('')
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
-  uploadFile,
+  uploadLocalFile,
 ) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  imageUrl.value = URL.createObjectURL(uploadLocalFile.raw!)
 }
-// 设置请求头
-const headersObj = {
-  token: userStore.token, // JWT认证，携带token
+
+const uploadImageFile = (options:File) => {
+  uploadFile(options).then(() => {
+  })
 }
 </script>
 

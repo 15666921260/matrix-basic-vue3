@@ -34,11 +34,21 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   // 成功的回调
   (response) => {
+    console.log("进入拦截器：", response)
+    // 判断token无效 todo 以一种方式实现了token的跳转登陆
+    if (response.data.msg && !response.data.msg.indexOf("token 无效")) {
+      // 直接删除用户信息(达到跳转登录页的目的)
+      let userStore = useUserStore()
+      userStore.userLogOut()
+      // 随意跳转即可
+      window.location.href = '/login'
+    }
     // 简化数据
     return response.data
   },
   // 失败的回调
   (error) => {
+    console.log('这里是失败request',error);
     // 处理http网络错误
     // 顶一个变量:存储网络错误的信息
     let message = ''

@@ -10,6 +10,7 @@ import { constantRoute } from '@/router/routes.ts'
 import { UserInfo } from '@/pojo/system/UserInfo.ts'
 import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
 import { UserState } from '@/pojo/system/UserState.ts'
+import { imagePreview } from '@/api/system/FileManage.ts'
 
 let useUserStore = defineStore('User', {
   // 小仓库存储数据的地方
@@ -41,15 +42,19 @@ let useUserStore = defineStore('User', {
         this.token = result.data.token as string // 断言，是字符串的情况下返回值
         this.username = result.data.username
         this.nickName = result.data.nickName
-        if (result.data.avatar == null) {
-          result.data.avatar = '@/assets/images/avatar.png'
+        if (result.data.avatarFileId == null) {
+          result.data.avatarFileId = '1767228887526178817'
         }
+        imagePreview(result.data.avatarFileId).then((r) => {
+          this.avatar = URL.createObjectURL(r)
+        })
         this.avatar = result.data.avatar
         let userInfo: UserInfo = {
           username: result.data.username,
           nickName: result.data.nickName,
           token: result.data.token,
-          avatar: result.data.avatar,
+
+          avatar: result.data.avatarFileId,
         }
         // 本地存储，持久化存储一份
         saveUserInfo(userInfo)
