@@ -15,3 +15,15 @@ export const encodeBase = (str: string): string => {
 export const decodeBase = (str: string): string => {
   return Base64.decode(str)
 }
+
+// blob转base64
+export const blobToBase64 = (blob: Blob): string => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      resolve(reader.result)
+    }
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  })
+}

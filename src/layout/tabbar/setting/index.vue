@@ -48,6 +48,7 @@ import useLayoutSettingStore from '@/store/modules/setting.ts'
 // 获取user小仓库
 import useUserStore from '@/store/modules/user.ts'
 import { logOut } from '@/api/user'
+import { onMounted } from "vue";
 // 获取layout相关数据
 let layoutSettingStore = useLayoutSettingStore()
 // 获取用户相关数据
@@ -60,6 +61,11 @@ let $route = useRoute()
 const refreshEvent = () => {
   layoutSettingStore.refresh = !layoutSettingStore.refresh
 }
+
+onMounted(() => {
+  // 组件挂载完成;  解决blob失效问题
+  userStore.setAvatar()
+});
 // 全屏按钮
 const fullScreen = () => {
   // 对象的一个属性，可以用来判断当前是不是全屏模式 (全屏：true 不是全屏：false(其实显示的是null))

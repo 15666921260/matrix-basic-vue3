@@ -17,6 +17,7 @@ export const getUserInfo = (): UserInfo => {
   } else {
     return {
       avatar: '',
+      avatarFileId: '',
       username: '',
       nickName: '',
       token: '',

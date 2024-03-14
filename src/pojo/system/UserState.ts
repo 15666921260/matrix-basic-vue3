@@ -15,4 +15,6 @@ export interface UserState {
   nickName: string
   // 头像
   avatar: string
+  // 头像文件id
+  avatarFileId: string
 }
