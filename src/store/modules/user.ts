@@ -45,16 +45,14 @@ let useUserStore = defineStore('User', {
         if (result.data.avatarFileId == null) {
           result.data.avatarFileId = '1767228887526178817'
         }
-        imagePreview(result.data.avatarFileId).then((r) => {
+        await imagePreview(result.data.avatarFileId).then((r) => {
           this.avatar = URL.createObjectURL(r)
         })
-        this.avatar = result.data.avatar
         let userInfo: UserInfo = {
           username: result.data.username,
           nickName: result.data.nickName,
           token: result.data.token,
-
-          avatar: result.data.avatarFileId,
+          avatar: this.avatar,
         }
         // 本地存储，持久化存储一份
         saveUserInfo(userInfo)

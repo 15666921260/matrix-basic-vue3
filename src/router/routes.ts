@@ -42,7 +42,8 @@ export const constantRoute = [
       icon: 'Remove',
     },
   },
-  {
+  // 测试动态路由现将其注释
+  /*{
     path: '/screen',
     component: () => import('@/views/screen/index.vue'),
     name: 'Screen',
@@ -51,7 +52,7 @@ export const constantRoute = [
       title: '数据大屏',
       icon: 'Platform',
     },
-  },
+  },*/
   {
     // 任意路由重定向到404
     path: '/:pathMatch(.*)*',
