@@ -62,7 +62,7 @@ let useUserStore = defineStore('User', {
           nickName: result.data.nickName,
           token: result.data.token,
           avatar: this.avatar,
-          avatarFileId:  result.data.avatarFileId,
+          avatarFileId: result.data.avatarFileId,
         }
         // 本地存储，持久化存储一份
         saveUserInfo(userInfo)
@@ -83,14 +83,14 @@ let useUserStore = defineStore('User', {
         nickName: this.nickName,
         token: this.token,
         avatar: this.avatar,
-        avatarFileId:  this.avatarFileId,
+        avatarFileId: this.avatarFileId,
       }
       // 重新更新本地数据
       saveUserInfo(userInfo)
     },
     userLogOut() {
       // 主动卸载 blob 产生的url文件
-      window.URL.revokeObjectURL(this.avatar);
+      window.URL.revokeObjectURL(this.avatar)
       this.token = ''
       this.username = ''
       this.nickName = ''
