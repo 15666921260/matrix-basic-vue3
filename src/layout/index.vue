@@ -64,17 +64,16 @@ let $router = useRouter()
  */
 onMounted(async () => {
   // 1、获取后端路由数据
-  let route = await getMenuTreeList();
-  console.log("这里是获取到的后端数据：",route)
+  let route = await getMenuTreeList()
+  console.log('这里是获取到的后端数据：', route)
 
   // 2、将数据格式化成路由数据
-  let formatData: RouteRecordRaw[] = formatRoute(route.data);
-  let routePass = backEndComponent(formatData);
-  console.log("这里是格式化后的数据", route)
+  let formatData: RouteRecordRaw[] = formatRoute(route.data)
+  let routePass = backEndComponent(formatData)
+  console.log('这里是格式化后的数据', route)
   // @ts-ignore
-  $router.addRoute(...routePass);
+  $router.addRoute(...routePass)
 })
-
 </script>
 <script lang="ts">
 // 为组件命名

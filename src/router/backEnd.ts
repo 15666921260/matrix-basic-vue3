@@ -2,15 +2,22 @@ import { RouteRecordRaw } from 'vue-router'
 
 declare var require: any
 
-const layoutModules: any = import.meta.glob(['../layout/*.{vue,tsx}', '../layout/routerView/*.{vue,tsx}']);
-const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
+const layoutModules: any = import.meta.glob([
+  '../layout/*.{vue,tsx}',
+  '../layout/routerView/*.{vue,tsx}',
+])
+const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}')
 
 /**
  * 获取目录下的 .vue、.tsx 全部文件
  * @method import.meta.glob
  * @link 参考：https://cn.vitejs.dev/guide/features.html#json
  */
-const dynamicViewsModules: Record<string, Function> = Object.assign({}, {...layoutModules}, {...viewsModules});
+const dynamicViewsModules: Record<string, Function> = Object.assign(
+  {},
+  { ...layoutModules },
+  { ...viewsModules },
+)
 
 /**
  * 2、后端路由 将数据格式化成路由数据
@@ -52,12 +59,16 @@ export function formatRoute(routes: any): RouteRecordRaw[] {
  * @returns 返回处理成函数后的 component
  */
 export function backEndComponent(routes: any) {
-  if (!routes) return;
+  if (!routes) return
   return routes.map((item: any) => {
-    if (item.component) item.component = dynamicImport(dynamicViewsModules, item.component as string);
-    item.children && backEndComponent(item.children);
-    return item;
-  });
+    if (item.component)
+      item.component = dynamicImport(
+        dynamicViewsModules,
+        item.component as string,
+      )
+    item.children && backEndComponent(item.children)
+    return item
+  })
 }
 
 /**
@@ -66,18 +77,21 @@ export function backEndComponent(routes: any) {
  * @param component 当前要处理项 component
  * @returns 返回处理成函数后的 component
  */
-export function dynamicImport(dynamicViewsModules: Record<string, Function>, component: string) {
-  const keys = Object.keys(dynamicViewsModules);
+export function dynamicImport(
+  dynamicViewsModules: Record<string, Function>,
+  component: string,
+) {
+  const keys = Object.keys(dynamicViewsModules)
 
   const matchKeys = keys.filter((key) => {
-    const k = key.replace(/..\/views|../, '');
-    return k.startsWith(`${component}`) || k.startsWith(`/${component}`);
-  });
+    const k = key.replace(/..\/views|../, '')
+    return k.startsWith(`${component}`) || k.startsWith(`/${component}`)
+  })
   if (matchKeys?.length === 1) {
-    const matchKey = matchKeys[0];
-    return dynamicViewsModules[matchKey];
+    const matchKey = matchKeys[0]
+    return dynamicViewsModules[matchKey]
   }
   if (matchKeys?.length > 1) {
-    return false;
+    return false
   }
 }
