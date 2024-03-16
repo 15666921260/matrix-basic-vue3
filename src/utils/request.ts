@@ -52,7 +52,6 @@ request.interceptors.response.use(
   },
   // 失败的回调
   (error) => {
-    console.log('这里是失败request', error)
     // 处理http网络错误
     // 顶一个变量:存储网络错误的信息
     let message = ''

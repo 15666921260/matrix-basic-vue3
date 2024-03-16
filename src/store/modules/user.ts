@@ -11,7 +11,6 @@ import { UserInfo } from '@/pojo/system/UserInfo.ts'
 import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
 import { UserState } from '@/pojo/system/UserState.ts'
 import { imagePreview } from '@/api/system/FileManage.ts'
-import { blobToBase64 } from '@/utils/base64.ts'
 
 let useUserStore = defineStore('User', {
   // 小仓库存储数据的地方

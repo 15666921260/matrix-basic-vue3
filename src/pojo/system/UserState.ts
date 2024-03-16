@@ -6,7 +6,7 @@ import { RouteRecordRaw } from 'vue-router'
  * @since 2024-03-07
  */
 export interface UserState {
-  token: string | null
+  token: string
   // 定义的路由类型
   menuRoutes: Array<RouteRecordRaw>
   // 用户名

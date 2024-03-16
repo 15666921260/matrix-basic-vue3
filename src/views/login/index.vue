@@ -83,6 +83,7 @@ const login = async () => {
     // 成功跳转首页
     // 判断路径当中有没有记录query参数, 如果有则往query中的跳转
     let redirect: any = $route.query.redirect
+    // todo 可以在此处加逻辑获取用户信息，如果该用户含有某个特性，则让他跳转另一个主页面(非后台管理页面)
     $router.push({ path: redirect || '/' })
     ElNotification({
       type: 'success',
