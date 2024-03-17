@@ -10,7 +10,6 @@ import { constantRoute } from '@/router/routes.ts'
 import { UserInfo } from '@/pojo/system/UserInfo.ts'
 import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
 import { UserState } from '@/pojo/system/UserState.ts'
-import { imagePreview } from '@/api/system/FileManage.ts'
 
 let useUserStore = defineStore('User', {
   // 小仓库存储数据的地方
@@ -22,7 +21,6 @@ let useUserStore = defineStore('User', {
       menuRoutes: constantRoute, // 存储菜单需要的路由数组
       username: userInfo.username, // 用户名
       nickName: userInfo.nickName, // 昵称
-      // avatar: userInfo.avatar, // 头像
       avatarFileId: userInfo.avatarFileId, // 头像文件id
     }
   },
@@ -47,21 +45,10 @@ let useUserStore = defineStore('User', {
           console.log('avatarFileId判断为空了')
           result.data.avatarFileId = '1767228887526178817'
         }
-        /*await imagePreview(result.data.avatarFileId).then((r) => {
-          /!**
-           * URL.createObjectURL(r) 将返回的blob转化为内存url
-           * 但是浏览器在 document 卸载的时候，会自动释放它们，但是为了获得最佳性能和内存使用状况，你应该在安全的时机主动释放掉它们。
-           * 可能这个原因导致长时间不返回页面，使其失效
-           *!/
-          this.avatar = URL.createObjectURL(r)
-          // this.avatar = blobToBase64(r)
-          // console.log("这里是base64",this.avatar)
-        })*/
         let userInfo: UserInfo = {
           username: result.data.username,
           nickName: result.data.nickName,
           token: result.data.token,
-          // avatar: this.avatar,
           avatarFileId: result.data.avatarFileId,
         }
         // 本地存储，持久化存储一份
@@ -73,23 +60,6 @@ let useUserStore = defineStore('User', {
         return Promise.reject(new Error(result.message))
       }
       // 失败 登录失败的错误信息
-    },
-    // 设置更新头像的方法 blob失效时
-    async setAvatar() {
-      let userInfo: UserInfo = getUserInfo()
-      console.log('头像的文件id', userInfo.avatarFileId)
-      await imagePreview(userInfo.avatarFileId).then((r) => {
-        this.avatar = URL.createObjectURL(r)
-      })
-      userInfo = {
-        username: this.username,
-        nickName: this.nickName,
-        token: this.token,
-        avatar: this.avatar,
-        avatarFileId: this.avatarFileId,
-      }
-      // 重新更新本地数据
-      saveUserInfo(userInfo)
     },
     userLogOut() {
       // 主动卸载 blob 产生的url文件

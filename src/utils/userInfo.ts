@@ -2,7 +2,7 @@
 import { encodeBase, decodeBase } from '@/utils/base64.ts'
 import { UserInfo } from '@/pojo/system/UserInfo.ts'
 
-const userInfoKey = 'tavValue'
+const userInfoKey : string = 'userCodes'
 export const saveUserInfo = (userInfo: UserInfo) => {
   if (userInfo != null) {
     let userJson = JSON.stringify(userInfo)
@@ -16,7 +16,6 @@ export const getUserInfo = (): UserInfo => {
     return JSON.parse(decodeBase(userJson))
   } else {
     return {
-      avatar: '',
       avatarFileId: '',
       username: '',
       nickName: '',

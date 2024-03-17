@@ -4,7 +4,6 @@
  * @since 2024-03-05
  */
 export interface UserInfo {
-  avatar?: string
   username: string
   nickName: string
   token: string

@@ -21,7 +21,7 @@
   </el-tooltip>
   <el-button size="small" icon="Setting" circle></el-button>
   <img
-    :src="userStore.avatar"
+    :src="userData.avatar"
     alt=""
     style="width: 24px; height: 24px; margin: 0 10px; border-radius: 50%"
   />
@@ -48,7 +48,9 @@ import useLayoutSettingStore from '@/store/modules/setting.ts'
 // 获取user小仓库
 import useUserStore from '@/store/modules/user.ts'
 import { logOut } from '@/api/user'
-import { onMounted } from 'vue'
+import { onMounted, reactive } from 'vue'
+import { imagePreview } from '@/api/system/FileManage.ts'
+import { getUserInfo } from '@/utils/userInfo.ts'
 // 获取layout相关数据
 let layoutSettingStore = useLayoutSettingStore()
 // 获取用户相关数据
@@ -62,11 +64,31 @@ const refreshEvent = () => {
   layoutSettingStore.refresh = !layoutSettingStore.refresh
 }
 
-onMounted(() => {
-  console.log('执行了')
-  // 组件挂载完成;  解决blob失效问题
-  userStore.setAvatar()
+const userData = reactive({
+  avatar: ''
 })
+onMounted(() => {
+  getUserAvatar()
+})
+console.log("外层头像id为",userStore.avatarFileId)
+const getUserAvatar = () => {
+  if (userStore.avatarFileId) {
+    console.log("头像id为",userStore.avatarFileId)
+    imagePreview(userStore.avatarFileId).then((r) => {
+      userData.avatar = URL.createObjectURL(r)
+      console.log("当前的头像url", userData.avatar);
+    })
+  }else {
+    let userInfo = getUserInfo()
+    console.log("本地缓存存储头像id为",userInfo.avatarFileId)
+    imagePreview(userInfo.avatarFileId).then((r) => {
+      userData.avatar = URL.createObjectURL(r)
+      console.log("当前的头像url", userData.avatar);
+    })
+  }
+
+}
+
 // 全屏按钮
 const fullScreen = () => {
   // 对象的一个属性，可以用来判断当前是不是全屏模式 (全屏：true 不是全屏：false(其实显示的是null))
