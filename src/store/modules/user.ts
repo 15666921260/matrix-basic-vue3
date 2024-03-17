@@ -44,7 +44,7 @@ let useUserStore = defineStore('User', {
         this.username = result.data.username
         this.nickName = result.data.nickName
         if (result.data.avatarFileId == null) {
-          console.log("avatarFileId判断为空了")
+          console.log('avatarFileId判断为空了')
           result.data.avatarFileId = '1767228887526178817'
         }
         /*await imagePreview(result.data.avatarFileId).then((r) => {
@@ -66,7 +66,7 @@ let useUserStore = defineStore('User', {
         }
         // 本地存储，持久化存储一份
         saveUserInfo(userInfo)
-        console.log("本地存储用户信息完成")
+        console.log('本地存储用户信息完成')
         // 保证当前async函数返回一个成功的promise
         return 'ok'
       } else {
@@ -77,7 +77,7 @@ let useUserStore = defineStore('User', {
     // 设置更新头像的方法 blob失效时
     async setAvatar() {
       let userInfo: UserInfo = getUserInfo()
-      console.log("头像的文件id",userInfo.avatarFileId)
+      console.log('头像的文件id', userInfo.avatarFileId)
       await imagePreview(userInfo.avatarFileId).then((r) => {
         this.avatar = URL.createObjectURL(r)
       })

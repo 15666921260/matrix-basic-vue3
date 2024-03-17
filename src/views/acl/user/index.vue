@@ -6,11 +6,11 @@
       ref="singleTableRef"
       :data="tableData"
       highlight-current-row
-      style="width: 100%;"
+      style="width: 100%"
       border
       @current-change="handleCurrentChange"
     >
-      <el-table-column type="index" width="60" label="序号"/>
+      <el-table-column type="index" width="60" label="序号" />
       <el-table-column property="date" label="Date" width="120" />
       <el-table-column property="name" label="Name" width="120" />
       <el-table-column property="address" label="Address" />
@@ -65,7 +65,7 @@ const tableData: User[] = [
 </script>
 <style scoped lang="scss">
 .card-box {
-  font-family: "Microsoft Yahei";
+  font-family: 'Microsoft Yahei';
   color: black;
 }
 </style>
