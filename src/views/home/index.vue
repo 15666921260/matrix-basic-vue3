@@ -7,6 +7,8 @@
     <ImageUpload />
     <h1>图片文件预览示例</h1>
     <ImagePreview :file-id="fileId" />
+    <div v-if='flag.isShow'>vIfTestvIfTestvIfTestvIfTestvIfTest</div>
+    <el-button type="primary" @click="vIfTest">测试v-if</el-button>
   </div>
 </template>
 
@@ -16,6 +18,7 @@ import ImagePreview from '@/components/ImagePreview/index.vue'
 import { isLogin } from '@/api/user'
 // 引入获取路由器
 import { useRouter } from 'vue-router'
+import { reactive } from 'vue'
 // 获取路由器
 let $router = useRouter()
 const routerPath = () => {
@@ -25,6 +28,12 @@ const testButton = () => {
   isLogin()
 }
 const fileId = '1766829528619884545'
-</script>
+const flag = reactive({
+  isShow: false
+})
 
+const vIfTest = () => {
+  flag.isShow = !flag.isShow
+}
+</script>
 <style scoped></style>

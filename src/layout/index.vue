@@ -19,7 +19,7 @@
           text-color="black"
         >
           <!-- 向子组件传递数据 -->
-          <Menu :menuList="userStore.menuRoutes"></Menu>
+          <Menu v-if="flag.isShow" :menuList="menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
     </div>
@@ -48,7 +48,7 @@ import Tabbar from './tabbar/index.vue'
 import useUserStore from '@/store/modules/user.ts'
 // 引入layout仓库配置
 import useLayoutSettingStore from '@/store/modules/setting.ts'
-import { onMounted } from 'vue'
+import { reactive } from 'vue'
 import { getMenuTreeList } from '@/api/system/MenuManage.ts'
 import { backEndComponent, formatRoute } from '@/router/backEnd.ts'
 let userStore = useUserStore()
@@ -61,19 +61,26 @@ let $router = useRouter()
 /**
  * 到此处执行后，通过url访问没有问题，目前需要思考如何动态显示到菜单栏
  * 思路菜单栏不根据静态路由显示，根据api查出来的数据接口进行显示
+ * flag: 控制菜单组件何时加载
  */
-onMounted(async () => {
+let menuRoutes = userStore.menuRoutes;
+const flag = reactive({
+  isShow: false
+})
+const setMenuData = async () => {
   // 1、获取后端路由数据
   let route = await getMenuTreeList()
-  console.log('这里是获取到的后端数据：', route)
 
   // 2、将数据格式化成路由数据
   let formatData: RouteRecordRaw[] = formatRoute(route.data)
   let routePass = backEndComponent(formatData)
-  console.log('这里是格式化后的数据', route)
   // @ts-ignore
   $router.addRoute(...routePass)
-})
+  menuRoutes = [...menuRoutes, ...routePass]
+  flag.isShow = true;
+}
+
+setMenuData();
 </script>
 <script lang="ts">
 // 为组件命名
