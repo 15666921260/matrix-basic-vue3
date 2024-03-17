@@ -1,19 +1,19 @@
 <!-- 用户管理 -->
 <template>
   <el-card style="height: 75px">
-    <el-form :inline="true" class='formClass'>
+    <el-form :inline="true" class="formClass">
       <el-form-item label="用户名:">
         <el-input placeholder="请输入用户名"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type='primary' size='default'>搜索</el-button>
-        <el-button type='info' size='default'>重置</el-button>
+        <el-button type="primary" size="default">搜索</el-button>
+        <el-button type="info" size="default">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
   <el-card class="card-box">
-    <el-button type='primary' size='default'>添加用户</el-button>
-    <el-button type='primary' size='default'>批量删除</el-button>
+    <el-button type="primary" size="default">添加用户</el-button>
+    <el-button type="primary" size="default">批量删除</el-button>
     <!-- 表格 -->
     <el-table
       class="card-table"
@@ -25,13 +25,43 @@
       @current-change="handleCurrentChange"
     >
       <el-table-column type="index" width="60" label="序号" />
-      <el-table-column property="username" prop="username" label="用户名" width="120" />
-      <el-table-column property="realName" prop="realName" label="真实姓名" width="120" />
-      <el-table-column property="nickName" prop="nickName" label="昵称" width="120" />
-      <el-table-column property="userType" prop="userType" label="用户类型" width="120"/>
-      <el-table-column property="phone" prop="phone" label="电话" width="150"/>
-      <el-table-column property="createTime" prop="createTime" label="创建时间" width="150"/>
-      <el-table-column property="updateTime" prop="updateTime" label="更新时间" width="150"/>
+      <el-table-column
+        property="username"
+        prop="username"
+        label="用户名"
+        width="120"
+      />
+      <el-table-column
+        property="realName"
+        prop="realName"
+        label="真实姓名"
+        width="120"
+      />
+      <el-table-column
+        property="nickName"
+        prop="nickName"
+        label="昵称"
+        width="120"
+      />
+      <el-table-column
+        property="userType"
+        prop="userType"
+        label="用户类型"
+        width="120"
+      />
+      <el-table-column property="phone" prop="phone" label="电话" width="150" />
+      <el-table-column
+        property="createTime"
+        prop="createTime"
+        label="创建时间"
+        width="150"
+      />
+      <el-table-column
+        property="updateTime"
+        prop="updateTime"
+        label="更新时间"
+        width="150"
+      />
       <el-table-column label="操作">
         <!-- 分配角色 -->
         <!-- 修改信息 -->
@@ -44,7 +74,6 @@
       <el-button @click="setCurrent()">Clear selection</el-button>
     </div>
   </el-card>
-
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -100,7 +129,5 @@ const tableData: UserList[] = [
   .card-table {
     margin-top: 10px;
   }
-
 }
-
 </style>
