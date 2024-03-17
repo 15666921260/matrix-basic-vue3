@@ -2,7 +2,7 @@
 import { encodeBase, decodeBase } from '@/utils/base64.ts'
 import { UserInfo } from '@/pojo/system/UserInfo.ts'
 
-const userInfoKey : string = 'userCodes'
+const userInfoKey: string = 'userCodes'
 export const saveUserInfo = (userInfo: UserInfo) => {
   if (userInfo != null) {
     let userJson = JSON.stringify(userInfo)

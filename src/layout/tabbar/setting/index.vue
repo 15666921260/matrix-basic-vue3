@@ -65,28 +65,22 @@ const refreshEvent = () => {
 }
 
 const userData = reactive({
-  avatar: ''
+  avatar: '',
 })
 onMounted(() => {
   getUserAvatar()
 })
-console.log("外层头像id为",userStore.avatarFileId)
 const getUserAvatar = () => {
   if (userStore.avatarFileId) {
-    console.log("头像id为",userStore.avatarFileId)
     imagePreview(userStore.avatarFileId).then((r) => {
       userData.avatar = URL.createObjectURL(r)
-      console.log("当前的头像url", userData.avatar);
     })
-  }else {
+  } else {
     let userInfo = getUserInfo()
-    console.log("本地缓存存储头像id为",userInfo.avatarFileId)
     imagePreview(userInfo.avatarFileId).then((r) => {
       userData.avatar = URL.createObjectURL(r)
-      console.log("当前的头像url", userData.avatar);
     })
   }
-
 }
 
 // 全屏按钮
