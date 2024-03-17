@@ -7,7 +7,7 @@
     <ImageUpload />
     <h1>图片文件预览示例</h1>
     <ImagePreview :file-id="fileId" />
-    <div v-if='flag.isShow'>vIfTestvIfTestvIfTestvIfTestvIfTest</div>
+    <div v-if="flag.isShow">vIfTestvIfTestvIfTestvIfTestvIfTest</div>
     <el-button type="primary" @click="vIfTest">测试v-if</el-button>
   </div>
 </template>
@@ -29,7 +29,7 @@ const testButton = () => {
 }
 const fileId = '1766829528619884545'
 const flag = reactive({
-  isShow: false
+  isShow: false,
 })
 
 const vIfTest = () => {

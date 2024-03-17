@@ -63,9 +63,9 @@ let $router = useRouter()
  * 思路菜单栏不根据静态路由显示，根据api查出来的数据接口进行显示
  * flag: 控制菜单组件何时加载
  */
-let menuRoutes = userStore.menuRoutes;
+let menuRoutes = userStore.menuRoutes
 const flag = reactive({
-  isShow: false
+  isShow: false,
 })
 const setMenuData = async () => {
   // 1、获取后端路由数据
@@ -77,10 +77,10 @@ const setMenuData = async () => {
   // @ts-ignore
   $router.addRoute(...routePass)
   menuRoutes = [...menuRoutes, ...routePass]
-  flag.isShow = true;
+  flag.isShow = true
 }
 
-setMenuData();
+setMenuData()
 </script>
 <script lang="ts">
 // 为组件命名
