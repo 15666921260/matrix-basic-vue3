@@ -7,9 +7,9 @@ import { saveUserInfo, getUserInfo, removeUserInfo } from '@/utils/userInfo.ts'
 import { Md5 } from 'ts-md5/dist/md5'
 // 引入常量路由
 import { constantRoute } from '@/router/routes.ts'
-import { UserInfo } from '@/pojo/system/UserInfo.ts'
+import { UserInfo } from '@/pojo/system/user/UserInfo.ts'
 import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
-import { UserState } from '@/pojo/system/UserState.ts'
+import { UserState } from '@/pojo/system/store/UserState.ts'
 
 let useUserStore = defineStore('User', {
   // 小仓库存储数据的地方
