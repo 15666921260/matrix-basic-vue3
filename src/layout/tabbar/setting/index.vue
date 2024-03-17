@@ -63,6 +63,7 @@ const refreshEvent = () => {
 }
 
 onMounted(() => {
+  console.log("执行了")
   // 组件挂载完成;  解决blob失效问题
   userStore.setAvatar()
 })

@@ -13,7 +13,7 @@ import { ref } from 'vue'
 let defineProps1 = defineProps(['fileId'])
 import { connectTest, imagePreview } from '@/api/system/FileManage.ts'
 
-const fileId = defineProps1.fileId
+let fileId: string = defineProps1.fileId
 let imgSrc = ref('')
 
 connectTest().then(() => {
