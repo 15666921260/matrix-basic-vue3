@@ -5,6 +5,6 @@ import { PageQueryBaseParam } from '@/pojo/system/PageQueryBaseParam.ts'
  * @author liuweizhong
  * @since 2024-03-19
  */
-export interface QueryUserParam extends PageQueryBaseParam{
+export interface QueryUserParam extends PageQueryBaseParam {
   username?: string
 }

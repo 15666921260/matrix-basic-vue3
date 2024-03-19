@@ -9,7 +9,9 @@
     <ImagePreview :file-id="fileId" />
     <div v-if="flag.isShow">vIfTestvIfTestvIfTestvIfTestvIfTest</div>
     <el-button type="primary" @click="vIfTest">测试v-if</el-button>
-    <el-button type="primary" @click="testQueryUser">测试分页查询用户</el-button>
+    <el-button type="primary" @click="testQueryUser">
+      测试分页查询用户
+    </el-button>
   </div>
 </template>
 

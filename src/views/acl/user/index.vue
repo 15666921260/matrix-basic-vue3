@@ -11,7 +11,7 @@
       </el-form-item>
     </el-form>
   </el-card>
-  <el-card class="card-box" style="margin: 10px 0;">
+  <el-card class="card-box" style="margin: 10px 0">
     <el-button type="primary" size="default">添加用户</el-button>
     <el-button type="primary" size="default">批量删除</el-button>
     <!-- 表格 -->
@@ -20,7 +20,7 @@
       ref="singleTableRef"
       :data="tableData"
       highlight-current-row
-      style="width: 100%; margin: 10px 0;"
+      style="width: 100%; margin: 10px 0"
       border
       @current-change="handleCurrentChange"
     >
@@ -54,7 +54,13 @@
         align="center"
         width="120"
       />
-      <el-table-column property="phone" prop="phone" label="电话" align="center" width="150" />
+      <el-table-column
+        property="phone"
+        prop="phone"
+        label="电话"
+        align="center"
+        width="150"
+      />
       <el-table-column
         property="createTime"
         prop="createTime"
@@ -128,9 +134,9 @@ const tableData: UserList[] = [
   },
 ]
 // 默认页码
-let pageNum = ref(1);
+let pageNum = ref(1)
 // 默认每页个数
-let pageSize = ref(10);
+let pageSize = ref(10)
 </script>
 <style scoped lang="scss">
 .formClass {

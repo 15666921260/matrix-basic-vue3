@@ -8,7 +8,7 @@ enum API {
   LOGIN_URL = '/user/login',
   LOGOUT = '/user/logOut',
   IS_LOGIN = '/user/isLogin',
-  QUERY_USER = '/user/queryUserList'
+  QUERY_USER = '/user/queryUserList',
 }
 // 对外暴露请求函数
 export const reqLogin = (data: LoginFrom) =>
@@ -18,4 +18,5 @@ export const logOut = () => request.post<any, ResponseData>(API.LOGOUT)
 
 export const isLogin = () => request.get<any, ResponseData>(API.IS_LOGIN)
 
-export const queryUserList = (data: QueryUserParam) => request.post<any, ResponseData>(API.QUERY_USER, data)
+export const queryUserList = (data: QueryUserParam) =>
+  request.post<any, ResponseData>(API.QUERY_USER, data)
