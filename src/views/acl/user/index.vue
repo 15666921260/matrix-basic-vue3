@@ -11,7 +11,7 @@
       </el-form-item>
     </el-form>
   </el-card>
-  <el-card class="card-box">
+  <el-card class="card-box" style="margin: 10px 0;">
     <el-button type="primary" size="default">添加用户</el-button>
     <el-button type="primary" size="default">批量删除</el-button>
     <!-- 表格 -->
@@ -20,39 +20,45 @@
       ref="singleTableRef"
       :data="tableData"
       highlight-current-row
-      style="width: 100%"
+      style="width: 100%; margin: 10px 0;"
       border
       @current-change="handleCurrentChange"
     >
-      <el-table-column type="index" width="60" label="序号" />
+      <el-table-column type="selection" align="center" />
+      <el-table-column type="index" width="60" align="center" label="序号" />
       <el-table-column
         property="username"
         prop="username"
         label="用户名"
+        align="center"
         width="120"
       />
       <el-table-column
         property="realName"
         prop="realName"
         label="真实姓名"
+        align="center"
         width="120"
       />
       <el-table-column
         property="nickName"
         prop="nickName"
         label="昵称"
+        align="center"
         width="120"
       />
       <el-table-column
         property="userType"
         prop="userType"
         label="用户类型"
+        align="center"
         width="120"
       />
-      <el-table-column property="phone" prop="phone" label="电话" width="150" />
+      <el-table-column property="phone" prop="phone" label="电话" align="center" width="150" />
       <el-table-column
         property="createTime"
         prop="createTime"
+        align="center"
         label="创建时间"
         width="150"
       />
@@ -60,15 +66,25 @@
         property="updateTime"
         prop="updateTime"
         label="更新时间"
+        align="center"
         width="150"
       />
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <!-- 分配角色 -->
         <!-- 修改信息 -->
         <!-- 重置密码(仅超级管理员) -->
         <!-- 删除 -->
       </el-table-column>
     </el-table>
+    <!--  分页器  -->
+    <el-pagination
+      v-model:current-page="pageNum"
+      v-model:page-size="pageSize"
+      :page-sizes="[10, 20, 30, 40]"
+      :background="true"
+      layout="prev, pager, next, jumper, ->, sizes, total"
+      :total="400"
+    />
     <div style="margin-top: 20px">
       <el-button @click="setCurrent(tableData[1])">Select second row</el-button>
       <el-button @click="setCurrent()">Clear selection</el-button>
@@ -111,6 +127,10 @@ const tableData: UserList[] = [
     userType: 'No. 189',
   },
 ]
+// 默认页码
+let pageNum = ref(1);
+// 默认每页个数
+let pageSize = ref(10);
 </script>
 <style scoped lang="scss">
 .formClass {

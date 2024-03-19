@@ -9,16 +9,18 @@
     <ImagePreview :file-id="fileId" />
     <div v-if="flag.isShow">vIfTestvIfTestvIfTestvIfTestvIfTest</div>
     <el-button type="primary" @click="vIfTest">测试v-if</el-button>
+    <el-button type="primary" @click="testQueryUser">测试分页查询用户</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import ImageUpload from '@/components/ImageUpload/index.vue'
 import ImagePreview from '@/components/ImagePreview/index.vue'
-import { isLogin } from '@/api/user'
+import { isLogin, queryUserList } from '@/api/user'
 // 引入获取路由器
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
+import { QueryUserParam } from '@/pojo/system/user/QueryUserParam.ts'
 // 获取路由器
 let $router = useRouter()
 const routerPath = () => {
@@ -34,6 +36,14 @@ const flag = reactive({
 
 const vIfTest = () => {
   flag.isShow = !flag.isShow
+}
+
+const testQueryUser = () => {
+  let queryUserParam: QueryUserParam = {
+    pageSize: 10,
+    pageNum: 1,
+  }
+  queryUserList(queryUserParam)
 }
 </script>
 <style scoped></style>
