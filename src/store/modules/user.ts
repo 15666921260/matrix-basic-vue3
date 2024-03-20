@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 import { reqLogin } from '@/api/user'
 import { ResponseData } from '@/pojo/system/ResponseData.ts'
 import { saveUserInfo, getUserInfo, removeUserInfo } from '@/utils/userInfo.ts'
-//@ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-expect-error
 import { Md5 } from 'ts-md5/dist/md5'
 // 引入常量路由
 import { constantRoute } from '@/router/routes.ts'
@@ -11,11 +12,11 @@ import { UserInfo } from '@/pojo/system/user/UserInfo.ts'
 import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
 import { UserState } from '@/pojo/system/store/UserState.ts'
 
-let useUserStore = defineStore('User', {
+const useUserStore = defineStore('User', {
   // 小仓库存储数据的地方
   state: (): UserState => {
     // 获取本地存储的信息
-    let userInfo = getUserInfo()
+    const userInfo = getUserInfo()
     return {
       token: userInfo.token, // 用户的唯一标识
       menuRoutes: constantRoute, // 存储菜单需要的路由数组
@@ -29,12 +30,12 @@ let useUserStore = defineStore('User', {
     // 处理用户登录的方法
     async userLogin(data: LoginFrom) {
       // 加密传输封装类
-      let copyData: LoginFrom = {
+      const copyData: LoginFrom = {
         username: data.username,
         password: Md5.hashStr(data.password),
       }
       // 登录请求
-      let result: ResponseData = await reqLogin(copyData)
+      const result: ResponseData<UserInfo> = await reqLogin(copyData)
       // 成功 获取token
       if (result.code == 200) {
         // 存储token, 由于pinia|vuex存储数据其实利用的js对象
@@ -45,7 +46,7 @@ let useUserStore = defineStore('User', {
           console.log('avatarFileId判断为空了')
           result.data.avatarFileId = '1767228887526178817'
         }
-        let userInfo: UserInfo = {
+        const userInfo: UserInfo = {
           username: result.data.username,
           nickName: result.data.nickName,
           token: result.data.token,
@@ -53,7 +54,6 @@ let useUserStore = defineStore('User', {
         }
         // 本地存储，持久化存储一份
         saveUserInfo(userInfo)
-        console.log('本地存储用户信息完成')
         // 保证当前async函数返回一个成功的promise
         return 'ok'
       } else {

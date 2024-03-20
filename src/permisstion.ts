@@ -1,5 +1,6 @@
 import router from '@/router'
-//@ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-expect-error
 import nprogress from 'nprogress'
 // 引入进度条样式
 import 'nprogress/nprogress.css'
@@ -7,7 +8,7 @@ import 'nprogress/nprogress.css'
 import useUserStore from '@/store/modules/user.ts'
 import pinia from '@/store'
 import setting from '@/setting.ts'
-let userStore = useUserStore(pinia)
+const userStore = useUserStore(pinia)
 // 不显示加载的小圈圈
 nprogress.configure({ showSpinner: false })
 /*
@@ -31,7 +32,8 @@ nprogress.configure({ showSpinner: false })
 router.beforeEach(
   (
     to: any,
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
     from: any,
     next: any,
   ) => {
@@ -42,7 +44,7 @@ router.beforeEach(
     document.title = `${setting.title} - ${to.meta.title}`
     nprogress.start()
     // 获取token, 去判断用户登录、还是未登录
-    let token = userStore.token
+    const token = userStore.token
     // 获取用户的名字
     // let userName = userStore.username;
     if (token) {
@@ -69,9 +71,13 @@ router.beforeEach(
  */
 router.afterEach(
   (
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     to: any,
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     from: any,
   ) => {
     nprogress.done()

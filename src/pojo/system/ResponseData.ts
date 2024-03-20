@@ -3,8 +3,8 @@
  * @author liuweizhong
  * @since 2024-03-05
  */
-export interface ResponseData {
+export interface ResponseData<T> {
   code: number
-  data: any
+  data: T
   message: string
 }

@@ -74,7 +74,8 @@ const setMenuData = async () => {
   // 2、将数据格式化成路由数据
   let formatData: RouteRecordRaw[] = formatRoute(route.data)
   let routePass = backEndComponent(formatData)
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   $router.addRoute(...routePass)
   menuRoutes = [...menuRoutes, ...routePass]
   flag.isShow = true

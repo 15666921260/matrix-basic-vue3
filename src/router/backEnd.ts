@@ -1,7 +1,4 @@
 import { RouteRecordRaw } from 'vue-router'
-
-declare var require: any
-
 const layoutModules: any = import.meta.glob([
   '../layout/*.{vue,tsx}',
   '../layout/routerView/*.{vue,tsx}',
@@ -26,7 +23,7 @@ const dynamicViewsModules: Record<string, Function> = Object.assign(
  */
 export function formatRoute(routes: any): RouteRecordRaw[] {
   return routes.map((p: any) => {
-    let route: any = {
+    const route: any = {
       path: p.routeUrl,
       name: 'routeName-' + p.id,
       component: p.componentPath,
