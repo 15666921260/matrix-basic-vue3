@@ -32,7 +32,7 @@ const useUserStore = defineStore('User', {
       // 加密传输封装类
       const copyData: LoginFrom = {
         username: data.username,
-        password: Md5.hashStr(data.password),
+        password: data.password, // 前端取消md5加密，由后端进行加密
       }
       // 登录请求
       const result: ResponseData<UserInfo> = await reqLogin(copyData)

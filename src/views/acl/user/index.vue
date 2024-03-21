@@ -89,11 +89,14 @@
             >
               分配角色
             </el-button>
-            <el-button type="warning" size="small" icon="Edit" plain>
+            <el-button
+              type="warning"
+              size="small"
+              icon="Edit"
+              @click="editUserInfo(scope.row)"
+              plain
+            >
               修改信息
-            </el-button>
-            <el-button type="warning" size="small" icon="Edit" plain>
-              重置密码
             </el-button>
             <el-button type="danger" size="small" icon="Delete" plain>
               删除
@@ -113,6 +116,48 @@
         @current-change="pageUserList"
       />
     </el-card>
+    <!-- 抽屉结构完成添加和修改 -->
+    <el-drawer v-model="drawer" size="30%">
+      <template #header>
+        <h4>{{ drawerTitle }}</h4>
+      </template>
+      <template #default>
+        <el-form label-width="auto" :inline="true">
+          <el-form-item label="用户名:">
+            <el-input
+              placeholder="请输入用户名"
+              style="width: 150px"
+              maxlength="12"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="用户昵称:">
+            <el-input
+              placeholder="请输入用户昵称"
+              style="width: 150px"
+              maxlength="12"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="用户密码:">
+            <el-input placeholder="请输入用户密码"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码:">
+            <el-input placeholder="请输入用户确认密码"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号:">
+            <el-input placeholder="请输入用户手机号"></el-input>
+          </el-form-item>
+          <el-form-item label="用户类型:">
+            <el-input placeholder="请选择用户类型"></el-input>
+          </el-form-item>
+        </el-form>
+      </template>
+      <template #footer>
+        <div style="flex: auto">
+          <el-button type="text">取 消</el-button>
+          <el-button type="primary">确 定</el-button>
+        </div>
+      </template>
+    </el-drawer>
   </div>
 </template>
 <script setup lang="ts">
@@ -129,6 +174,10 @@ let pageNum = ref<number>(1)
 // 默认每页个数
 let pageSize = ref<number>(10)
 let total = ref<number>()
+// 定义响应式数据控制抽屉的显示与隐藏
+let drawer = ref<boolean>(false)
+// 抽屉的标题
+let drawerTitle = ref<string>('添加用户数据')
 onMounted(() => {
   pageUserList()
 })
@@ -138,7 +187,7 @@ const pageUserList = async () => {
     pageNum: pageNum.value,
     pageSize: pageSize.value,
   }
-  queryUserList(queryUserParam).then((r: PageResponse) => {
+  queryUserList(queryUserParam).then((r: PageResponse<UserList>) => {
     tableData.value = r.data
     total.value = r.total
   })
@@ -148,11 +197,19 @@ const handleClick = (row: UserList) => {
   console.log('此行是', row)
 }
 
-let isShow = ref(false)
 // 添加用户的功能
 const addUser = () => {
-  console.log('此处')
-  isShow.value = true
+  // 展开抽屉
+  drawer.value = true
+  drawerTitle.value = '添加用户数据'
+}
+
+// 开启修改
+const editUserInfo = (row: UserList) => {
+  // 展开抽屉
+  drawer.value = true
+  drawerTitle.value = '修改用户数据'
+  console.log(row)
 }
 </script>
 <style scoped lang="scss">

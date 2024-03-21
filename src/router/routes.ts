@@ -69,8 +69,8 @@ export const constantRoute = [
     component: () => import('@/layout/index.vue'),
     name: 'Acl',
     meta: {
-      title: '权限管理',
-      icon: 'Lock',
+      title: '系统管理',
+      icon: 'SetUp',
     },
     redirect: '/acl/user', // 重定向到用户管理
     children: [
@@ -99,6 +99,15 @@ export const constantRoute = [
         meta: {
           title: '菜单管理',
           icon: 'Tickets',
+        },
+      },
+      {
+        path: '/acl/dict',
+        component: () => import('@/views/acl/dict/index.vue'),
+        name: 'dict',
+        meta: {
+          title: '字典管理',
+          icon: 'Reading',
         },
       },
     ],
