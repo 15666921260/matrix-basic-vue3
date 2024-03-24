@@ -22,7 +22,7 @@ export const addOrEditDictType = (param: DictType) =>
  * @param dictTypeId
  */
 export const getDictTypeDetail = (dictTypeId: string) =>
-  request.get<any, ResponseData<string>>(API.DETAIL + dictTypeId)
+  request.get<any, ResponseData<DictType>>(API.DETAIL + dictTypeId)
 
 export const pageDictType = (param: PageDictTypeParam) =>
   request.post<any, PageResponse<DictType>>(API.PAGE_DICT_TYPE, param)

@@ -26,13 +26,13 @@
                 >
                   搜索
                 </el-button>
-                <el-button type="info">重置</el-button>
+                <el-button type="info" @click="resetDictType">重置</el-button>
               </el-form-item>
             </el-form>
           </div>
           <!-- 按钮模块 -->
           <div>
-            <el-button type="primary" @click="addDictType('add')">
+            <el-button type="primary" @click="addDictType()">
               添加字典类型
             </el-button>
           </div>
@@ -46,12 +46,12 @@
                 show-overflow-tooltip
               />
               <el-table-column label="操作">
-                <template #default>
+                <template v-slot="scope">
                   <el-button
                     type="primary"
                     size="small"
                     icon="Edit"
-                    @click="addDictType('edit')"
+                    @click="dictTypeDetail('edit', scope.row)"
                     plain
                   >
                     编辑
@@ -60,7 +60,7 @@
                     type="primary"
                     size="small"
                     icon="Tickets"
-                    @click="addDictType('detail')"
+                    @click="dictTypeDetail('detail', scope.row)"
                     plain
                   >
                     详情
@@ -88,7 +88,7 @@
       <el-col :span="16" class="rightDict">
         <el-card class="rightCard" shadow="always">
           <div class="dict-item-button">
-            <el-button type="primary" @click="addDictType('add')">
+            <el-button type="primary" @click="addDictType()">
               添加字典项
             </el-button>
           </div>
@@ -128,7 +128,7 @@
                     type="primary"
                     size="small"
                     icon="Edit"
-                    @click="addDictType('edit')"
+                    @click="addDictType()"
                     plain
                   >
                     编辑
@@ -137,7 +137,7 @@
                     type="primary"
                     size="small"
                     icon="Tickets"
-                    @click="addDictType('detail')"
+                    @click="addDictType()"
                     plain
                   >
                     详情
@@ -169,13 +169,14 @@
       width="650"
       :before-close="dictTypeClose"
     >
-      <el-form :model="dictTypeVo" :rules="rules" ref="dictTypeRef">
+      <el-form :model="dictTypeVo" :rules="dictTypeRules" ref="dictTypeRef">
         <el-form-item label="类型名:" prop="typeName" label-width="140px">
           <el-input
             v-model="dictTypeVo.typeName"
             placeholder="请输入字典类型名"
             maxlength="30"
             style="width: 400px"
+            :readonly="dictTypeReadonly"
             show-word-limit
           />
         </el-form-item>
@@ -184,6 +185,7 @@
             v-model="dictTypeVo.needEnum"
             active-text="需要"
             inactive-text="不需要"
+            :disabled="dictTypeReadonly"
           />
         </el-form-item>
         <el-form-item label="是否禁用" label-width="140px">
@@ -191,6 +193,7 @@
             v-model="dictTypeVo.disable"
             active-text="禁用"
             inactive-text="不禁用"
+            :disabled="dictTypeReadonly"
           />
         </el-form-item>
         <el-form-item label="备注:" label-width="140px">
@@ -201,6 +204,7 @@
             maxlength="75"
             :rows="4"
             style="width: 400px"
+            :readonly="dictTypeReadonly"
             show-word-limit
           />
         </el-form-item>
@@ -235,9 +239,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { PageDictTypeParam } from '@/pojo/system/dict/PageDictTypeParam.ts'
-import { addOrEditDictType, pageDictType } from '@/api/system/SysDict.ts'
+import {
+  addOrEditDictType,
+  getDictTypeDetail,
+  pageDictType,
+} from '@/api/system/SysDict.ts'
 import { DictType } from '@/pojo/system/dict/DictType.ts'
 import { ElMessage, FormRules } from 'element-plus'
 
@@ -282,20 +290,15 @@ const form = reactive({
   desc: '',
 })
 // 打开字典类型弹窗
-const addDictType = (clickType: string) => {
+const addDictType = () => {
   dictTypeShow.value = true
-  if (clickType == 'add') {
-    dictTypeTitle.value = '添加字典类型'
-  } else if (clickType == 'edit') {
-    dictTypeTitle.value = '编辑字典类型'
-  } else if (clickType == 'detail') {
-    dictTypeTitle.value = '字典类型详情'
-  }
+  dictTypeTitle.value = '添加字典类型'
 }
 // 关闭字典类型弹窗
 const dictTypeClose = () => {
   dictTypeShow.value = false
   cleanDictTypeData()
+  dictTypeReadonly.value = false
 }
 const queryDictTypeParam: PageDictTypeParam = reactive({
   pageSize: 10,
@@ -310,6 +313,11 @@ const queryDictType = (query: PageDictTypeParam) => {
     tableDictType.value = r.data
     dictTypeTotal.value = r.total
   })
+}
+
+const resetDictType = () => {
+  queryDictTypeParam.typeName = ''
+  queryDictType(queryDictTypeParam)
 }
 // 字典类型详情展示类
 let dictTypeVo = ref<DictType>({
@@ -344,6 +352,7 @@ const confirmDictType = () => {
           message: '添加成功',
           type: 'success',
         })
+        queryDictType(queryDictTypeParam)
       } else {
         ElMessage.error('添加失败')
       }
@@ -351,8 +360,26 @@ const confirmDictType = () => {
   })
 }
 
+let dictTypeReadonly = ref<boolean>(false)
+const dictTypeDetail = (type: string, param: DictType) => {
+  getDictTypeDetail(String(param.id)).then((r) => {
+    dictTypeVo.value = r.data
+    if (type == 'edit') {
+      dictTypeTitle.value = '编辑字典类型'
+    } else if (type == 'detail') {
+      dictTypeTitle.value = '字典类型详情'
+      dictTypeReadonly.value = true
+    }
+    dictTypeShow.value = true
+  })
+}
+
+onMounted(() => {
+  queryDictType(queryDictTypeParam)
+})
+
 // 表单校验
-const rules = reactive<FormRules<DictType>>({
+const dictTypeRules = reactive<FormRules<DictType>>({
   typeName: [
     { required: true, message: '字典类型名不能为空', trigger: 'blur' },
   ],
