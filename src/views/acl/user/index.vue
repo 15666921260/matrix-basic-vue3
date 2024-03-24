@@ -168,7 +168,7 @@ import { queryUserList } from '@/api/user'
 import { QueryUserParam } from '@/pojo/system/user/QueryUserParam.ts'
 import { PageResponse } from '@/pojo/system/PageResponse.ts'
 
-let tableData = ref<UserList>()
+let tableData = ref<UserList[]>()
 // 默认页码
 let pageNum = ref<number>(1)
 // 默认每页个数
