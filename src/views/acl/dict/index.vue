@@ -212,7 +212,9 @@
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="dictTypeClose">取 消</el-button>
-          <el-button type="primary" @click="confirmDictType">提 交</el-button>
+          <el-button type="primary" @click="confirmDictType">
+            {{ !dictTypeReadonly ? '提 交' : '确 定' }}
+          </el-button>
         </div>
       </template>
     </el-dialog>
@@ -296,6 +298,7 @@ const addDictType = () => {
 }
 // 关闭字典类型弹窗
 const dictTypeClose = () => {
+  console.log('是关闭')
   dictTypeShow.value = false
   cleanDictTypeData()
   dictTypeReadonly.value = false
@@ -342,22 +345,26 @@ const cleanDictTypeData = () => {
 let dictTypeRef = ref()
 // 确认提交字典类型
 const confirmDictType = () => {
-  // 先校验
-  dictTypeRef.value.validate().then(() => {
-    addOrEditDictType(dictTypeVo.value).then((r) => {
-      if (r.code == 200) {
-        cleanDictTypeData()
-        dictTypeClose()
-        ElMessage({
-          message: '添加成功',
-          type: 'success',
-        })
-        queryDictType(queryDictTypeParam)
-      } else {
-        ElMessage.error('添加失败')
-      }
+  if (!dictTypeReadonly.value) {
+    // 先校验
+    dictTypeRef.value.validate().then(() => {
+      addOrEditDictType(dictTypeVo.value).then((r) => {
+        if (r.code == 200) {
+          cleanDictTypeData()
+          dictTypeClose()
+          ElMessage({
+            message: '操作成功',
+            type: 'success',
+          })
+          queryDictType(queryDictTypeParam)
+        } else {
+          ElMessage.error('操作失败')
+        }
+      })
     })
-  })
+  } else {
+    dictTypeClose()
+  }
 }
 
 let dictTypeReadonly = ref<boolean>(false)
