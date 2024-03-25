@@ -153,7 +153,7 @@
       </template>
       <template #footer>
         <div style="flex: auto">
-          <el-button type="text">取 消</el-button>
+          <el-button>取 消</el-button>
           <el-button type="primary">确 定</el-button>
         </div>
       </template>

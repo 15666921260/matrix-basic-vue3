@@ -5,13 +5,13 @@ import { UserInfo } from '@/pojo/system/user/UserInfo.ts'
 const userInfoKey: string = 'userCodes'
 export const saveUserInfo = (userInfo: UserInfo) => {
   if (userInfo != null) {
-    let userJson = JSON.stringify(userInfo)
+    const userJson = JSON.stringify(userInfo)
     localStorage.setItem(userInfoKey, encodeBase(userJson))
   }
 }
 
 export const getUserInfo = (): UserInfo => {
-  let userJson = localStorage.getItem(userInfoKey)
+  const userJson = localStorage.getItem(userInfoKey)
   if (userJson != null) {
     return JSON.parse(decodeBase(userJson))
   } else {

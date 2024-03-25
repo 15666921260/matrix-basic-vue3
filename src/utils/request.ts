@@ -6,9 +6,9 @@ import useUserStore from '@/store/modules/user.ts'
 
 const base = import.meta.env
 // 一、利用axios对象的create方法创建axios的实例(配置其他配置: 基础路径、超时时间)
-let request = axios.create({
+const request = axios.create({
   /**
-   * 基础路径　要让import.meta.env不报错 tsconfig.json中修改两项：
+   * 基础路径 要让 import.meta.env 不报错 tsconfig.json中修改两项：
    * "module": "es2020",
    * "moduleResolution": "Node",
    */
@@ -23,7 +23,7 @@ let request = axios.create({
 // 二、request添加请求与响应拦截器
 request.interceptors.request.use((config) => {
   // 获取用户相关的小仓库 获取仓库内部的token, 登录成功后携带给服务器
-  let userStore = useUserStore()
+  const userStore = useUserStore()
   if (userStore.token) {
     config.headers.token = userStore.token
   }
@@ -40,7 +40,7 @@ request.interceptors.response.use(
         confirmButtonText: '重新登录',
         callback: () => {
           // 直接删除用户信息(达到跳转登录页的目的)
-          let userStore = useUserStore()
+          const userStore = useUserStore()
           userStore.userLogOut()
           // 随意跳转即可
           window.location.href = '/login'
@@ -56,7 +56,7 @@ request.interceptors.response.use(
     // 顶一个变量:存储网络错误的信息
     let message = ''
     // http 状态码
-    let status = error.response.status
+    /*const status = error.response.status
     switch (status) {
       case 401:
         message = 'token过期'
@@ -72,7 +72,7 @@ request.interceptors.response.use(
         break
       default:
         message = '网络出现问题'
-    }
+    }*/
     // 提示的错误信息
     ElMessage({
       type: 'error',

@@ -4,8 +4,7 @@ import { reqLogin } from '@/api/user'
 import { ResponseData } from '@/pojo/system/ResponseData.ts'
 import { saveUserInfo, getUserInfo, removeUserInfo } from '@/utils/userInfo.ts'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-expect-error
-import { Md5 } from 'ts-md5/dist/md5'
+// import { Md5 } from 'ts-md5/dist/md5'
 // 引入常量路由
 import { constantRoute } from '@/router/routes.ts'
 import { UserInfo } from '@/pojo/system/user/UserInfo.ts'
