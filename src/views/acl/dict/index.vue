@@ -409,7 +409,7 @@ onMounted(() => {
 
 // 删除字典类型的操作
 const deleteDictType = (row: DictType) => {
-  ElMessageBox.confirm('确定删除改字典类型？', '提示', {
+  ElMessageBox.confirm('确定删除该字典类型？', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',

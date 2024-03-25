@@ -56,7 +56,7 @@ request.interceptors.response.use(
     // 顶一个变量:存储网络错误的信息
     let message = ''
     // http 状态码
-    /*const status = error.response.status
+    const status = error.response.status
     switch (status) {
       case 401:
         message = 'token过期'
@@ -72,7 +72,7 @@ request.interceptors.response.use(
         break
       default:
         message = '网络出现问题'
-    }*/
+    }
     // 提示的错误信息
     ElMessage({
       type: 'error',
