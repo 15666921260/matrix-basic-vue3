@@ -1,3 +1,1 @@
-export interface DictItem {
-
-}
+export interface DictItem {}
