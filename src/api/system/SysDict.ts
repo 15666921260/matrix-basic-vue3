@@ -9,6 +9,7 @@ enum API {
   ADD_EDIT_DICT_TYPE = '/sysDict/addOrEditDictType',
   DETAIL = '/sysDict/getDictTypeDetail/',
   PAGE_DICT_TYPE = '/sysDict/pageDictType',
+  DELETE_DICT_TYPE_BY_ID = '/sysDict/deleteDictTypeById/',
 }
 
 /**
@@ -26,3 +27,11 @@ export const getDictTypeDetail = (dictTypeId: string) =>
 
 export const pageDictType = (param: PageDictTypeParam) =>
   request.post<any, PageResponse<DictType>>(API.PAGE_DICT_TYPE, param)
+/**
+ * 删除指定的字典类型
+ * @param dictTypeId
+ */
+export const deleteDictTypeById = (dictTypeId: number) =>
+  request.get<any, ResponseData<string>>(
+    API.DELETE_DICT_TYPE_BY_ID + dictTypeId,
+  )

@@ -38,7 +38,14 @@
           </div>
           <!-- 数据展示模块 -->
           <div class="dataDisplay">
-            <el-table :data="tableDictType" style="width: 100%">
+            <el-table
+              v-loading="typeTableLoading"
+              :data="tableDictType"
+              style="width: 100%"
+              highlight-current-row
+              @row-click="changeDictType"
+              row-key="id"
+            >
               <el-table-column
                 prop="typeName"
                 label="字典类型"
@@ -65,7 +72,13 @@
                   >
                     详情
                   </el-button>
-                  <el-button type="danger" size="small" icon="Delete" plain>
+                  <el-button
+                    type="danger"
+                    size="small"
+                    icon="Delete"
+                    @click="deleteDictType(scope.row)"
+                    plain
+                  >
                     删除
                   </el-button>
                 </template>
@@ -79,8 +92,9 @@
             :small="small"
             :disabled="disabled"
             :background="background"
-            layout="prev, pager, next"
+            layout="prev, pager, next, total"
             :total="dictTypeTotal"
+            @current-change="queryDictType(queryDictTypeParam)"
           />
         </el-card>
       </el-col>
@@ -245,11 +259,12 @@ import { onMounted, reactive, ref } from 'vue'
 import { PageDictTypeParam } from '@/pojo/system/dict/PageDictTypeParam.ts'
 import {
   addOrEditDictType,
+  deleteDictTypeById,
   getDictTypeDetail,
   pageDictType,
 } from '@/api/system/SysDict.ts'
 import { DictType } from '@/pojo/system/dict/DictType.ts'
-import { ElMessage, FormRules } from 'element-plus'
+import { ElMessage, ElMessageBox, FormRules } from 'element-plus'
 
 const currentPage4 = ref(4)
 const pageSize4 = ref(10)
@@ -279,8 +294,10 @@ const tableData = [
   },
 ]
 // 字典类型弹窗显示标识
-let dictTypeShow = ref(false)
-let dictTypeTitle = ref('添加字典类型')
+let dictTypeShow = ref<boolean>(false)
+let dictTypeTitle = ref<string>('添加字典类型')
+// 字典类型表的加载状态
+let typeTableLoading = ref<boolean>(false)
 const form = reactive({
   name: '',
   region: '',
@@ -298,7 +315,6 @@ const addDictType = () => {
 }
 // 关闭字典类型弹窗
 const dictTypeClose = () => {
-  console.log('是关闭')
   dictTypeShow.value = false
   cleanDictTypeData()
   dictTypeReadonly.value = false
@@ -312,9 +328,11 @@ let tableDictType = ref<DictType[]>()
 let dictTypeTotal = ref<number>()
 // 查询字典类型
 const queryDictType = (query: PageDictTypeParam) => {
+  typeTableLoading.value = true
   pageDictType(query).then((r) => {
     tableDictType.value = r.data
     dictTypeTotal.value = r.total
+    typeTableLoading.value = false
   })
 }
 
@@ -366,7 +384,11 @@ const confirmDictType = () => {
     dictTypeClose()
   }
 }
-
+// 选中某个字典类型后做如下动作
+const changeDictType = (row: DictType) => {
+  console.log('选中的数据id', row.id)
+  // 查询对应的字典项数据
+}
 let dictTypeReadonly = ref<boolean>(false)
 const dictTypeDetail = (type: string, param: DictType) => {
   getDictTypeDetail(String(param.id)).then((r) => {
@@ -384,6 +406,37 @@ const dictTypeDetail = (type: string, param: DictType) => {
 onMounted(() => {
   queryDictType(queryDictTypeParam)
 })
+
+// 删除字典类型的操作
+const deleteDictType = (row: DictType) => {
+  ElMessageBox.confirm('确定删除改字典类型？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(() => {
+      if (row.id != null) {
+        deleteDictTypeById(row.id).then(() => {
+          queryDictType(queryDictTypeParam)
+          ElMessage({
+            message: '删除成功',
+            type: 'success',
+          })
+        })
+      } else {
+        ElMessage({
+          message: '所选数据发生错误，缺少id字段',
+          type: 'error',
+        })
+      }
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '已经取消',
+      })
+    })
+}
 
 // 表单校验
 const dictTypeRules = reactive<FormRules<DictType>>({
