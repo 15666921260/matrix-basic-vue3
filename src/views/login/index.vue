@@ -100,7 +100,13 @@ const login = async () => {
   }
 }
 
-const validatorPassword = (rule: any, value: any, callback: any) => {
+const validatorPassword = (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
+  rule: any,
+  value: any,
+  callback: any,
+) => {
   // rule: 校验规则对象。value: 表单元素的文本内容。callback:检验通过与错误调用的函数
   if (value.length >= 6) {
     callback()
