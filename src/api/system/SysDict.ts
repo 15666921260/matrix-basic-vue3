@@ -9,10 +9,13 @@ import { PageDictItemParam } from '@/pojo/system/dict/PageDictItemParam.ts'
 
 enum API {
   ADD_EDIT_DICT_TYPE = '/sysDict/addOrEditDictType',
-  DETAIL = '/sysDict/getDictTypeDetail/',
+  TYPE_DETAIL = '/sysDict/getDictTypeDetail/',
   PAGE_DICT_TYPE = '/sysDict/pageDictType',
   DELETE_DICT_TYPE_BY_ID = '/sysDict/deleteDictTypeById',
   PAGE_DICT_ITEM = '/sysDict/pageDictItem',
+  ADD_EDIT_DICT_ITEM = '/sysDict/addOrEditDictItem',
+  ITEM_DETAIL = '/sysDict/getDictDetail',
+  DELETE_ITEM_TYPE_BY_ID = '/sysDict/deleteDictItemTypeById',
 }
 
 /**
@@ -26,7 +29,7 @@ export const addOrEditDictType = (param: DictType) =>
  * @param dictTypeId
  */
 export const getDictTypeDetail = (dictTypeId: string) =>
-  request.get<any, ResponseData<DictType>>(API.DETAIL + dictTypeId)
+  request.get<any, ResponseData<DictType>>(API.TYPE_DETAIL + dictTypeId)
 
 export const pageDictType = (param: PageDictTypeParam) =>
   request.post<any, PageResponse<DictType>>(API.PAGE_DICT_TYPE, param)
@@ -36,9 +39,7 @@ export const pageDictType = (param: PageDictTypeParam) =>
  */
 export const deleteDictTypeById = (dictTypeId: number) =>
   request.get<any, ResponseData<string>>(API.DELETE_DICT_TYPE_BY_ID, {
-    params: {
-      dictTypeId,
-    },
+    params: { dictTypeId },
   })
 
 /**
@@ -47,3 +48,24 @@ export const deleteDictTypeById = (dictTypeId: number) =>
  */
 export const pageDictItem = (param: PageDictItemParam) =>
   request.post<any, PageResponse<DictItem>>(API.PAGE_DICT_ITEM, param)
+
+/**
+ * 新增或修改字典项
+ * @param param
+ */
+export const addOrEditDictItem = (param: DictItem) =>
+  request.post<any, ResponseData<string>>(API.ADD_EDIT_DICT_ITEM, param)
+
+export const getDictItemDetail = (dictItemId: string) =>
+  request.get<any, ResponseData<DictItem>>(API.ITEM_DETAIL, {
+    params: { dictItemId },
+  })
+
+/**
+ * 删除指定的字典项
+ * @param dictItemId
+ */
+export const deleteDictItemById = (dictItemId: string) =>
+  request.get<any, ResponseData<string>>(API.DELETE_ITEM_TYPE_BY_ID, {
+    params: { dictItemId },
+  })
