@@ -455,7 +455,7 @@ const cleanDictItemData = () => {
 // 字典项列表数据
 let tableDictItem = ref<DictItem[]>()
 // 字典项总数据
-let dictItemTotal = ref<number>()
+let dictItemTotal = ref<number>(0)
 let queryDictItemParam: PageDictItemParam = reactive({
   pageSize: 10,
   pageNum: 1,
