@@ -23,7 +23,6 @@
       <el-button type="primary" size="default" @click="addUser">
         添加用户
       </el-button>
-      <el-button type="primary" size="default">批量删除</el-button>
       <!-- 表格 -->
       <el-table
         class="card-table"
@@ -32,7 +31,7 @@
         style="width: 100%; margin: 10px 0"
         border
       >
-        <el-table-column type="selection" align="center" />
+        <!--  <el-table-column type="selection" align="center" />-->
         <el-table-column type="index" width="60" align="center" label="序号" />
         <el-table-column
           property="username"
@@ -112,7 +111,13 @@
             >
               详情
             </el-button>
-            <el-button type="danger" size="small" icon="Delete" plain>
+            <el-button
+              type="danger"
+              size="small"
+              icon="Delete"
+              @click="deleteUser(scope.row)"
+              plain
+            >
               删除
             </el-button>
           </template>
@@ -242,10 +247,11 @@
 </template>
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { ElMessage, ElTable } from 'element-plus'
+import { ElMessage, ElMessageBox, ElTable } from 'element-plus'
 import { UserList } from '@/pojo/system/user/UserList.ts'
 import {
   addUserData,
+  deleteUserById,
   editUserData,
   getUserDetailById,
   queryUserList,
@@ -257,6 +263,7 @@ import { DictUser } from '@/enum/DictUser.ts'
 import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
 import { UserDetail } from '@/pojo/system/user/UserDetail.ts'
 import { DictItemResult } from '@/pojo/system/dict/DictItemResult.ts'
+import { SysDefault } from '@/enum/SysDefault.ts'
 
 let userTypeList = ref<DictListItem[]>()
 let tableData = ref<UserList[]>()
@@ -362,6 +369,39 @@ const editOrDetailUser = (type: string, row: UserList) => {
 }
 
 /**
+ * 删除用户
+ */
+const deleteUser = (row: UserList) => {
+  ElMessageBox.confirm('确定删除该用户？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(() => {
+      if (row.id != null) {
+        deleteUserById(row).then(() => {
+          pageUserList()
+          ElMessage({
+            message: '删除成功',
+            type: 'success',
+          })
+        })
+      } else {
+        ElMessage({
+          message: '所选数据发生错误，缺少id字段',
+          type: 'error',
+        })
+      }
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '已经取消',
+      })
+    })
+}
+
+/**
  * 清理表单数据
  * 注意看清理方式，如果直接采用等值 对象的方式可能导致校验时bug导致无法输入数据
  */
@@ -460,7 +500,7 @@ const addOrEditUser = async () => {
       userDialogClose()
     } else {
       editUserData(userVoData).then((r) => {
-        if (r.data === 'success') {
+        if (r.data === SysDefault.SUCCESS) {
           ElMessage.success('修改成功!')
           userDialogClose()
           pageUserList()
@@ -471,7 +511,7 @@ const addOrEditUser = async () => {
     }
   } else {
     addUserData(userVoData).then((r) => {
-      if (r.data === 'success') {
+      if (r.data === SysDefault.SUCCESS) {
         ElMessage.success('添加成功!')
         userDialogClose()
         pageUserList()

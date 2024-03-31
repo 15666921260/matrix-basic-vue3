@@ -16,6 +16,7 @@ enum API {
   ADD = '/user/addUser',
   DETAIL_USER_BY_ID = '/user/detailUserById',
   EDIT_USER = '/user/editUser',
+  DELETE_USER_ID = '/user/deleteUserById',
 }
 // 对外暴露请求函数
 export const reqLogin = (data: LoginFrom) =>
@@ -41,3 +42,6 @@ export const getUserDetailById = (user: UserList) =>
 
 export const editUserData = (data: UserDetail) =>
   request.post<any, ResponseData<string>>(API.EDIT_USER, data)
+
+export const deleteUserById = (user: UserList) =>
+  request.post<any, ResponseData<string>>(API.DELETE_USER_ID, user)
