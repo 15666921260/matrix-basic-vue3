@@ -6,6 +6,7 @@ import { PageDictTypeParam } from '@/pojo/system/dict/PageDictTypeParam.ts'
 import { PageResponse } from '@/pojo/system/PageResponse.ts'
 import { DictItem } from '@/pojo/system/dict/DictItem.ts'
 import { PageDictItemParam } from '@/pojo/system/dict/PageDictItemParam.ts'
+import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
 
 enum API {
   ADD_EDIT_DICT_TYPE = '/sysDict/addOrEditDictType',
@@ -16,6 +17,8 @@ enum API {
   ADD_EDIT_DICT_ITEM = '/sysDict/addOrEditDictItem',
   ITEM_DETAIL = '/sysDict/getDictDetail',
   DELETE_ITEM_TYPE_BY_ID = '/sysDict/deleteDictItemTypeById',
+  // 根据字典类型获取项集合
+  LIST_ITEM_BY_DICT_TYPE = '/sysDict/selectDictItemByDictTypeId',
 }
 
 /**
@@ -68,4 +71,9 @@ export const getDictItemDetail = (dictItemId: string) =>
 export const deleteDictItemById = (dictItemId: string) =>
   request.get<any, ResponseData<string>>(API.DELETE_ITEM_TYPE_BY_ID, {
     params: { dictItemId },
+  })
+
+export const listItemByDictType = (dictTypeId: number) =>
+  request.get<any, ResponseData<DictListItem[]>>(API.LIST_ITEM_BY_DICT_TYPE, {
+    params: { dictTypeId },
   })

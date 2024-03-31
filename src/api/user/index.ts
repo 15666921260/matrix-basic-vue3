@@ -6,12 +6,16 @@ import { QueryUserParam } from '@/pojo/system/user/QueryUserParam.ts'
 import { PageResponse } from '@/pojo/system/PageResponse.ts'
 import { UserList } from '@/pojo/system/user/UserList.ts'
 import { UserInfo } from '@/pojo/system/user/UserInfo.ts'
+import { UserDetail } from '@/pojo/system/user/UserDetail.ts'
 
 enum API {
   LOGIN_URL = '/user/login',
   LOGOUT = '/user/logOut',
   IS_LOGIN = '/user/isLogin',
   QUERY_USER = '/user/queryUserList',
+  ADD = '/user/addUser',
+  DETAIL_USER_BY_ID = '/user/detailUserById',
+  EDIT_USER = '/user/editUser',
 }
 // 对外暴露请求函数
 export const reqLogin = (data: LoginFrom) =>
@@ -24,3 +28,16 @@ export const isLogin = () =>
 
 export const queryUserList = (data: QueryUserParam) =>
   request.post<any, PageResponse<UserList>>(API.QUERY_USER, data)
+
+/**
+ * 添加用户
+ * @param data
+ */
+export const addUserData = (data: UserDetail) =>
+  request.post<any, ResponseData<string>>(API.ADD, data)
+
+export const getUserDetailById = (user: UserList) =>
+  request.post<any, ResponseData<UserDetail>>(API.DETAIL_USER_BY_ID, user)
+
+export const editUserData = (data: UserDetail) =>
+  request.post<any, ResponseData<string>>(API.EDIT_USER, data)
