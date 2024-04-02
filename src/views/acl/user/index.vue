@@ -259,7 +259,7 @@ import {
 import { QueryUserParam } from '@/pojo/system/user/QueryUserParam.ts'
 import { PageResponse } from '@/pojo/system/PageResponse.ts'
 import { listItemByDictType } from '@/api/system/SysDict.ts'
-import { DictUser } from '@/enum/DictUser.ts'
+import { DictType } from '@/enum/DictType.ts'
 import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
 import { UserDetail } from '@/pojo/system/user/UserDetail.ts'
 import { DictItemResult } from '@/pojo/system/dict/DictItemResult.ts'
@@ -307,7 +307,7 @@ const chengeUserType = (item: DictItemResult) => {
 }
 
 const selectUserType = () => {
-  listItemByDictType(DictUser.USER_TYPE).then((r) => {
+  listItemByDictType(DictType.USER_TYPE).then((r) => {
     userTypeList.value = r.data
   })
 }

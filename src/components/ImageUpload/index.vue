@@ -25,6 +25,8 @@ import { uploadFile } from '@/api/system/FileManage.ts'
 
 const imageUrl = ref('')
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   response,
   uploadLocalFile,
 ) => {
