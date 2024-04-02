@@ -26,16 +26,22 @@
         height="500"
         style="width: 100%; margin-top: 15px"
       >
-        <el-table-column prop="date" label="角色名称" width="180" />
-        <el-table-column prop="name" label="角色类型" width="180" />
-        <el-table-column prop="date" label="创建时间" width="180" />
-        <el-table-column prop="date" label="备注" show-overflow-tooltip />
+        <el-table-column prop="roleName" label="角色名称" width="180" />
+        <el-table-column prop="roleTypeStr" label="角色类型" width="180" />
+        <el-table-column prop="createTime" label="创建时间" width="180" />
+        <el-table-column prop="remarks" label="备注" show-overflow-tooltip />
         <el-table-column label="操作" align="center" width="300">
           <template v-slot="scope">
             <el-button type="success" size="small" icon="User" plain>
               授权
             </el-button>
-            <el-button type="warning" size="small" icon="Edit" plain>
+            <el-button
+              type="warning"
+              size="small"
+              icon="Edit"
+              @click="editRole(scope.row)"
+              plain
+            >
               编辑
             </el-button>
             <el-button type="danger" size="small" icon="Delete" plain>
@@ -55,19 +61,24 @@
     <el-dialog
       v-model="dialogShow"
       :title="dialogTitle"
-      width="500"
+      width="400"
       :before-close="dialogShowClose"
     >
-      <el-form :model="roleDetail">
-        <el-form-item label="Promotion name" label-width="100px">
-          <el-input v-model="roleDetail.roleName" autocomplete="off" />
+      <el-form :model="roleDetail" :rules="rules" ref="fromRef">
+        <el-form-item prop="roleName" label="角色名称" label-width="100px">
+          <el-input
+            v-model="roleDetail.roleName"
+            style="width: 240px"
+            placeholder="请输入角色名称"
+          />
         </el-form-item>
-        <el-form-item prop="roleType" label="角色类型:">
+        <el-form-item prop="roleType" label="角色类型:" label-width="100px">
           <el-select
-            v-model="roleDetail.roleType"
-            placeholder="请选择用户类型"
-            style="width: 180px"
+            v-model="roleDetail.roleTypeStr"
+            placeholder="请选择角色类型"
+            style="width: 240px"
             value-key="id"
+            @change="changRoleType"
           >
             <el-option
               v-for="item in roleTypeList"
@@ -77,11 +88,22 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="备注:" label-width="100px">
+          <el-input
+            type="textarea"
+            v-model="roleDetail.remarks"
+            placeholder="备注"
+            maxlength="75"
+            :rows="4"
+            style="width: 240px"
+            show-word-limit
+          />
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="dialogShowClose">Cancel</el-button>
-          <el-button type="primary" @click="dialogShowClose">Confirm</el-button>
+          <el-button @click="dialogShowClose">取 消</el-button>
+          <el-button type="primary" @click="confirmDialog">确 定</el-button>
         </div>
       </template>
     </el-dialog>
@@ -90,11 +112,12 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { RoleListVo } from '@/pojo/system/role/RoleListVo.ts'
-import { pageRoleList } from '@/api/system/SysRole.ts'
+import { addOrEditRole, pageRoleList } from '@/api/system/SysRole.ts'
 import { PageRoleParam } from '@/pojo/system/role/PageRoleParam.ts'
 import { listItemByDictType } from '@/api/system/SysDict.ts'
 import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
 import { DictType } from '@/enum/DictType.ts'
+import { DictItemResult } from '@/pojo/system/dict/DictItemResult.ts'
 
 // 列表页数据
 let roleListData = ref<RoleListVo[]>()
@@ -143,6 +166,7 @@ let roleDetail = reactive<RoleListVo>({
   remarks: '',
   roleName: '',
   roleType: '',
+  roleTypeStr: '',
 })
 
 // 清空角色详情方法
@@ -152,6 +176,7 @@ const cleanRoleDetail = () => {
   roleDetail.id = ''
   roleDetail.remarks = ''
   roleDetail.createTime = ''
+  roleDetail.roleTypeStr = ''
 }
 
 // 弹窗标题
@@ -167,6 +192,32 @@ const addRoleButton = () => {
 const dialogShowClose = () => {
   dialogShow.value = false
   cleanRoleDetail()
+}
+
+// 校验规则
+const rules = {
+  roleName: [{ required: true, message: '角色名不能为空', trigger: 'blur' }],
+  roleType: [{ required: true, message: '角色类型不能为空', trigger: 'blur' }],
+}
+const fromRef = ref()
+// 确认弹窗
+const confirmDialog = () => {
+  fromRef.value.validate().then(() => {
+    addOrEditRole(roleDetail).then(() => {
+      dialogShowClose()
+      queryPageRole()
+    })
+  })
+}
+
+// 编辑角色
+const editRole = (row: RoleListVo) => {
+  console.log('当前数据是：', JSON.stringify(row))
+}
+
+const changRoleType = (item: DictItemResult) => {
+  roleDetail.roleType = item.id
+  roleDetail.roleTypeStr = item.dicName
 }
 </script>
 <style scoped lang="scss"></style>
