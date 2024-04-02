@@ -8,6 +8,7 @@ import { ResponseData } from '@/pojo/system/ResponseData.ts'
 enum API {
   PAGE_ROLE_LIST = '/sysRole/pageRoleVo',
   ADD_OR_EDIT_ROLE = '/sysRole/addOrEditRole',
+  DELETE_ROLE = '/sysRole/deleteRole',
 }
 
 /**
@@ -23,3 +24,6 @@ export const pageRoleList = (param: PageRoleParam) =>
  */
 export const addOrEditRole = (param: RoleListVo) =>
   request.post<any, ResponseData<string>>(API.ADD_OR_EDIT_ROLE, param)
+
+export const deleteRole = (param: RoleListVo) =>
+  request.post<any, ResponseData<string>>(API.DELETE_ROLE, param)

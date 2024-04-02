@@ -44,7 +44,7 @@
             >
               编辑
             </el-button>
-            <el-button type="danger" size="small" icon="Delete" plain>
+            <el-button type="danger" size="small" icon="Delete" @click="deleteRoleItem(scope.row)" plain>
               删除
             </el-button>
           </template>
@@ -112,7 +112,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { RoleListVo } from '@/pojo/system/role/RoleListVo.ts'
-import { addOrEditRole, pageRoleList } from '@/api/system/SysRole.ts'
+import {addOrEditRole, deleteRole, pageRoleList} from '@/api/system/SysRole.ts'
 import { PageRoleParam } from '@/pojo/system/role/PageRoleParam.ts'
 import { listItemByDictType } from '@/api/system/SysDict.ts'
 import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
@@ -212,12 +212,25 @@ const confirmDialog = () => {
 
 // 编辑角色
 const editRole = (row: RoleListVo) => {
-  console.log('当前数据是：', JSON.stringify(row))
+  roleDetail.roleName = row.roleName
+  roleDetail.roleType = row.roleType
+  roleDetail.id = row.id
+  roleDetail.remarks = row.remarks
+  roleDetail.createTime = row.createTime
+  roleDetail.roleTypeStr = row.roleTypeStr
+  dialogShow.value = true
 }
 
 const changRoleType = (item: DictItemResult) => {
   roleDetail.roleType = item.id
   roleDetail.roleTypeStr = item.dicName
+}
+
+// 删除指定的角色数据
+const deleteRoleItem = (row: RoleListVo) => {
+  deleteRole(row).then(() => {
+    queryPageRole()
+  })
 }
 </script>
 <style scoped lang="scss"></style>
