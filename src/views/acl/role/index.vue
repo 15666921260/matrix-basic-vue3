@@ -44,7 +44,13 @@
             >
               编辑
             </el-button>
-            <el-button type="danger" size="small" icon="Delete" @click="deleteRoleItem(scope.row)" plain>
+            <el-button
+              type="danger"
+              size="small"
+              icon="Delete"
+              @click="deleteRoleItem(scope.row)"
+              plain
+            >
               删除
             </el-button>
           </template>
@@ -112,7 +118,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { RoleListVo } from '@/pojo/system/role/RoleListVo.ts'
-import {addOrEditRole, deleteRole, pageRoleList} from '@/api/system/SysRole.ts'
+import {
+  addOrEditRole,
+  deleteRole,
+  pageRoleList,
+} from '@/api/system/SysRole.ts'
 import { PageRoleParam } from '@/pojo/system/role/PageRoleParam.ts'
 import { listItemByDictType } from '@/api/system/SysDict.ts'
 import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
