@@ -168,6 +168,5 @@ const dialogShowClose = () => {
   dialogShow.value = false
   cleanRoleDetail()
 }
-
 </script>
 <style scoped lang="scss"></style>
