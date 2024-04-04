@@ -14,6 +14,7 @@
       style="width: 100%"
       row-key="id"
       lazy
+      size="small"
       :load="load"
       :tree-props="{ hasChildren: 'isChild' }"
     >
