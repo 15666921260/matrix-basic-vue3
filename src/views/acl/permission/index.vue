@@ -355,9 +355,5 @@ const changMenuType = (item: DictListItem) => {
     margin-top: 2px;
     margin-right: 5px;
   }
-
-  span {
-    font-family: ARIAL;
-  }
 }
 </style>
