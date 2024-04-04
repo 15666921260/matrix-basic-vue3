@@ -58,7 +58,12 @@
         highlight-current-row
       />
       <el-table-column prop="sort" align="center" label="排序" width="80" />
-      <el-table-column prop="updateTime" align="center" label="更新时间" width="180" />
+      <el-table-column
+        prop="updateTime"
+        align="center"
+        label="更新时间"
+        width="180"
+      />
       <el-table-column label="操作" align="center" width="250">
         <template v-slot="scope">
           <el-button type="success" size="small" icon="Plus" plain>
