@@ -161,5 +161,6 @@ export default {
       width: calc(100vw - $base-menu-min-width);
     }
   }
+  font-family: NSimSun;
 }
 </style>

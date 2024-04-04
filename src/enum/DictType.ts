@@ -7,4 +7,8 @@ export enum DictType {
    * 角色类型
    */
   ROLE_TYPE = 3,
+  /**
+   * 菜单类型
+   */
+  MENU_TYPE = 4,
 }
