@@ -3,7 +3,7 @@
  * @author liuweizhong
  * @since 2024-04-04
  */
-export enum MenuType{
+export enum MenuType {
   DIRECTORY = 1,
   MENU = 2,
   AUTHOR = 3,

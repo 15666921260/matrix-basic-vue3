@@ -3,7 +3,7 @@
  * @author liuweizhong
  * @since 2024-04-04
  */
-export interface SysMenuListVo{
+export interface SysMenuListVo {
   id: number
   // 菜单名
   title: string
