@@ -134,7 +134,7 @@
                 prop="disable"
                 label="是否禁用"
                 align="center"
-                width="80"
+                width="90"
               >
                 <template #default="scope">
                   <el-tag
