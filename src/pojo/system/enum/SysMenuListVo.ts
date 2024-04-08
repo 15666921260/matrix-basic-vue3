@@ -5,6 +5,8 @@
  */
 export interface SysMenuListVo {
   id: number
+  // 父级id
+  parentId: number
   // 菜单名
   title: string
   type: number
@@ -15,6 +17,5 @@ export interface SysMenuListVo {
   componentPath: string
   hidden: boolean
   updateTime: string
-  withItem: number
-  isChild: boolean
+  children: SysMenuListVo[]
 }

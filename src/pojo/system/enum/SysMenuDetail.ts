@@ -5,13 +5,16 @@
  */
 export interface SysMenuDetail {
   id: number | null
+  // 父级id
+  parentId: number
+  parentStr: string
   // 菜单名
   title: string
   type: number | null
   typeStr: string
   // 状态,是否禁用
   status: boolean
-  // 菜单编码
+  // 菜单编码(权限标识)
   code: string
   // 菜单图标
   icon: string

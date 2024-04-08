@@ -64,7 +64,7 @@ export const constantRoute = [
       icon: 'Compass',
     },
   },
-  {
+  /*{
     path: '/acl',
     component: () => import('@/layout/index.vue'),
     name: 'Acl',
@@ -111,5 +111,5 @@ export const constantRoute = [
         },
       },
     ],
-  },
+  },*/
 ]

@@ -13,9 +13,8 @@
       :data="menuList"
       style="width: 100%"
       row-key="id"
-      lazy
+      ref="menuTableTreeRef"
       size="small"
-      :load="load"
       :tree-props="{ hasChildren: 'isChild' }"
     >
       <el-table-column
@@ -75,7 +74,7 @@
         label="更新时间"
         width="180"
       />
-      <el-table-column label="操作" align="center" width="250">
+      <el-table-column label="操作" align="center" width="260">
         <template v-slot="scope">
           <el-button
             type="success"
@@ -86,10 +85,22 @@
           >
             添加
           </el-button>
-          <el-button type="primary" size="small" icon="Edit" plain>
+          <el-button
+            type="primary"
+            size="small"
+            icon="Edit"
+            @click="editMenuDetail(scope.row)"
+            plain
+          >
             编辑
           </el-button>
-          <el-button type="danger" size="small" icon="Delete" plain>
+          <el-button
+            type="danger"
+            size="small"
+            icon="Delete"
+            @click="deleteMenuItem(scope.row)"
+            plain
+          >
             删除
           </el-button>
         </template>
@@ -102,15 +113,21 @@
     width="800"
     :before-close="enumDialogClose"
   >
-    <el-form :model="menuDetail" :inline="true">
-      <el-form-item label="菜单名称" label-width="120px">
+    <el-form
+      :model="menuDetail"
+      :inline="true"
+      :rules="menuRules"
+      ref="menuRef"
+      size="small"
+    >
+      <el-form-item label="菜单名称" prop="title" label-width="120px">
         <el-input
           v-model="menuDetail.title"
           placeholder="请输入菜单名称"
           style="width: 200px"
         />
       </el-form-item>
-      <el-form-item prop="roleType" label="角色类型:" label-width="120px">
+      <el-form-item prop="type" label="菜单类型" label-width="120px">
         <el-select
           v-model="menuDetail.typeStr"
           placeholder="请选择菜单类型"
@@ -126,10 +143,18 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="菜单编码" label-width="120px">
+      <el-form-item label="父组件" prop="patentId" label-width="120px">
+        <el-tree-select
+          v-model="menuDetail.parentId"
+          :data="menuTreeSelect"
+          style="width: 200px"
+          check-strictly
+        />
+      </el-form-item>
+      <el-form-item label="菜单编码" prop="code" label-width="120px">
         <el-input
           v-model="menuDetail.code"
-          placeholder="请输入菜单编码"
+          placeholder="请输入编码"
           style="width: 200px"
         />
       </el-form-item>
@@ -171,8 +196,8 @@
       <el-form-item label="是否显示" label-width="120px">
         <el-switch
           v-model="menuDetail.hidden"
-          active-text="是"
-          inactive-text="否"
+          active-text="否"
+          inactive-text="是"
           style="width: 200px"
         />
       </el-form-item>
@@ -183,21 +208,33 @@
           :min="1"
         />
       </el-form-item>
-      <el-form-item label="前端路由地址" label-width="120px">
+      <el-form-item
+        v-if="menuDetail.type === 2"
+        label="前端路由地址"
+        label-width="120px"
+      >
         <el-input
           v-model="menuDetail.routeUrl"
           placeholder="请输入前端路由地址"
           style="width: 300px"
         />
       </el-form-item>
-      <el-form-item label="重定向路由地址" label-width="120px">
+      <el-form-item
+        v-if="menuDetail.type === 2"
+        label="重定向路由地址"
+        label-width="120px"
+      >
         <el-input
           v-model="menuDetail.routeRedirect"
           placeholder="请输入重定向路由地址"
           style="width: 300px"
         />
       </el-form-item>
-      <el-form-item label="组件位置路径" label-width="120px">
+      <el-form-item
+        v-if="menuDetail.type === 2"
+        label="组件位置路径"
+        label-width="120px"
+      >
         <el-input
           v-model="menuDetail.componentPath"
           placeholder="请输入组件位置路径"
@@ -219,13 +256,19 @@
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="enumDialogClose">取 消</el-button>
-        <el-button type="primary" @click="enumDialogClose">确 定</el-button>
+        <el-button type="primary" @click="confirmSubmit">确 定</el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 <script setup lang="ts">
-import { getMenuListVoByParentId } from '@/api/system/MenuManage.ts'
+import {
+  andOrEditMenu,
+  deleteMenuById,
+  detailById,
+  getAllMenuListVo,
+  queryMenuTreeSelect,
+} from '@/api/system/MenuManage.ts'
 import { onMounted, reactive, ref } from 'vue'
 import { SysMenuListVo } from '@/pojo/system/enum/SysMenuListVo.ts'
 import { MenuType } from '@/enum/MenuType.ts'
@@ -234,6 +277,8 @@ import { listItemByDictType } from '@/api/system/SysDict.ts'
 import { DictType } from '@/enum/DictType.ts'
 import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
 import optionalIconList from '@/utils/optionalIconList.ts'
+import { ElMessage, ElMessageBox, FormRules } from 'element-plus'
+import { MenuTreeSelect } from '@/pojo/system/enum/MenuTreeSelect.ts'
 
 // 菜单编辑添加弹窗是否显示
 let menuDialogShow = ref<boolean>(false)
@@ -241,11 +286,13 @@ let menuDialogShow = ref<boolean>(false)
 let menuDialogTitle = ref<string>()
 // 弹窗详情
 let menuDetail = reactive<SysMenuDetail>({
+  parentStr: '',
   id: null,
+  parentId: 0,
   // 菜单名
   title: '',
-  // 状态,是否禁用
-  status: false,
+  // 状态,是否禁用 true 启用
+  status: true,
   // 菜单编码
   code: '',
   // 菜单图标
@@ -256,54 +303,64 @@ let menuDetail = reactive<SysMenuDetail>({
   routeRedirect: null,
   // 组件位置路径
   componentPath: '',
-  // 是否显示
-  hidden: true,
+  // 是否显示 false是显示
+  hidden: false,
   remarks: '',
   sort: 1,
-  type: null,
-  typeStr: '',
+  type: 1,
+  typeStr: '目录',
 })
 // 菜单类型
 let menuTypeList = ref<DictListItem[]>()
-
-const load = async (
-  row: SysMenuListVo,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-expect-error
-  treeNode: unknown,
-  resolve: (date: SysMenuListVo[]) => void,
-) => {
-  let menuLists = await getMenuListVoByParentId(row.id)
-  resolve(menuLists.data)
-}
 let menuList = ref<SysMenuListVo[]>()
-const getMenuListVo = (parentId: number) => {
-  getMenuListVoByParentId(parentId).then((r) => {
+
+// 树形可选项
+let menuTreeSelect = ref<MenuTreeSelect[]>()
+const getMenuListVo = () => {
+  getAllMenuListVo().then((r) => {
     menuList.value = r.data
   })
 }
 
 onMounted(() => {
-  getMenuListVo(0)
+  getMenuListVo()
   selectMenuType()
+  getMenuTreeSelect()
 })
+
+const getMenuTreeSelect = () => {
+  queryMenuTreeSelect().then((r) => {
+    menuTreeSelect.value = r.data
+  })
+}
 
 // 清空详情数据
 const cleanMenuDetail = () => {
   menuDetail.id = null
+  menuDetail.parentId = 0
+  menuDetail.parentStr = ''
   menuDetail.title = ''
-  menuDetail.status = false
+  menuDetail.status = true
   menuDetail.code = ''
   menuDetail.icon = ''
   menuDetail.routeUrl = ''
   menuDetail.routeRedirect = null
   menuDetail.componentPath = ''
-  menuDetail.hidden = true
+  menuDetail.hidden = false
   menuDetail.remarks = ''
   menuDetail.sort = 1
-  menuDetail.type = null
-  menuDetail.typeStr = ''
+  menuDetail.type = 1
+  menuDetail.typeStr = '目录'
 }
+
+/**
+ * 提交权限。权限提示，如果是菜单不建议前端路由和组件路径为空，如果是权限不建议编码为空
+ */
+const menuRules = reactive<FormRules<SysMenuDetail>>({
+  title: [{ required: true, message: '名不能为空', trigger: 'blur' }],
+  type: [{ required: true, message: '类型不能为空', trigger: 'blur' }],
+  code: [{ required: true, message: '编码不能为空', trigger: 'blur' }],
+})
 
 /**
  * 判断菜单类型样式
@@ -323,6 +380,9 @@ const setMenuTypeStyle = (row: SysMenuListVo) => {
 const openEnumDialog = () => {
   menuDialogShow.value = true
   menuDialogTitle.value = '添加菜单'
+  // 设置父节点
+  menuDetail.parentId = 0
+  menuDetail.parentStr = '根节点'
 }
 
 // 菜单弹窗关闭前执行的函数
@@ -336,6 +396,9 @@ const addItemMenu = (row: SysMenuListVo) => {
   console.log(JSON.stringify(row))
   menuDialogShow.value = true
   menuDialogTitle.value = '添加菜单'
+  // 设置父节点
+  menuDetail.parentId = row.id
+  menuDetail.parentStr = row.title
 }
 
 const selectMenuType = () => {
@@ -347,6 +410,79 @@ const selectMenuType = () => {
 const changMenuType = (item: DictListItem) => {
   menuDetail.typeStr = item.dicName
   menuDetail.type = Number(item.dicValue)
+}
+
+// 获取表单el组件
+let menuRef = ref()
+
+const confirmSubmit = () => {
+  // 先校验
+  menuRef.value.validate().then(() => {
+    andOrEditMenu(menuDetail).then(() => {
+      enumDialogClose()
+      cleanMenuDetail()
+      ElMessage({
+        message: '操作成功',
+        type: 'success',
+      })
+      getMenuListVo()
+    })
+  })
+}
+
+/**
+ * 编辑
+ */
+const editMenuDetail = (row: SysMenuListVo) => {
+  detailById(row.id).then((r) => {
+    menuDialogShow.value = true
+    menuDialogTitle.value = '编辑菜单'
+    menuDetail.id = r.data.id
+    menuDetail.parentId = r.data.parentId
+    menuDetail.title = r.data.title
+    menuDetail.status = r.data.status
+    menuDetail.code = r.data.code
+    menuDetail.icon = r.data.icon
+    menuDetail.routeUrl = r.data.routeUrl
+    menuDetail.routeRedirect = r.data.routeRedirect
+    menuDetail.componentPath = r.data.componentPath
+    menuDetail.hidden = r.data.hidden
+    menuDetail.remarks = r.data.remarks
+    menuDetail.sort = r.data.sort
+    menuDetail.type = r.data.type
+    menuDetail.typeStr = r.data.typeStr
+  })
+}
+
+// 删除菜单项
+const deleteMenuItem = (row: SysMenuListVo) => {
+  ElMessageBox.confirm('确定进行删除？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(() => {
+      if (row.id != null) {
+        deleteMenuById(row.id).then(() => {
+          ElMessage({
+            message: '删除成功',
+            type: 'success',
+          })
+          getMenuListVo()
+        })
+      } else {
+        ElMessage({
+          message: '所选数据发生错误，缺少id字段',
+          type: 'error',
+        })
+      }
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '已经取消',
+      })
+    })
 }
 </script>
 <style scoped lang="scss">
