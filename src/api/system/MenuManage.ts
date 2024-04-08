@@ -4,7 +4,7 @@ import { ResponseData } from '@/pojo/system/ResponseData.ts'
 import { SysMenuTreeVo } from '@/pojo/system/router/SysMenuTreeVo.ts'
 import { SysMenuListVo } from '@/pojo/system/enum/SysMenuListVo.ts'
 import { SysMenuDetail } from '@/pojo/system/enum/SysMenuDetail.ts'
-import {MenuTreeSelect} from "@/pojo/system/enum/MenuTreeSelect.ts";
+import { MenuTreeSelect } from '@/pojo/system/enum/MenuTreeSelect.ts'
 
 enum API {
   MENU_TREE_LIST = '/sysMenu/getMenuTreeList',
