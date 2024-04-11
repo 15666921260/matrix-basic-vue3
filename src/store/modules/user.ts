@@ -10,6 +10,7 @@ import { constantRoute } from '@/router/routes.ts'
 import { UserInfo } from '@/pojo/system/user/UserInfo.ts'
 import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
 import { UserState } from '@/pojo/system/store/UserState.ts'
+import { RouteRecordRaw } from 'vue-router'
 
 const useUserStore = defineStore('User', {
   // 小仓库存储数据的地方
@@ -72,6 +73,12 @@ const useUserStore = defineStore('User', {
       this.avatarFileId = ''
       // 清除保存的用户信息
       removeUserInfo()
+    },
+    /**
+     * @description:设置菜单路由
+     * */
+    setMenu(data: Array<RouteRecordRaw>) {
+      this.menuRoutes = data
     },
   },
   getters: {},

@@ -35,7 +35,7 @@
 </template>
 <script setup lang="ts">
 // 获取路由对象
-import { RouteRecordRaw, useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 // 左侧logo子组件
 import Logo from './logo/index.vue'
 // 引入菜单组件
@@ -44,44 +44,28 @@ import Menu from './menu/index.vue'
 import Main from './main/index.vue'
 // 引入顶部 tabbar
 import Tabbar from './tabbar/index.vue'
-// 获取用户相关的小仓库
-import useUserStore from '@/store/modules/user.ts'
 // 引入layout仓库配置
 import useLayoutSettingStore from '@/store/modules/setting.ts'
-import { reactive } from 'vue'
-import { getMenuTreeList } from '@/api/system/MenuManage.ts'
-import { backEndComponent, formatRoute } from '@/router/backEnd.ts'
-let userStore = useUserStore()
+import { onMounted, reactive, ref } from 'vue'
+import { initBackEndControlRoutes } from '@/router/backEnd.ts'
 let LayoutSettingStore = useLayoutSettingStore()
 // 获取路由对象
 let $route = useRoute()
-// 获取路由器
-let $router = useRouter()
 
 /**
  * 到此处执行后，通过url访问没有问题，目前需要思考如何动态显示到菜单栏
  * 思路菜单栏不根据静态路由显示，根据api查出来的数据接口进行显示
  * flag: 控制菜单组件何时加载
  */
-let menuRoutes = userStore.menuRoutes
+let menuRoutes = ref()
 const flag = reactive({
   isShow: false,
 })
-const setMenuData = async () => {
-  // 1、获取后端路由数据
-  let route = await getMenuTreeList()
-
-  // 2、将数据格式化成路由数据
-  let formatData: RouteRecordRaw[] = formatRoute(route.data)
-  let routePass = backEndComponent(formatData)
-  for (let r of routePass) {
-    $router.addRoute(r)
-  }
-  menuRoutes = [...menuRoutes, ...routePass]
+onMounted(async () => {
+  // 设置菜单
+  menuRoutes.value = await initBackEndControlRoutes()
   flag.isShow = true
-}
-
-setMenuData()
+})
 </script>
 <script lang="ts">
 // 为组件命名
