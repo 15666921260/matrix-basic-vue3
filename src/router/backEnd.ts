@@ -7,7 +7,9 @@ const layoutModules: any = import.meta.glob([
   '../layout/routerView/*.{vue,tsx}',
 ])
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}')
-const userStore = useUserStore()
+// 在外部ts中使用
+import pinia from '@/store'
+const userStore = useUserStore(pinia)
 /**
  * 获取目录下的 .vue、.tsx 全部文件
  * @method import.meta.glob
@@ -39,6 +41,21 @@ export async function initBackEndControlRoutes() {
     }
     userStore.setMenu(menuRoutes)
   })
+  return menuRoutes
+}
+// 此方法只获取路由而不动态写入
+export async function initRoutes() {
+  let menuRoutes = userStore.menuRoutes
+  // 1、获取后端路由数据
+  if (constantRoute.length == menuRoutes.length) {
+    await getMenuTreeList().then((route) => {
+      // 2、将数据格式化成路由数据
+      const formatData: RouteRecordRaw[] = formatRoute(route.data)
+      const routePass = backEndComponent(formatData)
+      menuRoutes = [...menuRoutes, ...routePass]
+      userStore.setMenu(menuRoutes)
+    })
+  }
   return menuRoutes
 }
 
