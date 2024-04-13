@@ -29,18 +29,18 @@ export async function initBackEndControlRoutes() {
   const $router = useRouter()
   let menuRoutes = userStore.menuRoutes
   // 1、获取后端路由数据
-  await getMenuTreeList().then((route) => {
-    // 2、将数据格式化成路由数据
-    const formatData: RouteRecordRaw[] = formatRoute(route.data)
-    const routePass = backEndComponent(formatData)
-    for (const r of routePass) {
-      $router.addRoute(r)
-    }
-    if (constantRoute.length == menuRoutes.length) {
+  if (constantRoute.length == menuRoutes.length) {
+    await getMenuTreeList().then((route) => {
+      // 2、将数据格式化成路由数据
+      const formatData: RouteRecordRaw[] = formatRoute(route.data)
+      const routePass = backEndComponent(formatData)
+      for (const r of routePass) {
+        $router.addRoute(r)
+      }
       menuRoutes = [...menuRoutes, ...routePass]
-    }
-    userStore.setMenu(menuRoutes)
-  })
+      userStore.setMenu(menuRoutes)
+    })
+  }
   return menuRoutes
 }
 // 此方法只获取路由而不动态写入
