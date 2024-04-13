@@ -32,6 +32,9 @@ export async function initBackEndControlRoutes() {
   if (constantRoute.length == menuRoutes.length) {
     await getMenuTreeList().then((route) => {
       const routes = route.data
+      /**
+       * 在此处添加404，如果是静态会导致刷新出现在404页面
+       */
       routes.push({
         children: [],
         code: '404',
@@ -52,7 +55,7 @@ export async function initBackEndControlRoutes() {
         updateTime: '2024-04-08T16:34:41.000+00:00',
       })
       // 2、将数据格式化成路由数据
-      const formatData: RouteRecordRaw[] = formatRoute(route.data)
+      const formatData: RouteRecordRaw[] = formatRoute(routes)
       const routePass = backEndComponent(formatData)
       for (const r of routePass) {
         $router.addRoute(r)
