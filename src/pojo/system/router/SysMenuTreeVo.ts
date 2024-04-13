@@ -16,7 +16,7 @@ export interface SysMenuTreeVo {
   routeRedirect: string
   componentPath: string
   hidden: boolean
-  children: SysMenuTreeVo
+  children: SysMenuTreeVo[]
   createId: string
   createTime: string
   updateId: string

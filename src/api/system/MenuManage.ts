@@ -19,7 +19,7 @@ enum API {
  * 获取当前登录路由
  */
 export const getMenuTreeList = () =>
-  request.get<any, ResponseData<SysMenuTreeVo>>(API.MENU_TREE_LIST)
+  request.get<any, ResponseData<SysMenuTreeVo[]>>(API.MENU_TREE_LIST)
 
 export const getAllMenuListVo = () =>
   request.get<any, ResponseData<SysMenuListVo[]>>(API.ALL_MENU_LIST_VO)

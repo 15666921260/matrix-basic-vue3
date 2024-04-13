@@ -49,7 +49,6 @@ router.beforeEach(
     // 获取用户的名字
     // let userName = userStore.username;
     if (token) {
-      console.log(to.name)
       // 用户登录
       if (to.path == '/login') {
         next({ path: '/' })

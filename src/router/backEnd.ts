@@ -31,6 +31,26 @@ export async function initBackEndControlRoutes() {
   // 1、获取后端路由数据
   if (constantRoute.length == menuRoutes.length) {
     await getMenuTreeList().then((route) => {
+      const routes = route.data
+      routes.push({
+        children: [],
+        code: '404',
+        componentPath: '',
+        createId: '',
+        createTime: '',
+        hidden: true,
+        icon: 'Compass',
+        id: -1,
+        parentId: 0,
+        routeRedirect: '/404',
+        routeUrl: '/:pathMatch(.*)*',
+        sort: 2,
+        status: true,
+        title: '404',
+        type: 2,
+        updateId: '000000001',
+        updateTime: '2024-04-08T16:34:41.000+00:00',
+      })
       // 2、将数据格式化成路由数据
       const formatData: RouteRecordRaw[] = formatRoute(route.data)
       const routePass = backEndComponent(formatData)
