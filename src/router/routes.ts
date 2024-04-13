@@ -24,6 +24,7 @@ export const constantRoute = [
       {
         path: '/home',
         component: () => import('@/views/home/index.vue'),
+        name: 'home',
         meta: {
           title: '首页', // 菜单需要的标题
           hidden: false,
@@ -53,7 +54,7 @@ export const constantRoute = [
       icon: 'Platform',
     },
   },*/
-  {
+  /*{
     // 任意路由重定向到404
     path: '/:pathMatch(.*)*',
     redirect: '/404',
@@ -63,7 +64,7 @@ export const constantRoute = [
       hidden: true,
       icon: 'Compass',
     },
-  },
+  },*/
   /*{
     path: '/acl',
     component: () => import('@/layout/index.vue'),

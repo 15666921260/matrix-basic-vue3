@@ -74,6 +74,7 @@ const goRouter = (vc: any) => {
 </script>
 <script lang="ts">
 export default {
+  // eslint-disable-next-line vue/no-reserved-component-names
   name: 'Menu',
 }
 </script>

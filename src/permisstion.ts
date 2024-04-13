@@ -8,6 +8,7 @@ import 'nprogress/nprogress.css'
 import useUserStore from '@/store/modules/user.ts'
 import pinia from '@/store'
 import setting from '@/setting.ts'
+import { initBackEndControlRoutes } from '@/router/backEnd.ts'
 const userStore = useUserStore(pinia)
 // 不显示加载的小圈圈
 nprogress.configure({ showSpinner: false })
@@ -48,12 +49,20 @@ router.beforeEach(
     // 获取用户的名字
     // let userName = userStore.username;
     if (token) {
+      console.log(to.name)
       // 用户登录
       if (to.path == '/login') {
         next({ path: '/' })
       } else {
-        // 登录成功返回其他路由
-        next()
+        // 动态路由
+        if (to.name == undefined) {
+          initBackEndControlRoutes().then(() => {
+            next({ ...to, replace: true })
+          })
+        } else {
+          // 登录成功返回其他路由
+          next()
+        }
       }
     } else {
       // 用户未登录
