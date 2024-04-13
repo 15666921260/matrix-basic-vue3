@@ -47,7 +47,7 @@ import Tabbar from './tabbar/index.vue'
 // 引入layout仓库配置
 import useLayoutSettingStore from '@/store/modules/setting.ts'
 import { onMounted, reactive, ref } from 'vue'
-import { initRoutes } from '@/router/backEnd.ts'
+import { initBackEndControlRoutes } from '@/router/backEnd.ts'
 let LayoutSettingStore = useLayoutSettingStore()
 // 获取路由对象
 let $route = useRoute()
@@ -62,8 +62,8 @@ const flag = reactive({
   isShow: false,
 })
 onMounted(async () => {
-  // 设置菜单
-  menuRoutes.value = await initRoutes()
+  // 设置初始化路由菜单
+  menuRoutes.value = await initBackEndControlRoutes()
   flag.isShow = true
 })
 </script>

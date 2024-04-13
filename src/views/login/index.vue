@@ -83,11 +83,10 @@ const login = async () => {
     // 成功跳转首页
     // 判断路径当中有没有记录query参数, 如果有则往query中的跳转
     let redirect: any = $route.query.redirect
-    // todo 可以在此处加逻辑获取用户信息，如果该用户含有某个特性，则让他跳转另一个主页面(非后台管理页面)
+    // todo 可以在此处加逻辑获取用户信息，如果该用户含有某个特性，则让他跳转另一个主页面(非后台管理页面)(之后记得在那个页面的onMounted中重新调用初始化路由的方法)
     await $router.push({ path: redirect || '/' })
     // 先执行一下刷新不然会不能正常路由(动态路由的原因)，下下边直接调用加载路由不太行，导致不能添加进去
-    location.reload()
-    // await initBackEndControlRoutes()
+    // location.reload()
     ElNotification({
       type: 'success',
       message: '登录成功！',
