@@ -156,7 +156,11 @@ import { listItemByDictType } from '@/api/system/SysDict.ts'
 import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
 import { DictType } from '@/enum/DictType.ts'
 import { DictItemResult } from '@/pojo/system/dict/DictItemResult.ts'
-import { getBaseTreeData, getMenuCheckedKeys } from '@/api/system/MenuManage.ts'
+import {
+  getBaseTreeData,
+  getMenuCheckedKeys,
+  setRoleMenuAssociation,
+} from '@/api/system/MenuManage.ts'
 import { TreeData } from '@/pojo/system/TreeData.ts'
 import { ElTree } from 'element-plus'
 import { RoleMenu } from '@/pojo/system/role/RoleMenu.ts'
@@ -330,8 +334,7 @@ const confirmAuthDialog = () => {
   for (const checkedKey of checkedKeys) {
     roleMenu.menuIds.push(Number(checkedKey))
   }
-  console.log('选中的菜单id集合:', roleMenu.menuIds)
-  console.log('选中的角色id:', roleMenu.roleId)
+  setRoleMenuAssociation(roleMenu)
   closeAuthDialog()
 }
 </script>

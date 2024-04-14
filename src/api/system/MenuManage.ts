@@ -6,6 +6,7 @@ import { SysMenuListVo } from '@/pojo/system/enum/SysMenuListVo.ts'
 import { SysMenuDetail } from '@/pojo/system/enum/SysMenuDetail.ts'
 import { MenuTreeSelect } from '@/pojo/system/enum/MenuTreeSelect.ts'
 import { TreeData } from '@/pojo/system/TreeData.ts'
+import { RoleMenu } from '@/pojo/system/role/RoleMenu.ts'
 
 enum API {
   MENU_TREE_LIST = '/sysMenu/getMenuTreeList',
@@ -16,6 +17,7 @@ enum API {
   MENU_TREE_SELECT = '/sysMenu/getMenuTreeSelect',
   GET_BASE_TREE_DATA = '/sysMenu/getAllMenuTreeData',
   MENU_CHECKED_KEYS = '/sysMenu/getMenuCheckedKeys',
+  ROLE_MENU_ASSOCIATION = '/sysMenu/setRoleMenuAssociation',
 }
 
 /**
@@ -61,3 +63,6 @@ export const getMenuCheckedKeys = (roleId: number) =>
   request.get<any, ResponseData<Array<number>>>(API.MENU_CHECKED_KEYS, {
     params: { roleId },
   })
+
+export const setRoleMenuAssociation = (roleMenu: RoleMenu) =>
+  request.post<any, ResponseData<string>>(API.ROLE_MENU_ASSOCIATION, roleMenu)
