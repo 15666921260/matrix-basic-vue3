@@ -16,23 +16,27 @@
                   placeholder="请输入字典类型"
                   style="width: 150px"
                   v-model="queryDictTypeParam.typeName"
+                  size="small"
                   maxlength="20"
                 ></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button
                   type="primary"
+                  size="small"
                   @click="queryDictType(queryDictTypeParam)"
                 >
                   搜索
                 </el-button>
-                <el-button type="info" @click="resetDictType">重置</el-button>
+                <el-button type="info" size="small" @click="resetDictType">
+                  重置
+                </el-button>
               </el-form-item>
             </el-form>
           </div>
           <!-- 按钮模块 -->
           <div>
-            <el-button type="primary" @click="addDictType()">
+            <el-button type="primary" size="small" @click="addDictType()">
               添加字典类型
             </el-button>
           </div>
@@ -49,10 +53,9 @@
               <el-table-column
                 prop="typeName"
                 label="字典类型"
-                width="200"
                 show-overflow-tooltip
               />
-              <el-table-column label="操作">
+              <el-table-column label="操作" width="240">
                 <template v-slot="scope">
                   <el-button
                     type="primary"
@@ -102,7 +105,7 @@
       <el-col :span="16" class="rightDict">
         <el-card class="rightCard" shadow="always">
           <div class="dict-item-button">
-            <el-button type="primary" @click="addDictItem">
+            <el-button type="primary" size="small" @click="addDictItem">
               添加字典项
             </el-button>
           </div>
