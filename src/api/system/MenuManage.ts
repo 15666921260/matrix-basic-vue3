@@ -5,6 +5,7 @@ import { SysMenuTreeVo } from '@/pojo/system/router/SysMenuTreeVo.ts'
 import { SysMenuListVo } from '@/pojo/system/enum/SysMenuListVo.ts'
 import { SysMenuDetail } from '@/pojo/system/enum/SysMenuDetail.ts'
 import { MenuTreeSelect } from '@/pojo/system/enum/MenuTreeSelect.ts'
+import { TreeData } from '@/pojo/system/TreeData.ts'
 
 enum API {
   MENU_TREE_LIST = '/sysMenu/getMenuTreeList',
@@ -13,6 +14,8 @@ enum API {
   DETAIL_BY_ID = '/sysMenu/getMenuDetailById',
   DELETED_ID = '/sysMenu/deleteById',
   MENU_TREE_SELECT = '/sysMenu/getMenuTreeSelect',
+  GET_BASE_TREE_DATA = '/sysMenu/getAllMenuTreeData',
+  MENU_CHECKED_KEYS = '/sysMenu/getMenuCheckedKeys',
 }
 
 /**
@@ -42,4 +45,19 @@ export const detailById = (menuId: number) =>
 export const deleteMenuById = (menuId: number) =>
   request.get<any, ResponseData<string>>(API.DELETED_ID, {
     params: { menuId },
+  })
+
+/**
+ * 获取树形结构数据
+ */
+export const getBaseTreeData = () =>
+  request.get<any, ResponseData<Array<TreeData>>>(API.GET_BASE_TREE_DATA)
+
+/**
+ * 根据角色id获取选中菜单的id集合
+ * @param roleId 角色id
+ */
+export const getMenuCheckedKeys = (roleId: number) =>
+  request.get<any, ResponseData<Array<number>>>(API.MENU_CHECKED_KEYS, {
+    params: { roleId },
   })

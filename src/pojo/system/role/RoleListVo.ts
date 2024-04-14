@@ -1,5 +1,5 @@
 export interface RoleListVo {
-  id: string
+  id: number
   roleName: string
   roleType: string
   roleTypeStr: string

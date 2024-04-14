@@ -32,7 +32,13 @@
         <el-table-column prop="remarks" label="备注" show-overflow-tooltip />
         <el-table-column label="操作" align="center" width="300">
           <template v-slot="scope">
-            <el-button type="success" size="small" icon="User" plain>
+            <el-button
+              type="success"
+              size="small"
+              icon="User"
+              @click="openAuthDialog(scope.row)"
+              plain
+            >
               授权
             </el-button>
             <el-button
@@ -113,6 +119,28 @@
         </div>
       </template>
     </el-dialog>
+    <el-dialog
+      v-model="authDialogShow"
+      :title="dialogTitle"
+      width="400"
+      :before-close="closeAuthDialog"
+    >
+      <el-tree
+        ref="treeRef"
+        style="max-width: 600px"
+        :data="baseTreeData"
+        show-checkbox
+        node-key="id"
+        :default-checked-keys="menuCheckedKeys"
+        :props="defaultProps"
+      />
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="closeAuthDialog">取 消</el-button>
+          <el-button type="primary" @click="confirmAuthDialog">确 定</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script setup lang="ts">
@@ -128,11 +156,31 @@ import { listItemByDictType } from '@/api/system/SysDict.ts'
 import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
 import { DictType } from '@/enum/DictType.ts'
 import { DictItemResult } from '@/pojo/system/dict/DictItemResult.ts'
+import { getBaseTreeData, getMenuCheckedKeys } from '@/api/system/MenuManage.ts'
+import { TreeData } from '@/pojo/system/TreeData.ts'
+import { ElTree } from 'element-plus'
+import { RoleMenu } from '@/pojo/system/role/RoleMenu.ts'
 
 // 列表页数据
 let roleListData = ref<RoleListVo[]>()
 
 let totalRoleNum = ref<number>()
+// 授权页面展示
+let authDialogShow = ref<boolean>(false)
+
+// 树形菜单选择数据集
+let baseTreeData = ref<Array<TreeData>>()
+
+// 树形菜单的默认选择数据id的集合
+let menuCheckedKeys = ref<Array<number>>()
+
+const treeRef = ref<InstanceType<typeof ElTree>>()
+
+// 初始化角色菜单关联类
+let roleMenu = reactive<RoleMenu>({
+  menuIds: [],
+  roleId: 0,
+})
 
 // 查询参数
 let queryParam: PageRoleParam = reactive({
@@ -144,6 +192,10 @@ let queryParam: PageRoleParam = reactive({
 onMounted(() => {
   queryPageRole()
   selectRoleType()
+  // 获取基础树形数据
+  getBaseTreeData().then((r) => {
+    baseTreeData.value = r.data
+  })
 })
 // 角色类型
 let roleTypeList = ref<DictListItem[]>()
@@ -172,7 +224,7 @@ let dialogShow = ref<boolean>(false)
 
 let roleDetail = reactive<RoleListVo>({
   createTime: '',
-  id: '',
+  id: 0,
   remarks: '',
   roleName: '',
   roleType: '',
@@ -183,7 +235,7 @@ let roleDetail = reactive<RoleListVo>({
 const cleanRoleDetail = () => {
   roleDetail.roleName = ''
   roleDetail.roleType = ''
-  roleDetail.id = ''
+  roleDetail.id = 0
   roleDetail.remarks = ''
   roleDetail.createTime = ''
   roleDetail.roleTypeStr = ''
@@ -229,6 +281,7 @@ const editRole = (row: RoleListVo) => {
   roleDetail.createTime = row.createTime
   roleDetail.roleTypeStr = row.roleTypeStr
   dialogShow.value = true
+  dialogTitle.value = '编辑角色'
 }
 
 const changRoleType = (item: DictItemResult) => {
@@ -241,6 +294,45 @@ const deleteRoleItem = (row: RoleListVo) => {
   deleteRole(row).then(() => {
     queryPageRole()
   })
+}
+
+/**
+ * 打开授权弹窗
+ */
+const openAuthDialog = (row: RoleListVo) => {
+  authDialogShow.value = true
+  dialogTitle.value = '菜单授权'
+  getMenuCheckedKeys(row.id).then((r) => {
+    menuCheckedKeys.value = r.data
+    roleMenu.roleId = row.id
+  })
+}
+
+// 关闭授权弹窗
+const closeAuthDialog = () => {
+  authDialogShow.value = false
+  menuCheckedKeys.value = []
+  // 清空角色菜单关联类
+  roleMenu.menuIds = []
+  roleMenu.roleId = 0
+}
+
+const defaultProps = {
+  children: 'children',
+  label: 'label',
+}
+
+/**
+ * 确认
+ */
+const confirmAuthDialog = () => {
+  let checkedKeys = treeRef.value!.getCheckedKeys(false)
+  for (const checkedKey of checkedKeys) {
+    roleMenu.menuIds.push(Number(checkedKey))
+  }
+  console.log('选中的菜单id集合:', roleMenu.menuIds)
+  console.log('选中的角色id:', roleMenu.roleId)
+  closeAuthDialog()
 }
 </script>
 <style scoped lang="scss"></style>

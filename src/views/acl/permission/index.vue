@@ -9,6 +9,9 @@
     >
       添加
     </el-button>
+    <span style="margin-left: 10px; color: #21b8db; font-size: 12px">
+      建议只在目录下写菜单, 菜单下写权限。
+    </span>
     <el-table
       :data="menuList"
       style="width: 100%"
