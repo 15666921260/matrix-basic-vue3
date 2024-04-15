@@ -162,7 +162,7 @@ import {
   setRoleMenuAssociation,
 } from '@/api/system/MenuManage.ts'
 import { TreeData } from '@/pojo/system/TreeData.ts'
-import { ElTree } from 'element-plus'
+import { ElMessage, ElTree } from 'element-plus'
 import { RoleMenu } from '@/pojo/system/role/RoleMenu.ts'
 
 // 列表页数据
@@ -309,6 +309,8 @@ const openAuthDialog = (row: RoleListVo) => {
   getMenuCheckedKeys(row.id).then((r) => {
     menuCheckedKeys.value = r.data
     roleMenu.roleId = row.id
+    // setCheckedKeys方法用于更新所选数据
+    treeRef.value!.setCheckedKeys(menuCheckedKeys.value)
   })
 }
 
@@ -316,6 +318,8 @@ const openAuthDialog = (row: RoleListVo) => {
 const closeAuthDialog = () => {
   authDialogShow.value = false
   menuCheckedKeys.value = []
+  // setCheckedKeys方法用于更新所选数据
+  treeRef.value!.setCheckedKeys(menuCheckedKeys.value)
   // 清空角色菜单关联类
   roleMenu.menuIds = []
   roleMenu.roleId = 0
@@ -334,8 +338,13 @@ const confirmAuthDialog = () => {
   for (const checkedKey of checkedKeys) {
     roleMenu.menuIds.push(Number(checkedKey))
   }
-  setRoleMenuAssociation(roleMenu)
-  closeAuthDialog()
+  setRoleMenuAssociation(roleMenu).then(() => {
+    closeAuthDialog()
+    ElMessage({
+      message: '操作成功',
+      type: 'success',
+    })
+  })
 }
 </script>
 <style scoped lang="scss"></style>
