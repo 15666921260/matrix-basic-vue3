@@ -88,7 +88,7 @@
               type="success"
               size="small"
               icon="User"
-              @click="handleClick(scope.row)"
+              @click="handleAssigningRoles(scope.row)"
               plain
             >
               分配角色
@@ -243,6 +243,35 @@
         </div>
       </template>
     </el-dialog>
+    <el-dialog
+      v-model="assigningRoleShow"
+      :title="userDialogTitle"
+      width="400"
+      :before-close="assigningRoleDialogClose"
+    >
+      <el-select
+        v-model="tableUserRoleList"
+        multiple
+        placeholder="Select"
+        style="width: 300px"
+        value-key="id"
+      >
+        <el-option
+          v-for="item in tableRoleData"
+          :key="item.id"
+          :label="item.roleName"
+          :value="item.id"
+        />
+      </el-select>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="assigningRoleDialogClose">取 消</el-button>
+          <el-button type="primary" @click="confirmAssigningRole">
+            确 定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script setup lang="ts">
@@ -264,6 +293,13 @@ import { DictListItem } from '@/pojo/system/dict/DictListItem.ts'
 import { UserDetail } from '@/pojo/system/user/UserDetail.ts'
 import { DictItemResult } from '@/pojo/system/dict/DictItemResult.ts'
 import { SysDefault } from '@/enum/SysDefault.ts'
+import { RoleListVo } from '@/pojo/system/role/RoleListVo.ts'
+import {
+  queryAllRoleList,
+  queryRoleIdByUserId,
+  saveUserRoleAssociation,
+} from '@/api/system/SysRole.ts'
+import { UserRole } from '@/pojo/system/role/UserRole.ts'
 
 let userTypeList = ref<DictListItem[]>()
 let tableData = ref<UserList[]>()
@@ -278,6 +314,17 @@ let userDialogShow = ref<boolean>(false)
 let userDialogTitle = ref<string>('添加用户数据')
 // 是否只读
 let userReadonly = ref<boolean>(false)
+// 分配角色弹窗是否显示
+let assigningRoleShow = ref<boolean>(false)
+// roleData表达所有用户角色信息
+let tableRoleData = ref<RoleListVo[]>()
+// 单个用户的角色信息角色id集合
+let tableUserRoleList = ref<number[]>([])
+// 用户角色关联数据
+let userRoleData = reactive<UserRole>({
+  roleIds: [],
+  userId: '',
+})
 
 let userVoData: UserDetail = reactive({
   confirmPassword: '',
@@ -298,6 +345,10 @@ let userVoData: UserDetail = reactive({
 onMounted(() => {
   pageUserList()
   selectUserType()
+  // 查询所有角色
+  queryAllRoleList().then((r) => {
+    tableRoleData.value = r.data
+  })
 })
 
 const chengeUserType = (item: DictItemResult) => {
@@ -335,8 +386,15 @@ const resetQuery = () => {
   pageUserList()
 }
 
-const handleClick = (row: UserList) => {
-  console.log('此行是', row)
+//打开分配角色弹窗
+const handleAssigningRoles = (row: UserList) => {
+  userDialogTitle.value = '分配角色'
+  assigningRoleShow.value = true
+  userRoleData.userId = row.id
+  // 调用接口查询用户角色信息
+  queryRoleIdByUserId(row.id).then((r) => {
+    tableUserRoleList.value = r.data
+  })
 }
 
 // 添加用户的功能
@@ -520,6 +578,23 @@ const addOrEditUser = async () => {
       }
     })
   }
+}
+
+// 关闭处理角色分配的弹窗
+const assigningRoleDialogClose = () => {
+  assigningRoleShow.value = false
+  userRoleData.roleIds = []
+  userRoleData.userId = ''
+  tableUserRoleList.value = []
+}
+
+// 确认角色分配
+const confirmAssigningRole = () => {
+  userRoleData.roleIds = tableUserRoleList.value
+  saveUserRoleAssociation(userRoleData).then(() => {
+    assigningRoleDialogClose()
+    ElMessage.success('操作成功!')
+  })
 }
 </script>
 <style scoped lang="scss">
