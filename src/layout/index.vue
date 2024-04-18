@@ -15,8 +15,6 @@
         <el-menu
           :collapse="LayoutSettingStore.fold"
           :default-active="$route.path"
-          background-color="white"
-          text-color="black"
         >
           <!-- 向子组件传递数据 -->
           <Menu v-if="flag.isShow" :menuList="menuRoutes"></Menu>
@@ -81,10 +79,9 @@ export default {
   .layout_slider {
     width: $base-menu-width;
     height: 100vh;
-    background: $base-menu-background;
 
     border-width: 1px;
-    border-color: #bdbdbd;
+    border-color: #1e4161;
     border-right-style: solid;
 
     // 添加过渡动画(折叠时使用)
@@ -113,7 +110,7 @@ export default {
     left: $base-menu-width;
 
     border-width: 1px;
-    border-color: #bdbdbd;
+    border-color: #1e4161;
     border-bottom-style: solid;
 
     // 添加过渡动画(折叠时使用)
