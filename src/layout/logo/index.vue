@@ -28,7 +28,7 @@ export default {
   }
   p {
     margin-left: 10px;
-    color: black;
+    color: #1c4d7f;
     font-size: $base-logo-title-fontSize;
     font-family: SimHei;
     width: 180px;
