@@ -4,7 +4,6 @@
     <el-button type="primary" @click="testButton">接口测试按钮后端</el-button>
     <el-button type="primary" @click="routerPath">接口测试按钮跳转</el-button>
     <h1>图片文件上传示例</h1>
-    <ImageUpload />
     <h1>图片文件预览示例</h1>
     <ImagePreview :file-id="fileId" />
     <div v-if="flag.isShow">vIfTestvIfTestvIfTestvIfTestvIfTest</div>
@@ -16,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import ImageUpload from '@/components/ImageUpload/index.vue'
 import ImagePreview from '@/components/ImagePreview/index.vue'
 import { isLogin, queryUserList } from '@/api/user'
 // 引入获取路由器
