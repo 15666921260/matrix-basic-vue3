@@ -212,7 +212,6 @@
         />
       </el-form-item>
       <el-form-item
-        v-if="menuDetail.type === 2"
         label="前端路由地址"
         label-width="120px"
       >
