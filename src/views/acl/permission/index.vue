@@ -211,10 +211,7 @@
           :min="1"
         />
       </el-form-item>
-      <el-form-item
-        label="前端路由地址"
-        label-width="120px"
-      >
+      <el-form-item label="前端路由地址" label-width="120px">
         <el-input
           v-model="menuDetail.routeUrl"
           placeholder="请输入前端路由地址"
