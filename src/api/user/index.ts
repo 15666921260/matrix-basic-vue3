@@ -17,6 +17,7 @@ enum API {
   DETAIL_USER_BY_ID = '/user/detailUserById',
   EDIT_USER = '/user/editUser',
   DELETE_USER_ID = '/user/deleteUserById',
+  TOKEN_CODE = '/user/tokenCode',
 }
 // 对外暴露请求函数
 export const reqLogin = (data: LoginFrom) =>
@@ -45,3 +46,9 @@ export const editUserData = (data: UserDetail) =>
 
 export const deleteUserById = (user: UserList) =>
   request.post<any, ResponseData<string>>(API.DELETE_USER_ID, user)
+
+// 获取验证码
+export const getTokenCodeApi = (phone: string) =>
+  request.get<any, ResponseData<string>>(API.TOKEN_CODE, {
+    params: { phone },
+  })
