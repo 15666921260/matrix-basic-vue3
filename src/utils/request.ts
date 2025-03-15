@@ -47,7 +47,12 @@ request.interceptors.response.use(
         },
       })
     } else if (response.data.code && response.data.code !== 200) {
-      const message = errorMessage(response.data.code)
+      let message: string
+      if (response.data.msg) {
+        message = response.data.msg
+      } else {
+        message = errorMessage(response.data.code)
+      }
       // 提示的错误信息
       ElMessage({
         type: 'error',
