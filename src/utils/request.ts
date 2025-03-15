@@ -34,8 +34,8 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   // 成功的回调
   (response) => {
-    // 判断token无效 todo 以一种方式实现了token的跳转登陆
-    if (response.data.msg && !response.data.msg.indexOf('token 无效')) {
+    // 判断token无效 实现了token的跳转登陆
+    if (response.data.code && response.data.code === 401) {
       ElMessageBox.alert('当前登录已失效！', '注意', {
         confirmButtonText: '重新登录',
         callback: () => {
