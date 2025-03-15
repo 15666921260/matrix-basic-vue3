@@ -1,6 +1,6 @@
 ## 简介
 
-练习用的小项目
+练习用初始化小项目
 
 后端地址:https://gitee.com/liu-weizhong/matrix-basic
 
@@ -18,10 +18,6 @@
 
 ###### `ts`
 
-###### `pnpm`包管理工具
-
 ###### `vite` 工具链
 
 ###### `pinia` 状态管理库
-
-###### `eslint`
