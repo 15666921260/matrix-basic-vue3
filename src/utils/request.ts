@@ -46,41 +46,55 @@ request.interceptors.response.use(
           window.location.href = '/login'
         },
       })
+    } else if (response.data.code && response.data.code !== 200) {
+      const message = errorMessage(response.data.code)
+      // 提示的错误信息
+      ElMessage({
+        type: 'error',
+        message,
+      })
     }
     // 简化数据
     return response.data
   },
   // 失败的回调
-  (error) => {
-    // 处理http网络错误
-    // 顶一个变量:存储网络错误的信息
-    let message = ''
-    // http 状态码
-    const status = error.response.status
-    switch (status) {
-      case 401:
-        message = 'token过期'
-        break
-      case 403:
-        message = '无权访问'
-        break
-      case 404:
-        message = '请求地址错误'
-        break
-      case 500:
-        message = '服务器出现问题'
-        break
-      default:
-        message = '网络出现问题'
-    }
-    // 提示的错误信息
-    ElMessage({
-      type: 'error',
-      message,
-    })
-    // 终结Promise量
-    return Promise.reject(error)
-  },
+  (error) => errorHandler(error),
 )
+
+const errorHandler = (error: any) => {
+  // http 状态码
+  // 处理http网络错误
+  // 顶一个变量:存储网络错误的信息
+  const message = errorMessage(error.response.code)
+  // 提示的错误信息
+  ElMessage({
+    type: 'error',
+    message,
+  })
+  // 终结Promise量
+  return Promise.reject(error)
+}
+
+const errorMessage = (code: number) => {
+  let message = ''
+  switch (code) {
+    case 401:
+      message = 'token过期'
+      break
+    case 403:
+      message = '无权访问'
+      break
+    case 404:
+      message = '请求地址错误'
+      break
+    case 500:
+      message = '服务器出现问题'
+      break
+    default:
+      message = '网络出现问题'
+  }
+  return message
+}
+
 // 对外暴露request
 export default request
