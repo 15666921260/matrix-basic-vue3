@@ -10,9 +10,9 @@ const userStore = useUserStore()
 export const checkPermission = (permission: string) => {
   if (!userStore.permissions) {
     return false
-  }
-  if (userStore.permissions.length === 0) {
+  } else if (userStore.permissions.length === 0) {
     return false
+  } else {
+    return userStore.permissions.includes(permission)
   }
-  return userStore.permissions.includes(permission)
 }
