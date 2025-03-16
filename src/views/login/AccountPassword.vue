@@ -39,7 +39,6 @@ import { ElNotification } from 'element-plus'
 import { getTimeMsg } from '@/utils/time.ts'
 import useUserStore from '@/store/modules/user.ts'
 import { useRoute, useRouter } from 'vue-router'
-import {initBackEndControlRoutes} from "@/router/backEnd.ts";
 
 let userStore = useUserStore()
 // 获取路由器
