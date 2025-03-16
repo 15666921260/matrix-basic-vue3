@@ -8,6 +8,7 @@ export interface UserInfo {
   nickName: string
   token: string
   avatarFileId: string
+  permissions: Array<string>
   desc?: string
   roles?: Array<string>
   button?: Array<string>

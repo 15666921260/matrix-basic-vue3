@@ -20,6 +20,7 @@ export const getUserInfo = (): UserInfo => {
       username: '',
       nickName: '',
       token: '',
+      permissions: [],
     }
   }
 }

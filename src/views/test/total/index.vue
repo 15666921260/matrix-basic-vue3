@@ -11,6 +11,8 @@
     <el-button type="primary" @click="testQueryUser">
       测试分页查询用户
     </el-button>
+    <el-button type="primary" @click="testPermission">测试权限</el-button>
+    <div v-show="checkPermission('user.add')">权限有:user.add显示该文字</div>
   </div>
 </template>
 
@@ -21,6 +23,7 @@ import { isLogin, queryUserList } from '@/api/user'
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
 import { QueryUserParam } from '@/pojo/system/user/QueryUserParam.ts'
+import { checkPermission } from '@/utils/PermissionsUtils.ts'
 // 获取路由器
 let $router = useRouter()
 const routerPath = () => {
@@ -33,6 +36,10 @@ const fileId = '1766829528619884545'
 const flag = reactive({
   isShow: false,
 })
+
+const testPermission = () => {
+  console.log('权限有:', checkPermission('user.add'))
+}
 
 const vIfTest = () => {
   flag.isShow = !flag.isShow

@@ -23,6 +23,7 @@ const useUserStore = defineStore('User', {
       username: userInfo.username, // 用户名
       nickName: userInfo.nickName, // 昵称
       avatarFileId: userInfo.avatarFileId, // 头像文件id
+      permissions: userInfo.permissions, // 权限列表
     }
   },
   // 异步|逻辑的地方
@@ -42,6 +43,8 @@ const useUserStore = defineStore('User', {
         this.token = result.data.token as string // 断言，是字符串的情况下返回值
         this.username = result.data.username
         this.nickName = result.data.nickName
+        this.permissions = result.data.permissions
+        this.avatarFileId = result.data.avatarFileId
         if (result.data.avatarFileId == null) {
           console.log('avatarFileId判断为空了')
           result.data.avatarFileId = '1767228887526178817'
@@ -51,9 +54,11 @@ const useUserStore = defineStore('User', {
           nickName: result.data.nickName,
           token: result.data.token,
           avatarFileId: result.data.avatarFileId,
+          permissions: result.data.permissions,
         }
         // 本地存储，持久化存储一份
         saveUserInfo(userInfo)
+        // await initBackEndControlRoutes()
         // 保证当前async函数返回一个成功的promise
         return 'ok'
       } else {
@@ -71,6 +76,7 @@ const useUserStore = defineStore('User', {
       this.nickName = ''
       this.avatar = ''
       this.avatarFileId = ''
+      this.permissions = []
       // 清除保存的用户信息
       removeUserInfo()
     },

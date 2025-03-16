@@ -17,4 +17,6 @@ export interface UserState {
   avatar?: string
   // 头像文件id
   avatarFileId: string
+  // 权限列表
+  permissions: Array<string>
 }
