@@ -4,6 +4,7 @@
     <h2 class="title">Matrix Software</h2>
     <el-form-item prop="username">
       <el-input
+        class="inputHeight"
         placeholder="请输入用户名"
         :prefix-icon="User"
         v-model="loginFrom.username"
@@ -11,12 +12,28 @@
     </el-form-item>
     <el-form-item prop="password">
       <el-input
+        class="inputHeight"
         placeholder="请输入密码"
         type="password"
         :prefix-icon="Lock"
         v-model="loginFrom.password"
         show-password
       ></el-input>
+    </el-form-item>
+    <el-form-item prop="captcha">
+      <el-input
+        class="captcha inputHeight"
+        placeholder="验证码"
+        :prefix-icon="Notification"
+        v-model="loginFrom.captcha"
+      ></el-input>
+      <img
+        v-show="true"
+        :src="'data:image/png;base64,' + imgBase64"
+        class="smallImg inputHeight"
+        alt="验证码"
+        @click="refreshImg"
+      />
     </el-form-item>
     <el-form-item>
       <el-button
@@ -32,27 +49,56 @@
   </el-form>
 </template>
 <script setup lang="ts">
-import { Lock, User } from '@element-plus/icons-vue'
+import { Lock, User, Notification } from '@element-plus/icons-vue'
 import { LoginFrom } from '@/pojo/system/LoginFrom.ts'
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { ElNotification } from 'element-plus'
 import { getTimeMsg } from '@/utils/time.ts'
 import useUserStore from '@/store/modules/user.ts'
 import { useRoute, useRouter } from 'vue-router'
+import { getCaptcha } from '@/api/system/Captcha.ts'
 
 let userStore = useUserStore()
 // 获取路由器
 let $router = useRouter()
 // 获取路由对象
 let $route = useRoute()
-let loginFrom: LoginFrom = reactive({ username: '', password: '' })
+let loginFrom: LoginFrom = reactive({
+  username: '',
+  password: '',
+  captcha: '',
+  // 验证码ID
+  captchaId: '',
+})
+
+let imgBase64 = ref<string>('')
+let captchaId = ref<string>('')
 
 // 获取表单el组件
 let loginRef = ref()
+
+onMounted(() => {
+  // 进入页面时，刷新验证码
+  getCaptchaBo('')
+})
+
+const refreshImg = () => {
+  // 刷新验证码
+  console.log(captchaId.value)
+  getCaptchaBo(captchaId.value)
+}
+
+const getCaptchaBo = (captchaKey: string) => {
+  getCaptcha(captchaKey).then((res) => {
+    imgBase64.value = res.data.imgBase64
+    captchaId.value = res.data.captchaId
+  })
+}
+
 const login = async () => {
   // 此行校验表单，防止数据为校验通过但起作用
   await loginRef.value.validate()
-
+  loginFrom.captchaId = captchaId.value
   /**
    * 通知仓库发登录请求
    * 请求成功 -> 到首页
@@ -68,6 +114,7 @@ const login = async () => {
     // todo 可以在此处加逻辑获取用户信息，如果该用户含有某个特性，则让他跳转另一个主页面(非后台管理页面)(之后记得在那个页面的onMounted中重新调用初始化路由的方法)
     await $router.push({ path: redirect || '/' })
     // 先执行一下刷新不然会不能正常路由(动态路由的原因)，下下边直接调用加载路由不太行，导致不能添加进去
+    debugger
     location.reload()
     ElNotification({
       type: 'success',
@@ -119,6 +166,7 @@ const rules = {
     // 自定义校验规则, validatorPassword函数要在上方
     { trigger: 'change', validator: validatorPassword },
   ],
+  captcha: [{ required: true, message: '验证码不能为空', trigger: 'blur' }],
 }
 </script>
 
@@ -126,16 +174,30 @@ const rules = {
 .hello {
   color: white;
   font-size: 40px;
-  font-family: SimHei;
+  font-family: serif;
 }
 .title {
   color: white;
   font-size: 24px;
-  font-family: SimHei;
+  font-family: serif;
   margin: 20px 0;
 }
 
 .login_btn {
   width: 100%;
+}
+
+.captcha {
+  width: 60%;
+  margin-right: 5%;
+}
+
+.inputHeight {
+  height: 3vh;
+}
+
+.smallImg {
+  width: 35%;
+  margin-right: 0;
 }
 </style>

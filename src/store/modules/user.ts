@@ -34,6 +34,8 @@ const useUserStore = defineStore('User', {
       const copyData: LoginFrom = {
         username: data.username,
         password: data.password, // 前端取消md5加密，由后端进行加密
+        captcha: data.captcha,
+        captchaId: data.captchaId,
       }
       // 登录请求
       const result: ResponseData<UserInfo> = await reqLogin(copyData)

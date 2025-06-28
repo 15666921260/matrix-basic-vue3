@@ -5,11 +5,16 @@
     <el-form-item prop="username">
       <el-input
         placeholder="请输入手机号"
+        style="height: 3vh"
         v-model="loginFrom.username"
       ></el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input placeholder="请输入验证码" v-model="loginFrom.password">
+      <el-input
+        placeholder="请输入验证码"
+        style="height: 3vh"
+        v-model="loginFrom.password"
+      >
         <template v-slot:append>
           <el-button @click="getTokenCode">获取验证码</el-button>
         </template>
@@ -130,12 +135,12 @@ const rules = {
 .hello {
   color: white;
   font-size: 40px;
-  font-family: SimHei;
+  font-family: serif;
 }
 .title {
   color: white;
   font-size: 24px;
-  font-family: SimHei;
+  font-family: serif;
   margin: 20px 0;
 }
 

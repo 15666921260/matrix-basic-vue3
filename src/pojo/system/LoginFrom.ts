@@ -6,4 +6,8 @@
 export interface LoginFrom {
   username: string
   password: string
+  // 验证码
+  captcha?: string
+  // 验证码ID
+  captchaId?: string
 }
