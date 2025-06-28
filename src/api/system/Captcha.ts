@@ -3,7 +3,7 @@ import { ResponseData } from '@/pojo/system/ResponseData.ts'
 import { CaptchaBo } from '@/pojo/system/captcha/CaptchaBo.ts'
 
 enum API {
-  GET_CAPTCHA = '/captcha/get',
+  GET_CAPTCHA = '/captcha/image/get',
 }
 
 /**
