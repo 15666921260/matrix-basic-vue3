@@ -123,10 +123,10 @@ const login = async () => {
     })
     loading.value = false
   } catch (e) {
-    ElNotification({
+    /*ElNotification({
       type: 'error',
       message: (e as Error).message,
-    })
+    })*/
     loading.value = false
   }
 }
